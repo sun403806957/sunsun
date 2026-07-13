@@ -15,15 +15,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=STATIC_DIR, **kwargs)
 
-    def do_POST(self):
-        if self.path == '/api/save-bugs':
-            length = int(self.headers.get('Content-Length', 0))
-            data = json.loads(self.rfile.read(length))
-            filepath = os.path.join(DATA_DIR, 'bugs.md')
-            with open(filepath, 'w', encoding='utf-8') as f:
-                f.write(data.get('content', ''))
-            self.send_json({'ok': True, 'message': 'bugs.md saved'})
-        elif self.path == '/api/bugs':
+    def do_GET(self):
+        if self.path == '/api/bugs':
             filepath = os.path.join(DATA_DIR, 'bugs.md')
             try:
                 with open(filepath, 'r', encoding='utf-8') as f:
@@ -38,9 +31,20 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                     content = f.read()
                 self.send_json({'ok': True, 'content': content})
             except FileNotFoundError:
-                self.send_json({'ok': False, 'message': 'test-cases.md not found'})
+                self.send_json({'ok': False, 'message': 'not found'})
         else:
-            self.send_json({'ok': False, 'message': 'unknown endpoint'}, 404)
+            super().do_GET()
+
+    def do_POST(self):
+        if self.path == '/api/save-bugs':
+            length = int(self.headers.get('Content-Length', 0))
+            data = json.loads(self.rfile.read(length))
+            filepath = os.path.join(DATA_DIR, 'bugs.md')
+            with open(filepath, 'w', encoding='utf-8') as f:
+                f.write(data.get('content', ''))
+            self.send_json({'ok': True, 'message': 'bugs.md saved'})
+        else:
+            self.send_json({'ok': False, 'message': 'unknown'}, 404)
 
     def send_json(self, data, code=200):
         self.send_response(code)
