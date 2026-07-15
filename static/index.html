@@ -50,6 +50,8 @@ body.em .tb{display:flex}
 body.em .bm{display:block}
 .bm-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px}
 .bm-hd h2{font-size:18px;margin:0;display:flex;align-items:center;gap:8px}
+.bm-scroll{max-height:320px;overflow-y:auto;border:1px solid var(--b);border-radius:8px}
+.bm-scroll thead{position:sticky;top:0;z-index:1}
 .bf{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:12px}
 .bf select{padding:4px 8px;border:1px solid var(--b);border-radius:6px;font-size:12px}
 .cs{flex:1;overflow-y:auto;overflow-x:hidden;scroll-behavior:smooth}
@@ -146,12 +148,12 @@ tr.rp{background:#e6f4ea!important}tr.rf{background:#fce8e6!important}tr.rb{back
 </aside>
 <div class="main">
   <div class="hd"><h1>ULab-I期 测试用例文档</h1><div class="sub">基于需求文档 v8.2r · 70条用例</div></div>
-  <div class="tb" id="tb"><label>🔄轮次:</label><select id="rs" onchange="onRoundsChange()"><option value="1">1轮</option><option value="2">2轮</option><option value="3">3轮</option></select><div class="pb"><span>进度:</span><div><div id="pf" style="width:0%"></div></div><span id="pt">0/0</span></div><button class="btn btn-d" onclick="clearExec()">🗑清除</button><button class="btn btn-g" onclick="genReport()">📊报告</button><button class="btn btn-p" onclick="syncBugs()">💾保存Bug</button><button class="btn btn-g" onclick="rebuildHTML()">🔄重建HTML</button><span style="font-size:11px;color:var(--mu)">| 拖拽MD文件到页面更新数据</span></div>
-  <div class="bm" id="bm"><div class="bm-hd"><h2>🐛 Bug管理 <span id="bmc"></span></h2><div class="bf"><button class="btn btn-d" onclick="newBug()">＋新增</button><button class="btn btn-p" onclick="copySync()">📋同步</button><button class="btn btn-g" onclick="exportData()">💾导出</button><button class="btn" onclick="document.getElementById('imf').click()">📥导入</button><input type="file" id="imf" accept=".json" onchange="importData(this.files)" style="display:none"><span>严重:</span><select id="bfs" onchange="renderBugList()"><option value="all">全部</option><option value="critical">致命</option><option value="major">严重</option><option value="minor">一般</option><option value="trivial">轻微</option></select><span>状态:</span><select id="bfst" onchange="renderBugList()"><option value="all">全部</option><option value="open">打开</option><option value="fixing">修复中</option><option value="fixed">已修复</option><option value="verified">已验证</option><option value="closed">已关闭</option></select></div></div><table class="bt"><thead><tr><th>编号</th><th>标题</th><th>严重</th><th>状态</th><th>时间</th><th>操作</th></tr></thead><tbody id="blb"><tr class="em"><td colspan="6">暂无Bug</td></tr></tbody></table></div>
+  <div class="tb" id="tb"><label>🔄轮次:</label><select id="rs" onchange="onRoundsChange()"><option value="1">1轮</option><option value="2">2轮</option><option value="3">3轮</option></select><div class="pb"><span>进度:</span><div><div id="pf" style="width:0%"></div></div><span id="pt">0/0</span></div><button class="btn btn-d" onclick="clearExec()">🗑清除</button><button class="btn btn-g" onclick="genReport()">📊报告</button><span style="font-size:11px;color:var(--mu)">| Bug来自 GitHub Issues</span></div>
+  <div class="bm" id="bm"><div class="bm-hd"><h2>🐛 Bug列表 <span id="bmc"></span><span style="font-size:12px;color:var(--mu);font-weight:normal"> 来自 GitHub Issues</span></h2><div class="bf"><span>分类:</span><select id="bfs" onchange="renderBugList()"><option value="all">全部</option><option value="放大器实验">放大器实验</option><option value="学生">学生</option><option value="老师">老师</option><option value="通用">通用</option></select><span>状态:</span><select id="bfst" onchange="renderBugList()"><option value="all">全部</option><option value="open">打开</option><option value="closed">已关闭</option></select></div></div><div class="bm-scroll"><table class="bt"><thead><tr><th>编号</th><th>标题</th><th>分类</th><th>状态</th><th>时间</th></tr></thead><tbody id="blb"><tr class="em"><td colspan="5">暂无Bug</td></tr></tbody></table></div></div>
   <div class="cs"><div id="content"></div><div class="ft">💡 拖拽 bugs.md 或 test-cases.md 文件到页面即可更新数据 · ULab-I期 测试用例</div></div>
 </div></div>
 
-<div class="ov" id="bo" onclick="if(event.target===this)closeBug()"><div class="md"><div class="md-hd"><h3>🐛 Bug记录</h3><button class="md-cl" onclick="closeBug()">✕</button></div><div class="md-bd"><div class="fd"><label>编号</label><input type="text" id="bti" readonly></div><div class="fd"><label>标题 *</label><input type="text" id="btl"></div><div class="fd"><label>描述</label><textarea id="bds"></textarea></div><div class="fd" style="display:flex;gap:12px"><div style="flex:1"><label>严重程度</label><select id="bsv"><option value="critical">🔴致命</option><option value="major">🟠严重</option><option value="minor">🟡一般</option><option value="trivial">⚪轻微</option></select></div><div style="flex:1"><label>状态</label><select id="bst"><option value="open">打开</option><option value="fixing">修复中</option><option value="fixed">已修复</option><option value="verified">已验证</option><option value="closed">已关闭</option></select></div></div><div class="fd"><label>附件</label><div class="aa" id="aa" onpaste="hp(event)" ondragover="event.preventDefault();this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="hd(event)"></div><input type="file" id="afi" accept="image/*,.txt,.log,.json,.csv" multiple onchange="hf(this.files)" style="display:none"></div></div><div class="md-ft"><button onclick="closeBug()">取消</button><button onclick="delBug()" style="color:var(--hi);margin-right:auto">删除</button><button class="btn-p" onclick="saveBug()">保存</button></div></div></div>
+
 
 <div class="pv" id="po" onclick="closePv()"><button class="pv-cl" onclick="closePv()">✕</button><div id="pc"></div></div>
 
@@ -298,50 +300,28 @@ var EMBED_TC = `# ULab-I期 测试用例
 | TC-S-LOGIN-002 | 学生登录 | P0 | 已有学生账号来源LMS | 1.点击登录 2.输入学生账号和密码 3.点击登录 | 登录成功跳转到学生首页；学生无创建实验、我的实验、标准实验等侧边栏菜单 |
 | TC-S-LOGIN-003 | 学生端无实验管理功能 | P0 | 学生已登录 | 1.检查侧边栏菜单 2.尝试直接访问教师端URL创建实验等 | 学生端无创建实验、我的实验、标准实验菜单；无权限访问教师端管理页面 |
 `;
-var EMBED_BUGS = `# ULab-I期 Bug 记录
-
-> 最后更新：2026-07-11
-
----
-
-## BUG-MRGI934L
-
-- **标题**: test1
-- **严重程度**: 🟠严重
-- **状态**: 打开
-- **提出时间**: 2026/7/11 23:14:16
-- **描述**: test1
-
-## BUG-MRGESGKG
-
-- **标题**: 测试bug1
-- **严重程度**: 🟠严重
-- **状态**: 打开
-- **提出时间**: 2026/7/11 21:37:29
-- **描述**: 测试bug
-- **附件**: WechatIMG146.jpg
-
-`;
+var EMBED_BUGS = ``;
 // Auto-detect server: use same origin as page, fallback to localhost
 var SERVER = (function(){
   if(window.location.port==='8765') return window.location.origin;
   return 'http://localhost:8765';
 })();
 var API = SERVER + '/api';
+var GITHUB_ISSUES_API = 'https://api.github.com/repos/sun403806957/sunsun/issues?state=all&per_page=100';
 var testCases=[],execData={},rounds=1,execMode=false;
-var curBugId=null,attachs=[],serverOn=false;
+var serverOn=false;
 
 function $(id){return document.getElementById(id)}
 
 async function init(){
   try{var s=JSON.parse(localStorage.getItem('ulab-exec')||'{}');execData=s.results||{};rounds=s.rounds||1;execMode=localStorage.getItem('ulab-mode')==='exec'}catch(e){}
+  parseTC(EMBED_TC);$('sv').textContent='📁 离线';
+  // Try fetching fresh test cases from server
   var c=new AbortController(),t=setTimeout(function(){c.abort()},2000);
   try{var r=await fetch(API+'/test-cases',{signal:c.signal});clearTimeout(t);
-    if(r.ok){serverOn=true;var j=await r.json();parseTC(j.content||'');
-      try{var br=await fetch(API+'/bugs');if(br.ok)var bj=await br.json();parseBugs(bj.content||'')}catch(e){}
-      $('sv').textContent='🟢 服务器模式'
-    }else throw new Error()
-  }catch(e){clearTimeout(t);serverOn=false;parseTC(EMBED_TC);parseBugs(EMBED_BUGS);$('sv').textContent='📁 离线模式'}
+    if(r.ok){serverOn=true;var j=await r.json();parseTC(j.content||'');$('sv').textContent='🟢 在线'}}catch(e){clearTimeout(t)}
+  // Fetch bugs from GitHub Issues API (public repo, no auth needed)
+  try{var br=await fetch(GITHUB_ISSUES_API);if(br.ok){var bj=await br.json();parseGHIssues(bj||[]);$('sv').textContent='🟢 在线'}}catch(e){}
   renderAll();
   if(execMode){document.body.classList.add('em');$('rs').value=rounds;$('mt').children[0].classList.remove('ac');$('mt').children[1].classList.add('ac');buildExec();updateProgress()}
 }
@@ -361,21 +341,25 @@ function parseTC(md){
   }
 }
 function parseBugs(md){
-  var bl=md.split('## BUG-');
-  for(var i=1;i<bl.length;i++){
-    var ls=bl[i].split('\n'),bg={id:'BUG-'+ls[0].trim()};
-    ls.forEach(function(l){
-      var m=l.match(/- \*\*(.+?)\*\*:?\s*(.*)/);
-      if(m){var k=m[1].trim(),v=m[2].trim();
-        if(k==='标题')bg.title=v;
-        else if(k==='严重程度')bg.severity=v.includes('致命')?'critical':v.includes('严重')?'major':v.includes('一般')?'minor':'trivial';
-        else if(k==='状态')bg.status=v.includes('打开')?'open':v.includes('修复中')?'fixing':v.includes('已修复')?'fixed':v.includes('已验证')?'verified':'closed';
-        else if(k==='提出时间')bg.createdAt=v;
-        else if(k==='描述')bg.desc=v;
-      }
-    });
-    if(bg.title)execData[bg.id]={bug:bg,result:'fail'}
-  }
+  // Legacy - bugs now come from GitHub Issues API
+}
+function parseGHIssues(issues){
+  issues.forEach(function(iss){
+    var cat = (iss.labels||[])[0]||'';
+    var id = 'BUG-' + iss.number;
+    var bg = {
+      id: id,
+      title: iss.title,
+      desc: (iss.body||'').split('\n')[0].substring(0,200),
+      severity: 'major',
+      status: iss.state,
+      createdAt: iss.created_at,
+      html_url: iss.html_url,
+      category: cat,
+      number: iss.number
+    };
+    execData[id] = {bug: bg, result: 'fail'};
+  });
 }
 
 function renderAll(){
@@ -517,36 +501,11 @@ function updateProgress(){
 function saveExec(){localStorage.setItem('ulab-exec',JSON.stringify({rounds:rounds,results:execData}));localStorage.setItem('ulab-mode',execMode?'exec':'view')}
 window.clearExec=function(){if(!confirm('确定清除所有执行记录？'))return;execData={};localStorage.removeItem('ulab-exec');removeExec();buildExec();saveExec();updateProgress()}
 
-// ---- BUG MANAGEMENT ----
+// ---- BUG MANAGEMENT (read-only from GitHub Issues) ----
 window.openBug=function(tcId){
-  curBugId=tcId;
-  var bg=(execData[tcId]||{}).bug||{};
-  $('bti').value=tcId;$('btl').value=bg.title||'';$('bds').value=bg.desc||'';
-  $('bsv').value=bg.severity||'major';$('bst').value=bg.status||'open';
-  attachs=(bg.attachments||[]).slice();renderAttach();$('bo').classList.add('sh')
+  var bg=(execData[tcId]||{}).bug;
+  if(bg&&bg.html_url) window.open(bg.html_url, '_blank');
 }
-window.newBug=function(){curBugId='BUG-'+Date.now().toString(36).toUpperCase();$('bti').value=curBugId;$('btl').value='';$('bds').value='';$('bsv').value='major';$('bst').value='open';attachs=[];renderAttach();$('bo').classList.add('sh')}
-window.closeBug=function(){$('bo').classList.remove('sh');curBugId=null}
-window.saveBug=function(){
-  var tl=$('btl').value.trim();if(!tl){alert('请输入Bug标题');return}
-  if(!execData[curBugId])execData[curBugId]={};
-  var ex=execData[curBugId].bug||{};
-  execData[curBugId].bug={title:tl,desc:$('bds').value.trim(),severity:$('bsv').value,status:$('bst').value,attachments:attachs.slice(),createdAt:ex.createdAt||new Date().toISOString(),updatedAt:new Date().toISOString()};
-  execData[curBugId].result='fail';saveExec();closeBug();removeExec();buildExec();updateProgress();renderBugList();showToast('✅ Bug已保存，已复制到剪贴板');
-  // Auto-copy single bug as markdown for DingTalk paste
-  var b=execData[curBugId].bug;
-  var sl={critical:'🔴致命',major:'🟠严重',minor:'🟡一般',trivial:'⚪轻微'};
-  var tl={open:'打开',fixing:'修复中',fixed:'已修复',verified:'已验证',closed:'已关闭'};
-  var md='## '+curBugId+'\n\n';
-  md+='- **标题**: '+b.title+'\n';
-  md+='- **严重程度**: '+(sl[b.severity]||b.severity)+'\n';
-  md+='- **状态**: '+(tl[b.status]||b.status)+'\n';
-  md+='- **提出时间**: '+new Date(b.createdAt).toLocaleString('zh-CN')+'\n';
-  if(b.desc)md+='- **描述**: '+b.desc.replace(/\n/g,' ')+'\n';
-  if(b.attachments&&b.attachments.length)md+='- **附件**: '+b.attachments.map(function(a){return a.name||'截图'}).join(', ')+'\n';
-  navigator.clipboard.writeText(md)
-}
-window.delBug=function(){if(!confirm('确定删除？'))return;if(execData[curBugId])delete execData[curBugId].bug;saveExec();closeBug();removeExec();buildExec();updateProgress();renderBugList()}
 
 function allBugs(){
   var a=[];
@@ -557,45 +516,23 @@ function allBugs(){
 window.renderBugList=function(){
   var all=allBugs();
   var sf=$('bfs').value,stf=$('bfst').value;
-  if(sf!=='all')all=all.filter(function(b){return b.severity===sf});
+  if(sf!=='all')all=all.filter(function(b){return b.category===sf});
   if(stf!=='all')all=all.filter(function(b){return b.status===stf});
   var total=allBugs().length;
   $('bmc').textContent=total>0?'（'+total+'个）':'';
   var tb=$('blb');
-  if(!all.length){tb.innerHTML='<tr class="em"><td colspan="6">'+(total>0?'没有匹配的Bug':'暂无Bug，标记用例为失败后可添加')+'</td></tr>';return}
-  var sl={critical:'致命',major:'严重',minor:'一般',trivial:'轻微'},tl={open:'打开',fixing:'修复中',fixed:'已修复',verified:'已验证',closed:'已关闭'};
-  all.sort(function(a,b){return(b.createdAt||'').localeCompare(a.createdAt||'')});
+  if(!all.length){tb.innerHTML='<tr class="em"><td colspan="5">'+(total>0?'没有匹配的Bug':'加载中...')+'</td></tr>';return}
+  all.sort(function(a,b){return (b.number||0)-(a.number||0)});
   tb.innerHTML=all.map(function(b){
     var t=b.createdAt?new Date(b.createdAt).toLocaleString('zh-CN',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}):'-';
-    var ac=b.attachments?b.attachments.length:0;
-    return'<tr><td style="font-family:monospace;font-size:11px;color:var(--p)">'+b.tcId+'</td><td><span style="cursor:pointer;color:var(--p)" onclick="openBug(\''+b.tcId+'\')">'+b.title+'</span></td><td><span class="sb-b '+b.severity+'">'+(sl[b.severity]||'')+'</span></td><td><span class="bb '+b.status+'">'+(tl[b.status]||'')+'</span></td><td style="font-size:11px;color:var(--mu)">'+t+'</td><td>'+(ac?'<span class="ai" onclick="pvBug(\''+b.tcId+'\')">📎×'+ac+'</span> ':'')+'<button class="btn" onclick="openBug(\''+b.tcId+'\')">编辑</button></td></tr>'
+    var catLabel = b.category||'';
+    var statusLabel = b.status==='open'?'打开':'已关闭';
+    var statusClass = b.status==='open'?'op':'cl';
+    return'<tr><td style="font-family:monospace;font-size:11px;color:var(--p)">#'+b.number+'</td><td><a href="'+b.html_url+'" target="_blank" style="color:var(--p);text-decoration:none">'+b.title+'</a></td><td><span class="sb-b '+(b.severity||'mn')+'">'+catLabel+'</span></td><td><span class="bb '+statusClass+'">'+statusLabel+'</span></td><td style="font-size:11px;color:var(--mu)">'+t+'</td></tr>'
   }).join('')
 }
 
-window.pvBug=function(tcId){var d=execData[tcId];if(!d||!d.bug||!d.bug.attachments)return;var a=d.bug.attachments.find(function(x){return x.type==='image'})||d.bug.attachments[0];if(a.type==='image')showImg(a.data);else pvText(a)}
-
-// ---- ATTACHMENTS ----
-function renderAttach(){
-  var a=$('aa');if(!a)return;a.innerHTML='';
-  if(!attachs.length){a.innerHTML='<span class="hint">📎 点击上传 / 拖拽 / Ctrl+V粘贴</span>';a.onclick=function(){$('afi').click()};return}
-  attachs.forEach(function(at,i){if(at.type==='image')a.innerHTML+='<div class="ath" data-ai="'+i+'"><img src="'+at.data+'"><button class="da" onclick="event.stopPropagation();rmAttach('+i+')">×</button></div>';else a.innerHTML+='<div class="ani" data-ai="'+i+'">📄'+(at.name||'')+'<button class="da" onclick="event.stopPropagation();rmAttach('+i+')">×</button></div>'});
-  a.innerHTML+='<span class="hint" style="width:100%">点击预览 · 继续添加</span>';
-  a.onclick=function(e){var t=e.target.closest('[data-ai]');if(t){e.stopPropagation();var at=attachs[parseInt(t.getAttribute('data-ai'))];if(at){if(at.type==='image')showImg(at.data);else pvText(at)}return}$('afi').click()}
-}
-
-function addImg(dataUrl,name){
-  if(dataUrl.length>500000){var img=new Image();img.onload=function(){var c=document.createElement('canvas'),s=Math.min(1,800/Math.max(img.width,img.height));c.width=img.width*s;c.height=img.height*s;c.getContext('2d').drawImage(img,0,0,c.width,c.height);attachs.push({type:'image',name:name||'screenshot.png',data:c.toDataURL('image/jpeg',0.7)});renderAttach()};img.src=dataUrl}
-  else{attachs.push({type:'image',name:name||'screenshot.png',data:dataUrl});renderAttach()}
-}
-
-window.hp=function(e){var items=(e.clipboardData||{}).items||[];for(var i=0;i<items.length;i++){if(items[i].type.startsWith('image/')){e.preventDefault();var r=new FileReader();r.onload=function(ev){addImg(ev.target.result,'paste-'+Date.now()+'.png')};r.readAsDataURL(items[i].getAsFile());return}}}
-window.hd=function(e){e.preventDefault();e.target.classList.remove('drag-over');hf(e.dataTransfer.files)}
-window.hf=function(files){for(var i=0;i<files.length;i++){(function(file){if(file.type.startsWith('image/')){var r=new FileReader();r.onload=function(ev){addImg(ev.target.result,file.name)};r.readAsDataURL(file)}else{var r=new FileReader();r.onload=function(ev){attachs.push({type:'note',name:file.name,data:ev.target.result});renderAttach()};r.readAsText(file)}})(files[i])}}
-window.rmAttach=function(i){attachs.splice(i,1);renderAttach()}
-
 // ---- PREVIEW ----
-window.showImg=function(u){$('pc').innerHTML='<img src="'+u+'">';$('po').classList.add('sh')}
-function pvText(a){$('pc').innerHTML='<div class="pt" onclick="event.stopPropagation()">'+(a.data||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</div>';$('po').classList.add('sh')}
 window.closePv=function(){$('po').classList.remove('sh')}
 
 // ---- SYNC ----
@@ -619,49 +556,8 @@ window.handleMDDrop=function(e){
   }
 };
 
-window.syncBugs=async function(){
-  var all=allBugs();
-  var sl={critical:'致命',major:'严重',minor:'一般',trivial:'轻微'},tl={open:'打开',fixing:'修复中',fixed:'已修复',verified:'已验证',closed:'已关闭'};
-  all.sort(function(a,b){return(b.createdAt||'').localeCompare(a.createdAt||'')});
-  var md='# ULab-I期 Bug 记录\n\n> 最后更新：'+new Date().toISOString().slice(0,10)+'\n\n---\n\n';
-  all.forEach(function(b){
-    md+='## '+b.tcId+'\n\n';
-    md+='- **标题**: '+b.title+'\n';
-    md+='- **严重程度**: '+(sl[b.severity]||b.severity)+'\n';
-    md+='- **状态**: '+(tl[b.status]||b.status)+'\n';
-    md+='- **提出时间**: '+(b.createdAt?new Date(b.createdAt).toLocaleString('zh-CN'):'-')+'\n';
-    if(b.desc)md+='- **描述**: '+b.desc.replace(/\n/g,' ')+'\n';
-    if(b.attachments&&b.attachments.length)md+='- **附件**: '+b.attachments.map(function(a){return a.name||'unnamed'}).join(', ')+'\n';
-    md+='\n'
-  });
-  if(serverOn){
-    try{var r=await fetch(API+'/save-bugs',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({content:md})});if(r.ok){showToast('✅ bugs.md 已保存（'+all.length+'个Bug）');return}}catch(e){}
-  }
-  if(window.showSaveFilePicker){
-    try{
-      var handle=await window.showSaveFilePicker({suggestedName:'bugs.md',types:[{description:'Markdown',accept:{'text/markdown':['.md']}}]});
-      var writable=await handle.createWritable();
-      await writable.write(md);
-      await writable.close();
-      showToast('✅ bugs.md 已保存（'+all.length+'个Bug）');
-      return
-    }catch(e){}
-  }
-  var b=new Blob([md],{type:'text/markdown'});var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='bugs.md';a.click();showToast('⬇️ bugs.md 已下载，拖入页面即可更新（'+all.length+'个Bug）')
-}
-
 // ---- REPORT ----
-// Rebuild HTML with current data embedded
-window.rebuildHTML=function(){
-  // Step 1: download bugs.md
-  syncBugs();
-  // Step 2: show instructions
-  setTimeout(function(){
-    showToast('💡 请运行: python3 rebuild.py 然后上传新HTML到钉钉');
-    alert('重建步骤:\n\n1. 确认 bugs.md 已下载/更新\n2. 终端运行: python3 rebuild.py\n3. 将生成的 HTML 上传到钉钉\n\n所有人打开新HTML就能看到最新数据');
-  },500);
-};
-window._old_rebuildHTML=window.genReport=function(){
+window.genReport=function(){
   var allBgs=allBugs(),rows=document.querySelectorAll('tr[data-tc]');
   var st={total:rows.length,pass:0,fail:0,blocked:0,skip:0,unmarked:0};
   var det=[];
@@ -694,11 +590,6 @@ window.saveRp=function(){
   var reps=JSON.parse(localStorage.getItem('ulab-reports')||'[]');reps.unshift({name:'ULab-测试报告_'+ds+'.html',date:ds,html:h,rounds:rounds});if(reps.length>10)reps.length=10;localStorage.setItem('ulab-reports',JSON.stringify(reps));renderRps()
 }
 
-// ---- EXPORT/IMPORT ----
-window.exportData=function(){var d={version:'1.0',time:new Date().toISOString(),rounds:rounds,results:execData};var b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='ULab-备份_'+new Date().toISOString().slice(0,10)+'.json';a.click();showToast('✅ 已导出')}
-window.importData=function(files){if(!files[0])return;var r=new FileReader();r.onload=function(e){try{var d=JSON.parse(e.target.result);if(!confirm('导入将覆盖当前数据，确认？'))return;execData=d.results||{};rounds=d.rounds||1;$('rs').value=rounds;saveExec();removeExec();buildExec();updateProgress();renderBugList();showToast('✅ 已导入')}catch(e){alert('格式错误')}};r.readAsText(files[0])}
-window.copySync=function(){var all=allBugs();if(!all.length){alert('暂无Bug');return}var m='# 🐛 Bug同步\n\n|编号|标题|严重|状态|时间|\n|---|---|---|---|---|\n';all.forEach(function(b){m+='|'+b.tcId+'|'+b.title+'|'+b.severity+'|'+b.status+'|'+(b.createdAt||'-')+'|\n'});navigator.clipboard.writeText(m).then(function(){showToast('✅ 已复制')})}
-
 // ---- REPORTS ----
 function renderRps(){var reps=JSON.parse(localStorage.getItem('ulab-reports')||'[]'),c=$('rpl'),n=$('rpst').querySelector('.nr');if(!reps.length){n.style.display='block';c.innerHTML='';return}n.style.display='none';c.innerHTML=reps.map(function(r,i){return'<div class="rl"><span onclick="openRp('+i+')">📄'+r.name.replace('.html','')+'</span><span style="color:var(--hi);cursor:pointer;font-size:14px;opacity:.5" onclick="event.stopPropagation();delRp('+i+')">×</span></div>'}).join('')}
 window.openRp=function(i){var reps=JSON.parse(localStorage.getItem('ulab-reports')||'[]');if(!reps[i])return;var u=URL.createObjectURL(new Blob([reps[i].html],{type:'text/html'}));window.open(u,'_blank')}
@@ -706,7 +597,7 @@ window.delRp=function(i){var reps=JSON.parse(localStorage.getItem('ulab-reports'
 
 // ---- UTILS ----
 function showToast(m){var t=document.createElement('div');t.className='toast';t.textContent=m;document.body.appendChild(t);setTimeout(function(){t.remove()},2500)}
-document.addEventListener('keydown',function(e){if(e.key!=='Escape')return;if($('po').classList.contains('sh'))closePv();else if($('bo').classList.contains('sh'))closeBug();else if($('ro').classList.contains('sh'))closeRp()})
+document.addEventListener('keydown',function(e){if(e.key!=='Escape')return;if($('ro').classList.contains('sh'))closeRp()})
 $('nav').addEventListener('click',function(e){var a=e.target.closest('a');if(!a)return;e.preventDefault();var t=document.querySelector(a.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth'})})
 
 renderRps();

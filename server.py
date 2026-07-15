@@ -4,12 +4,18 @@ import http.server
 import json
 import os
 import socket
+import ssl
 import sys
+import urllib.request
 
 PORT = 8765
 DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(DIR, 'data')
 STATIC_DIR = os.path.join(DIR, 'static')
+
+GITHUB_TOKEN = "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"
+GITHUB_REPO = "sun403806957/sunsun"
+GITHUB_ISSUES_API = f"https://api.github.com/repos/{GITHUB_REPO}/issues?state=all&per_page=100"
 
 class Handler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
@@ -17,13 +23,9 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
     def do_GET(self):
         if self.path == '/api/bugs':
-            filepath = os.path.join(DATA_DIR, 'bugs.md')
-            try:
-                with open(filepath, 'r', encoding='utf-8') as f:
-                    content = f.read()
-                self.send_json({'ok': True, 'content': content})
-            except FileNotFoundError:
-                self.send_json({'ok': True, 'content': '# ULab-I期 Bug 记录\n\n'})
+            self.handle_bugs()
+        elif self.path == '/api/github-issues':
+            self.handle_github_issues()
         elif self.path == '/api/test-cases':
             filepath = os.path.join(DATA_DIR, 'test-cases.md')
             try:
@@ -31,20 +33,45 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                     content = f.read()
                 self.send_json({'ok': True, 'content': content})
             except FileNotFoundError:
-                self.send_json({'ok': False, 'message': 'not found'})
+                self.send_json({'ok': True, 'content': '# ULab-I期 测试用例\n\n'})
         else:
             super().do_GET()
 
-    def do_POST(self):
-        if self.path == '/api/save-bugs':
-            length = int(self.headers.get('Content-Length', 0))
-            data = json.loads(self.rfile.read(length))
-            filepath = os.path.join(DATA_DIR, 'bugs.md')
-            with open(filepath, 'w', encoding='utf-8') as f:
-                f.write(data.get('content', ''))
-            self.send_json({'ok': True, 'message': 'bugs.md saved'})
-        else:
-            self.send_json({'ok': False, 'message': 'unknown'}, 404)
+    def handle_github_issues(self):
+        """Fetch issues from GitHub API and return as JSON"""
+        try:
+            ctx = ssl._create_unverified_context()
+            req = urllib.request.Request(GITHUB_ISSUES_API)
+            req.add_header("Authorization", f"Bearer {GITHUB_TOKEN}")
+            req.add_header("Accept", "application/vnd.github+json")
+            req.add_header("User-Agent", "ULab-Manager")
+            with urllib.request.urlopen(req, timeout=15, context=ctx) as resp:
+                issues = json.loads(resp.read().decode())
+            # Simplify issues to relevant fields
+            result = []
+            for issue in issues:
+                # Skip pull requests (GitHub API returns PRs as issues too)
+                if 'pull_request' in issue:
+                    continue
+                labels = [l['name'] for l in issue.get('labels', [])]
+                result.append({
+                    'number': issue['number'],
+                    'title': issue['title'],
+                    'body': issue.get('body', ''),
+                    'state': issue['state'],
+                    'labels': labels,
+                    'html_url': issue['html_url'],
+                    'created_at': issue['created_at'],
+                    'updated_at': issue['updated_at'],
+                    'user': issue.get('user', {}).get('login', ''),
+                })
+            self.send_json({'ok': True, 'issues': result})
+        except Exception as e:
+            self.send_json({'ok': False, 'message': str(e)}, 500)
+
+    def handle_bugs(self):
+        """Return bugs from GitHub Issues (same as /api/github-issues but compatible format)"""
+        self.handle_github_issues()
 
     def send_json(self, data, code=200):
         self.send_response(code)
@@ -52,6 +79,34 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         self.send_header('Access-Control-Allow-Origin', '*')
         self.end_headers()
         self.wfile.write(json.dumps(data, ensure_ascii=False).encode('utf-8'))
+
+    def do_POST(self):
+        if self.path == '/api/bugs':
+            length = int(self.headers.get('Content-Length', 0))
+            data = json.loads(self.rfile.read(length))
+            self.handle_create_issue(data)
+        else:
+            self.send_json({'ok': False, 'message': 'unknown'}, 404)
+
+    def handle_create_issue(self, data):
+        """Create a GitHub Issue"""
+        try:
+            title = data.get('title', 'Untitled')
+            body = data.get('body', '')
+            labels = data.get('labels', ['bug'])
+            issue_data = json.dumps({'title': title, 'body': body, 'labels': labels}).encode('utf-8')
+            ctx = ssl._create_unverified_context()
+            req = urllib.request.Request(f"https://api.github.com/repos/{GITHUB_REPO}/issues", data=issue_data, method='POST')
+            req.add_header("Authorization", f"Bearer {GITHUB_TOKEN}")
+            req.add_header("Accept", "application/vnd.github+json")
+            req.add_header("User-Agent", "ULab-Manager")
+            req.add_header("Content-Type", "application/json")
+            with urllib.request.urlopen(req, timeout=15, context=ctx) as resp:
+                issue = json.loads(resp.read().decode())
+            self.send_json({'ok': True, 'issue': {'number': issue['number'], 'html_url': issue['html_url']}})
+            print(f'  ✅ Issue #{issue["number"]} created')
+        except Exception as e:
+            self.send_json({'ok': False, 'message': str(e)}, 500)
 
     def do_OPTIONS(self):
         self.send_response(200)
@@ -82,8 +137,8 @@ if __name__ == '__main__':
 ║  本机:  http://localhost:{PORT}               ║
 ║  局域网: http://{ip}:{PORT}        ║
 ║                                              ║
-║  数据文件: data/test-cases.md                ║
-║           data/bugs.md                       ║
+║  Bug数据: GitHub Issues (实时同步)            ║
+║  测试用例: data/test-cases.md                ║
 ║                                              ║
 ║  重建HTML: python3 rebuild.py                ║
 ║  按 Ctrl+C 停止                               ║
