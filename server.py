@@ -13,7 +13,15 @@ DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(DIR, 'data')
 STATIC_DIR = os.path.join(DIR, 'static')
 
-GITHUB_TOKEN = "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"
+# GitHub Token: 从 ~/.github_token 文件读取，或从环境变量 GITHUB_TOKEN 读取
+def _get_token():
+    token_file = os.path.expanduser('~/.github_token')
+    if os.path.exists(token_file):
+        with open(token_file, 'r') as f:
+            return f.read().strip()
+    return os.environ.get('GITHUB_TOKEN', '')
+
+GITHUB_TOKEN = _get_token()
 GITHUB_REPO = "sun403806957/sunsun"
 GITHUB_ISSUES_API = f"https://api.github.com/repos/{GITHUB_REPO}/issues?state=all&per_page=100"
 # New bugs go to ULab-specific repo
