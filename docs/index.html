@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>ULab-I期 测试用例</title>
+<style>
+:root{--p:#1a73e8;--t:#0d6efd;--s:#198754;--b:#e0e0e0;--bg:#f8f9fa;--tx:#333;--mu:#666;--hi:#dc3545;--md:#fd7e14;--lo:#6c757d;--sw:260px}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;color:var(--tx);background:#fff;line-height:1.6}
+.app{display:flex;height:100vh;overflow:hidden}
+.sb{width:var(--sw);min-width:var(--sw);background:#f8fafc;border-right:1px solid var(--b);display:flex;flex-direction:column;flex-shrink:0}
+.sb-hd{padding:16px 20px;background:linear-gradient(135deg,#1a73e8,#0d47a1);color:#fff;display:flex;flex-direction:column;justify-content:center;height:105px;flex-shrink:0}
+.sb-hd h3{font-size:16px;font-weight:700;margin-bottom:4px}
+.sb-nav{flex:1;overflow-y:auto;padding:8px 0}
+.ng{padding:4px 16px;font-size:11px;font-weight:700;color:#9aa0a6;text-transform:uppercase;letter-spacing:.8px;margin-top:8px}
+.sb-nav a{display:flex;align-items:center;gap:8px;padding:7px 16px 7px 20px;font-size:13px;color:#444;text-decoration:none;border-left:3px solid transparent}
+.sb-nav a:hover,.sb-nav a.ac{background:#e8f0fe;color:var(--p)}
+.sb-nav a.ac{border-left-color:var(--p);font-weight:600}
+.dt{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.dt.t{background:var(--t)}.dt.s{background:var(--s)}
+.sb-st{padding:10px 16px;border-top:1px solid var(--b);text-align:center;flex-shrink:0}
+.sb-st .n{font-size:22px;font-weight:700;color:var(--p)}.sb-st .l{font-size:10px;color:var(--mu)}
+.mt-w{padding:10px 16px;border-top:1px solid var(--b);flex-shrink:0}
+.mt{display:flex;background:#e8eaed;border-radius:8px;overflow:hidden;cursor:pointer;font-size:12px;user-select:none}
+.mt>div{flex:1;text-align:center;padding:7px 0;color:#5f6368;font-weight:500}
+.mt>div.ac{background:var(--p);color:#fff}
+.ex-st{display:none;padding:8px 16px;border-top:1px solid var(--b);font-size:11px;color:var(--mu)}
+body.em .ex-st{display:block}
+.ex-st .r{display:flex;justify-content:space-between;margin-bottom:2px}
+.rp-st{padding:8px 16px;border-top:1px solid var(--b);font-size:11px;color:var(--mu);flex-shrink:0}
+.rp-st .rt{font-weight:700;color:var(--tx);margin-bottom:4px;font-size:11px}
+.rp-st .rl{display:flex;align-items:center;justify-content:space-between;padding:2px 0;cursor:pointer;color:var(--p);font-size:11px}
+.rp-st .nr{font-size:10px;color:#aaa}
+.main{flex:1;min-width:0;display:flex;flex-direction:column;height:100vh;overflow:hidden}
+.hd{padding:12px 40px;background:linear-gradient(135deg,#1a73e8,#0d47a1);color:#fff;display:flex;flex-direction:column;justify-content:center;height:105px;flex-shrink:0}
+.hd h1{font-size:16px;font-weight:700;margin-bottom:2px}.hd .sub{font-size:12px;opacity:.85}
+.tb{display:none;padding:8px 40px;background:#fff;border-bottom:1px solid var(--b);align-items:center;gap:12px;flex-shrink:0;flex-wrap:wrap}
+body.em .tb{display:flex}
+.tb label{font-size:13px;font-weight:600;white-space:nowrap}
+.tb select{padding:5px 10px;border:1px solid var(--b);border-radius:6px;font-size:13px}
+.pb{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--mu);flex:1;min-width:150px}
+.pb>div{flex:1;height:8px;background:#e8eaed;border-radius:4px;overflow:hidden;max-width:200px}
+.pb>div>div{height:100%;background:var(--p);border-radius:4px;transition:width .3s}
+.btn{padding:5px 12px;border-radius:6px;cursor:pointer;font-size:12px;white-space:nowrap;border:1px solid var(--b);background:#fff}
+.btn:hover{background:#f1f3f4}
+.btn-p{background:var(--p);color:#fff;border-color:var(--p)}.btn-p:hover{opacity:.9}
+.btn-d{background:#fff;color:var(--hi);border-color:var(--hi)}.btn-d:hover{background:#fce8e6}
+.btn-g{background:#198754;color:#fff;border-color:#198754}
+.bm{display:none;padding:14px 40px;border-bottom:1px solid var(--b);background:#fff}
+body.em .bm{display:block}
+.bm-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px}
+.bm-hd h2{font-size:18px;margin:0;display:flex;align-items:center;gap:8px}
+.bm-scroll{max-height:320px;overflow-y:auto;border:1px solid var(--b);border-radius:8px}
+.bm-scroll thead{position:sticky;top:0;z-index:1}
+.bf{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:12px}
+.bf select{padding:4px 8px;border:1px solid var(--b);border-radius:6px;font-size:12px}
+.cs{flex:1;overflow-y:auto;overflow-x:hidden;scroll-behavior:smooth}
+.sc{padding:0 40px}
+.sc h2{font-size:20px;padding:20px 0 8px;border-bottom:2px solid var(--b);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.badge{font-size:13px;padding:2px 10px;border-radius:12px;color:#fff;font-weight:500}
+.badge.t{background:var(--t)}.badge.s{background:var(--s)}
+.desc{background:var(--bg);padding:10px 14px;border-radius:6px;margin-bottom:14px;font-size:13px;color:var(--mu);border-left:4px solid var(--p)}
+.fg{margin-bottom:20px}
+.fg h3{font-size:15px;padding:8px 12px;background:#e8f0fe;border-radius:6px;margin-bottom:8px;color:#174ea6}
+.tw{overflow-x:auto;border:1px solid var(--b);border-radius:8px}
+table{width:100%;border-collapse:collapse;font-size:12px;min-width:1100px}
+th{background:#f1f3f4;padding:7px 8px;text-align:left;font-weight:600;font-size:10px;color:#5f6368;text-transform:uppercase;border-bottom:2px solid #dadce0;position:sticky;top:0}
+td{padding:7px 8px;border-bottom:1px solid #f0f0f0;vertical-align:top}
+tr:hover{background:#f1f3f4}
+.id{font-family:monospace;font-size:10px;color:var(--p);font-weight:500}
+.sc-t{font-weight:500}
+.pri{display:inline-block;padding:1px 7px;border-radius:10px;font-size:10px;font-weight:600}
+.p0{background:#fce8e6;color:#c5221f}.p1{background:#fef7e0;color:#e37400}.p2{background:#e8eaed;color:#5f6368}
+th.ec,td.ec{text-align:center;width:50px;min-width:50px;display:none}
+th.rc,td.rc{text-align:center;width:110px;min-width:110px;display:none}
+body.em th.ec,body.em td.ec{display:table-cell}
+body.em th.rc,body.em td.rc{display:table-cell}
+td.ec input[type=checkbox]{width:16px;height:16px;cursor:pointer;accent-color:var(--p)}
+td.rc select{padding:3px 4px;border:1px solid var(--b);border-radius:4px;font-size:11px;width:85px}
+tr.rp{background:#e6f4ea!important}tr.rf{background:#fce8e6!important}tr.rb{background:#fef7e0!important}tr.rs{opacity:.55}
+.bbtn{display:inline-block;margin-left:4px;padding:2px 6px;border:1px solid var(--hi);background:#fff;color:var(--hi);border-radius:4px;cursor:pointer;font-size:10px;white-space:nowrap}
+.bbtn.hb{background:var(--hi);color:#fff}
+.bb{display:inline-block;padding:1px 6px;border-radius:8px;font-size:9px;font-weight:600;margin-left:3px}
+.bb.op{background:#fce8e6;color:var(--hi)}.bb.fx{background:#fef7e0;color:var(--md)}
+.bb.fd{background:#e6f4ea;color:#198754}.bb.ve{background:#e8f0fe;color:var(--p)}.bb.cl{background:#e8eaed;color:#5f6368}
+.bt{width:100%;border-collapse:collapse;font-size:12px;border:1px solid var(--b);border-radius:8px;overflow:hidden;min-width:auto}
+.bt th{background:#f1f3f4;padding:8px 10px;text-align:left;font-weight:600;font-size:11px;color:#5f6368;border-bottom:2px solid #dadce0;cursor:pointer}
+.bt td{padding:8px 10px;border-bottom:1px solid #f0f0f0;vertical-align:middle}
+.bt .em td{text-align:center;color:#aaa;padding:24px}
+.sb-b{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600}
+.sb-b.cr{background:#fce8e6;color:#c5221f}.sb-b.mj{background:#fef7e0;color:#e37400}
+.sb-b.mn{background:#fef7e0;color:#b06000}.sb-b.tr{background:#e8eaed;color:#5f6368}
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:10000;justify-content:center;align-items:center}
+.ov.sh{display:flex}
+.md{background:#fff;border-radius:12px;width:500px;max-width:90vw;max-height:85vh;display:flex;flex-direction:column;box-shadow:0 8px 32px rgba(0,0,0,.2)}
+.md-hd{padding:16px 20px;border-bottom:1px solid var(--b);display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
+.md-hd h3{font-size:16px;margin:0}
+.md-cl{width:32px;height:32px;border:none;background:#f1f3f4;border-radius:50%;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center}
+.md-bd{padding:16px 20px;overflow-y:auto;flex:1}
+.md-bd .fd{margin-bottom:12px}
+.md-bd .fd label{display:block;font-size:12px;font-weight:600;color:#5f6368;margin-bottom:4px}
+.md-bd .fd input,.md-bd .fd textarea,.md-bd .fd select{width:100%;padding:7px 10px;border:1px solid var(--b);border-radius:6px;font-size:13px;font-family:inherit}
+.md-bd .fd textarea{resize:vertical;min-height:60px}
+.md-ft{padding:12px 20px;border-top:1px solid var(--b);text-align:right;flex-shrink:0}
+.md-ft button{padding:6px 16px;border:none;border-radius:6px;cursor:pointer;font-size:13px;margin-left:8px}
+.aa{border:2px dashed var(--b);border-radius:8px;padding:12px;text-align:center;font-size:12px;color:var(--mu);cursor:pointer;min-height:60px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center}
+.aa:hover{border-color:var(--p);background:#f8faff}
+.aa .hint{width:100%;pointer-events:none}
+.ath{position:relative;width:80px;height:80px;border-radius:6px;overflow:hidden;border:1px solid var(--b);cursor:pointer}
+.ath img{width:100%;height:100%;object-fit:cover}
+.ath .da,.ani .da{position:absolute;top:2px;right:2px;width:18px;height:18px;border-radius:50%;background:rgba(0,0,0,.6);color:#fff;border:none;cursor:pointer;font-size:10px;display:flex;align-items:center;justify-content:center}
+.ani{position:relative;background:#f8f9fa;border:1px solid var(--b);border-radius:6px;padding:6px 10px;font-size:11px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer}
+.ai{font-size:11px;color:var(--mu);cursor:pointer}
+.pv{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:10001;justify-content:center;align-items:center;cursor:pointer}
+.pv.sh{display:flex}
+.pv img{max-width:92vw;max-height:92vh;border-radius:8px}
+.pv .pt{background:#1e1e1e;color:#d4d4d4;padding:24px;border-radius:8px;max-width:85vw;max-height:85vh;overflow:auto;font-family:monospace;font-size:13px;white-space:pre-wrap;cursor:auto}
+.pv-cl{position:fixed;top:16px;right:24px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.2);color:#fff;border:none;cursor:pointer;font-size:22px;display:flex;align-items:center;justify-content:center;z-index:10002}
+.ro{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;justify-content:center;align-items:center}
+.ro.sh{display:flex}
+.rm{background:#fff;border-radius:12px;width:90vw;max-width:900px;max-height:85vh;display:flex;flex-direction:column;box-shadow:0 8px 32px rgba(0,0,0,.2)}
+.rm-bd{flex:1;overflow-y:auto;padding:20px 24px}
+.rsm{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:10px;margin-bottom:20px}
+.rc-card{text-align:center;padding:14px;border-radius:10px;background:var(--bg)}
+.rc-card .cn{font-size:28px;font-weight:700}.rc-card .cl{font-size:11px;color:var(--mu);margin-top:2px}
+.rtb{width:100%;border-collapse:collapse;font-size:12px;min-width:auto}
+.rtb th{background:#f1f3f4;padding:8px 10px;text-align:left;font-weight:600;font-size:11px;color:#5f6368;border-bottom:2px solid #dadce0}
+.rtb td{padding:7px 10px;border-bottom:1px solid #f0f0f0}
+.rbd{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600}
+.rbd.pa{background:#e6f4ea;color:#198754}.rbd.fa{background:#fce8e6;color:var(--hi)}
+.rbd.bl{background:#fef7e0;color:var(--md)}.rbd.sk{background:#e8eaed;color:#5f6368}
+.bi{font-size:11px;padding:4px 8px;margin-top:4px;background:#fef7e0;border-radius:4px;border-left:3px solid var(--md)}
+.rst{font-size:15px;font-weight:700;margin:20px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--b)}
+.ft{text-align:center;padding:20px;color:var(--mu);font-size:12px;border-top:1px solid var(--b);margin-top:16px}
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#198754;color:#fff;padding:10px 24px;border-radius:8px;font-size:14px;z-index:99999;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+@media print{.sb{display:none}.hd{padding:16px 24px}.sc{padding:0 24px}}
+</style>
+</head>
+<body>
+<div class="app" ondragover="event.preventDefault();this.style.outline='3px dashed var(--p)'" ondragleave="this.style.outline=''" ondrop="handleMDDrop(event);this.style.outline=''">
+<aside class="sb">
+  <div class="sb-hd"><h3>ULab-I期 测试用例</h3><div style="font-size:12px;opacity:.75" id="sv">加载中...</div></div>
+  <nav class="sb-nav" id="nav"></nav>
+  <div class="mt-w"><div class="mt" id="mt" onclick="toggleMode()"><div class="ac" data-mode="view">📋 查看</div><div data-mode="exec">✅ 执行</div></div></div>
+  <div class="sb-st" id="stats"></div>
+  <div class="ex-st" id="exst"><div class="r"><span>进度</span><strong id="xp">0/0</strong></div><div class="r"><span>✅通过</span><strong id="xpa" style="color:#198754">0</strong></div><div class="r"><span>❌失败</span><strong id="xfa" style="color:var(--hi)">0</strong></div><div class="r"><span>🐛Bug</span><strong id="xbg" style="color:var(--hi)">0</strong></div></div>
+  <div class="rp-st" id="rpst"><div class="rt">📁 报告</div><div class="nr">暂无</div><div id="rpl"></div></div>
+</aside>
+<div class="main">
+  <div class="hd"><h1>ULab-I期 测试用例文档</h1><div class="sub">基于需求文档 v8.2r · 70条用例</div></div>
+  <div class="tb" id="tb"><label>🔄轮次:</label><select id="rs" onchange="onRoundsChange()"><option value="1">1轮</option><option value="2">2轮</option><option value="3">3轮</option></select><div class="pb"><span>进度:</span><div><div id="pf" style="width:0%"></div></div><span id="pt">0/0</span></div><button class="btn btn-d" onclick="clearExec()">🗑清除</button><button class="btn btn-g" onclick="genReport()">📊报告</button><span style="font-size:11px;color:var(--mu)">| Bug来自 GitHub Issues</span></div>
+  <div class="bm" id="bm"><div class="bm-hd"><h2>🐛 Bug列表 <span id="bmc"></span><span style="font-size:12px;color:var(--mu);font-weight:normal"> 来自 GitHub Issues</span></h2><div class="bf"><span>分类:</span><select id="bfs" onchange="renderBugList()"><option value="all">全部</option><option value="放大器实验">放大器实验</option><option value="学生">学生</option><option value="老师">老师</option><option value="通用">通用</option></select><span>状态:</span><select id="bfst" onchange="renderBugList()"><option value="all">全部</option><option value="open">打开</option><option value="closed">已关闭</option></select></div></div><div class="bm-scroll"><table class="bt"><thead><tr><th>编号</th><th>标题</th><th>分类</th><th>状态</th><th>时间</th></tr></thead><tbody id="blb"><tr class="em"><td colspan="5">暂无Bug</td></tr></tbody></table></div></div>
+  <div class="cs"><div id="content"></div><div class="ft">💡 拖拽 bugs.md 或 test-cases.md 文件到页面即可更新数据 · ULab-I期 测试用例</div></div>
+</div></div>
+
+
+
+<div class="pv" id="po" onclick="closePv()"><button class="pv-cl" onclick="closePv()">✕</button><div id="pc"></div></div>
+
+<div class="ro" id="ro" onclick="if(event.target===this)closeRp()"><div class="rm"><div class="md-hd"><h2>📊 测试执行报告</h2><button class="md-cl" onclick="closeRp()">✕</button></div><div class="rm-bd" id="rb"></div><div class="md-ft"><button class="btn-p" onclick="saveRp()">💾保存HTML</button><button onclick="window.print()">🖨打印</button></div></div></div>
+<script>
+var EMBED_TC = `# ULab-I期 测试用例
+
+> 基于需求文档 v8.2r · 共 70 条用例
+
+## 教师模块 (48条)
+
+### 1.1 门户与登录
+
+| 编号 | 测试场景 | 优先级 | 前置条件 | 测试步骤 | 预期结果 |
+|------|---------|--------|---------|---------|---------|
+| TC-T-LOGIN-001 | 教师账号密码正常登录 | P0 | 已有有效的教师账号和密码 | 1.访问ULab门户页面 2.点击登录按钮 3.输入正确的用户名/手机号/邮箱 4.输入正确的密码 5.点击登录按钮 | 登录成功跳转至教师首页；顶部显示头像+昵称+下拉菜单；侧边栏显示创建实验、我的实验、标准实验、AI工具 |
+| TC-T-LOGIN-002 | 登录按钮置灰校验（未填写信息） | P1 | 进入登录页面 | 1.访问登录页面 2.不填写任何信息观察按钮 3.仅填写账号不填密码 4.仅填写密码不填账号 | 账号和密码均为空时登录按钮置灰不可点击；仅填一项时仍置灰；两者均填写后变为可点击 |
+| TC-T-LOGIN-003 | 账号不存在或密码错误提示 | P1 | 进入登录页面 | 1.输入不存在的账号和任意密码点击登录 2.用正确账号+错误密码尝试 | 弹出toast提示"账号不存在，请重新输入" |
+| TC-T-LOGIN-004 | 教师退出登录 | P1 | 教师已登录 | 1.点击顶部头像下拉菜单 2.点击退出登录 | 成功退出跳转至门户未登录状态；顶部显示登录按钮 |
+| TC-T-LOGIN-005 | 门户页面未登录态展示 | P2 | 未登录状态访问门户 | 1.访问门户首页 2.依次点击首页、课程、工具、数据集、活动菜单 3.点击工具菜单中的具体工具 | 首页、课程、数据集、活动菜单展示静态信息；工具菜单展示工具列表仅列表不可交互；点击具体工具跳转到登录页面 |
+| TC-T-LOGIN-006 | 门户语言切换 - 教师端全页面验证（简中/繁中/英语） | P0 | 进入门户页面，门户支持三种语言切换（切换入口位于门户页面底部或顶部导航栏） | 1.在门户页面语言切换入口选择「简体中文」，检查首页、课程、工具、数据集、活动菜单的语言 2.切换到「English」，检查上述页面 3.切换到「繁体中文」，检查上述页面 4.登录教师账号，依次检查：创建实验（基本信息/云端实验室/教学资源包）、我的实验（列表/搜索/筛选）、标准实验（列表/查看）、AI工具（工具列表/交互页面）、实验编辑（节点内容/学习任务配置）在三种语言下的展示 5.检查各页面的按钮文案、表单校验提示、toast通知、操作确认弹窗、面包屑导航是否随语言切换 | 三种语言切换后全页面UI、菜单、按钮、提示、弹窗均正确展示对应语言；简体中文使用大陆用语习惯；繁体中文使用港澳台用语习惯；英文使用国际通用表述；切换语言后无需刷新页面或重新登录；无残留混搭其他语言的情况；特殊验证点：登录按钮、必填校验提示、上架/下架/克隆/删除操作确认弹窗、实验发布toast通知 |
+| TC-T-LOGIN-007 | 门户语言切换 - 切换入口位置与交互验证 | P1 | 进入门户页面 | 1.确认语言切换入口在门户页面底部右侧 2.点击语言切换入口 3.验证展示三种选项：简体中文、繁体中文、English 4.选择后确认立即生效 5.刷新页面检查语言设置是否保持 | 切换入口固定在门户页面右下角；展示三种语言选项；选择后页面立即切换无需刷新；刷新页面或重新打开保持上次语言选择；登录后语言设置仍然生效 |
+
+### 1.2 创建实验
+
+| 编号 | 测试场景 | 优先级 | 前置条件 | 测试步骤 | 预期结果 |
+|------|---------|--------|---------|---------|---------|
+| TC-T-CREATE-001 | 从零创建实验 - 完整流程 | P0 | 教师已登录 | 1.点击侧边栏创建实验 2.选择从零创建卡片 3.点击下一步 4.填写所有必填基本信息 5.点击保存基本信息 6.在云端实验室中添加节点、填写内容、添加学习任务 7.点击保存云端实验室 8.点击发布上架 | 步骤条依次推进；每步保存后自动进入下一步；发布成功toast提示实验已上架；实验出现在我的实验列表中 |
+| TC-T-CREATE-002 | 克隆实验创建 | P0 | 教师已登录，存在可克隆的标准实验 | 1.点击创建实验 2.选择克隆范本卡片 3.在列表中选择一个标准实验 4.点击克隆 5.填写基本信息 6.编辑云端实验室 7.保存并发布 | 基本信息回显原实验内容标题自动追加_副本；云端实验室回显原实验的节点结构；所有字段可修改；发布后生成新的实验 |
+| TC-T-CREATE-003 | 创建实验 - 基本信息字段校验 | P0 | 教师已登录，进入基本信息填写页 | 1.不填必填字段点击保存基本信息 2.标题输入超过30字 3.副标题输入超过50字 4.课时输入非整数或超出1-999范围 5.内容简介超过500字 6.填写合规后保存 | 必填字段为空时提示或无法保存；标题≤30字；副标题≤50字；课时1-999整数；内容简介≤500字 |
+| TC-T-CREATE-004 | 基本信息 - 封面图片上传与切换 | P1 | 教师已登录，进入基本信息页 | 1.观察默认封面 2.点击上传图片选择本地图片 3.点击切换封面选择系统封面 | 默认显示系统封面；本地上传成功后封面更新；可切换到其他系统封面 |
+| TC-T-CREATE-005 | 教学环境配置核查表 - 添加/删除 | P1 | 教师已登录，进入基本信息页 | 1.点击添加核查项 2.填写核查项目名称和配置要求 3.再添加一行 4.点击某行的删除按钮 | 新增一行包含核查项目输入框、配置要求输入框、删除按钮；删除后该行消失 |
+| TC-T-CREATE-006 | 教学资源包 - 文件上传 | P1 | 教师已登录，进入基本信息页 | 1.点击添加资源文件 2.上传pdf文件100M以内 3.上传mp4文件200M以内 4.上传超过大小限制的文件 5.上传嵌套文件夹的压缩包 6.上传超过500MB的压缩包 | 合规文件上传成功；超限文件提示文件大小超上限；嵌套文件夹压缩包提示错误；超500MB提示压缩包大小超上限 |
+| TC-T-CREATE-007 | PBL评估量规 - 添加/删除 | P2 | 教师已登录，进入基本信息页 | 1.点击添加评估维度 2.填写评价维度名称、维度描述、优秀/良好/合格/待改进描述 3.添加多行 4.删除某一行 | 新增行包含6个输入框+删除按钮；删除后该行消失 |
+| TC-T-CREATE-008 | 在线编程镜像 - 教师端选择 | P2 | 教师已登录，系统管理员已创建编程镜像 | 1.在在线编程镜像下拉框中查看选项 2.选择不使用 3.选择一个具体的编程镜像项目 4.保存基本信息 | 下拉包含不使用+系统管理员创建的镜像项目列表；选择后保存成功；查看实验时若选了镜像则显示启动notebook入口 |
+
+### 1.3 我的实验
+
+| 编号 | 测试场景 | 优先级 | 前置条件 | 测试步骤 | 预期结果 |
+|------|---------|--------|---------|---------|---------|
+| TC-T-MYEXP-001 | 我的实验列表 - 默认展示 | P0 | 教师已登录，已有若干实验 | 1.点击侧边栏我的实验 2.观察列表默认展示状态 | 默认展示所有状态的实验；默认按修改时间倒序排列；默认每页10条；展示分页组件 |
+| TC-T-MYEXP-002 | 我的实验 - 图布局/列表布局切换 | P1 | 教师已登录，进入我的实验 | 1.观察当前布局 2.点击列表布局切换 3.点击图布局切回 | 图布局展示封面、标题、方向、阶段、课时、状态、操作按钮；列表布局表头显示序号、封面、实验标题等；切换后数据保持一致 |
+| TC-T-MYEXP-003 | 我的实验 - 搜索功能 | P0 | 教师已登录，进入我的实验 | 1.在搜索框输入实验标题关键词 2.鼠标离开搜索框 3.输入不存在的关键词 4.清空搜索框 | 鼠标离开搜索框后立即筛选模糊匹配标题；无匹配时显示暂无数据；清空后恢复全部数据 |
+| TC-T-MYEXP-004 | 我的实验 - 状态筛选 | P0 | 教师已登录，存在不同状态的实验 | 1.点击全部标签 2.点击未上架标签 3.点击已上架标签 4.点击已下架标签 | 全部显示所有实验；未上架仅显示待上架实验；已上架仅显示已上架实验；已下架仅显示已下架实验 |
+| TC-T-MYEXP-005 | 我的实验 - 实验阶段筛选 | P1 | 教师已登录 | 1.依次点击全部→初级→中级→高级 2.观察筛选结果 | 每个标签筛选结果正确；筛选条件叠加生效 |
+| TC-T-MYEXP-006 | 我的实验 - 实验方向筛选 | P1 | 教师已登录 | 1.依次点击各实验方向标签 2.验证筛选结果 | 8个方向每个筛选正确 |
+| TC-T-MYEXP-007 | 我的实验 - 分页功能 | P1 | 教师已登录，实验数量超过10条 | 1.观察首页分页状态 2.点击下一页 3.切换每页条数为20条 4.在页码输入框输入页码跳转 5.输入非法页码 | 首页上一页禁用末页下一页禁用；切换分页条数自动回到第1页；页码输入仅允许正整数非法自动修正 |
+| TC-T-MYEXP-008 | 我的实验 - 各状态操作按钮 | P0 | 教师已登录，存在各状态实验 | 1.查看待上架实验的操作按钮 2.查看已上架实验的操作按钮 3.查看已下架实验的操作按钮 | 待上架显示编辑、上架、删除；已上架显示下架、克隆、查看；已下架显示重新上架、克隆、查看 |
+| TC-T-MYEXP-009 | 上架实验操作 | P0 | 存在待上架状态的实验 | 1.点击待上架实验的上架按钮 2.观察实验状态变化 | 实验状态变为已上架；操作按钮变为下架、克隆、查看 |
+| TC-T-MYEXP-010 | 下架实验操作及影响 | P0 | 存在已上架且已被班课引用的实验 | 1.点击已上架实验的下架按钮 2.确认下架 3.检查已引用该实验的班课 4.尝试新班课引用该实验 | 实验状态变为已下架；已引用的班课继续可使用该实验；新班课无法引用该实验 |
+
+### 1.4 标准实验
+
+| 编号 | 测试场景 | 优先级 | 前置条件 | 测试步骤 | 预期结果 |
+|------|---------|--------|---------|---------|---------|
+| TC-T-STD-001 | 标准实验列表展示 | P0 | 教师已登录，系统管理员已发布标准实验 | 1.点击侧边栏标准实验 2.观察列表内容 | 展示系统管理员发布的标准实验列表；支持图/表视图切换；默认按修改时间倒序；仅显示已上架和已下架状态 |
+| TC-T-STD-002 | 标准实验 - 搜索与筛选 | P1 | 教师已登录，进入标准实验页 | 1.搜索实验标题关键词 2.筛选状态 3.筛选实验阶段 4.筛选实验方向 | 搜索和筛选功能与我的实验一致；组合筛选结果正确；无数据时显示暂无数据 |
+| TC-T-STD-003 | 标准实验 - 克隆操作 | P0 | 存在已上架的标准实验 | 1.点击已上架标准实验的克隆按钮 2.进入克隆流程 3.修改基本信息 4.保存并发布 | 标题自动追加_副本；所有内容回显可编辑；克隆后的实验出现在我的实验中；原标准实验不受影响 |
+| TC-T-STD-004 | 标准实验 - 查看操作 | P1 | 存在标准实验 | 1.点击已上架标准实验的查看 2.点击已下架标准实验的查看 3.在查看页面切换云端实验室/教学资源包/notebook | 已上架可查看显示克隆和查看按钮；已下架仅可查看；查看页面所有信息只读 |
+| TC-T-STD-005 | 标准实验 - 分页功能 | P2 | 标准实验数量超过10条 | 1.验证分页组件各功能 2.切换每页条数 3.页码跳转 | 分页功能与我的实验一致；首页禁用上一页末页禁用下一页 |
+| TC-T-STD-006 | 标准实验 - 数据为空 | P2 | 系统管理员未发布任何标准实验或筛选结果为空 | 1.进入标准实验页面 2.使用筛选条件导致无结果 | 显示暂无数据；分页组件隐藏 |
+
+### 1.5 新建/编辑/克隆/查看实验
+
+| 编号 | 测试场景 | 优先级 | 前置条件 | 测试步骤 | 预期结果 |
+|------|---------|--------|---------|---------|---------|
+| TC-T-EDIT-001 | 编辑实验 - 基本信息回显与修改 | P0 | 存在待上架状态的实验 | 1.点击待上架实验的编辑按钮 2.检查面包屑导航 3.修改标题、副标题等字段 4.保存基本信息 | 面包屑导航显示我的实验>实验标题；所有字段回显已有信息全部可改；修改后保存成功 |
+| TC-T-EDIT-002 | 查看实验 - 基本信息只读 | P0 | 存在已上架状态的实验 | 1.点击已上架实验的查看按钮 2.检查所有字段是否可编辑 3.查看教学环境配置核查表 4.查看PBL评估量规 | 所有信息只读不可编辑；教学环境核查表多一列课前检查复选框无操作列；PBL评估量规少一列维度描述无操作列 |
+| TC-T-EDIT-003 | 云端实验室 - 教师指导手册节点 | P0 | 进入云端实验室编辑页面 | 1.查看目录第一个节点 2.填写教师指导手册内容 3.保存 | 第一个节点标题固定为教师指导手册；内容为富文本框可编辑；该节点不可删除；学生端不可见 |
+| TC-T-EDIT-004 | 云端实验室 - 添加/删除节点 | P0 | 进入云端实验室编辑页面 | 1.点击添加节点 2.观察默认节点名称 3.填写节点标题 4.添加子节点 5.删除一个非教师指导手册节点 | 新增一级节点默认名称新节点；新增子节点默认名称新子节点；填写标题后节点名称立即更新；删除节点后目录同步更新 |
+| TC-T-EDIT-005 | 云端实验室 - 节点内容编辑 | P0 | 进入云端实验室选中一个非指导手册节点 | 1.填写节点标题 2.填写节点内容 3.展开教师指导填写备课说明 4.保存节点 | 标题为必填内容为富文本框；教师指导为富文本框可展开收起；教师指导仅教师可见；保存后节点名称更新为标题内容 |
+| TC-T-EDIT-006 | 云端实验室 - 添加学习任务 | P0 | 进入云端实验室选中一个节点 | 1.点击添加学习任务 2.在弹窗中选择任务组件 3.进行任务配置 4.预览任务 5.点击插入节点 | 弹窗步骤条选择任务组件→任务配置→任务预览→插入节点；任务以列表形式展示可拖拽排序；每个任务提供配置和删除操作 |
+| TC-T-EDIT-007 | 云端实验室 - 节点拖拽排序 | P1 | 存在多个节点 | 1.拖拽某个节点到新位置 2.拖拽学习任务调整顺序 3.保存后刷新验证 | 节点可拖拽排序；学习任务可拖拽排序；排序结果保存后持久化 |
+| TC-T-EDIT-008 | 云端实验室 - 未保存切换提示 | P1 | 编辑了节点但未保存 | 1.修改某个节点内容但不保存 2.切换到另一个节点 3.点击返回基本信息 | 切换节点时提示保存；点击返回基本信息时提示请保存当前节点再返回；只有保存后返回基本信息和发布上架才可点击 |
+| TC-T-EDIT-009 | 云端实验室 - 保存与发布 | P0 | 完成云端实验室编辑 | 1.点击保存云端实验室 2.保存成功后点击发布上架 3.在网络异常情况下点击发布上架 | 保存成功后发布上架按钮变为可点击；发布成功toast实验已上架；发布失败toast上架操作异常请确认网络状态 |
+| TC-T-EDIT-010 | 查看实验 - 云端实验室只读模式 | P1 | 实验已上架教师进入查看模式 | 1.进入云端实验室查看页面 2.检查面包屑导航 3.展开收起节点目录 4.查看教师指导内容 5.查看内嵌小题答案 | 面包屑我的实验>实验标题>云端实验室；侧边目录仅展示到二级节点；教师指导默认收起可展开；测试题答案默认收起可展开 |
+| TC-T-EDIT-011 | 查看实验 - 教学资源包页面 | P1 | 实验已上传教学资源文件 | 1.进入查看实验页面 2.点击教学资源包入口 3.点击左侧文件进行预览 | 面包屑我的实验>实验标题>教学资源包；左侧文件导航列表右侧文件预览；未上传资源时无教学资源包入口 |
+| TC-T-EDIT-012 | 查看实验 - 启动notebook页面 | P2 | 实验选择了在线编程镜像项目 | 1.进入查看实验页面 2.点击启动notebook入口 3.查看notebook环境 | 面包屑我的实验>实验标题>启动notebook；显示在线编程镜像项目页面；未选择镜像时无启动notebook入口 |
+
+### 1.6 AI工具
+
+| 编号 | 测试场景 | 优先级 | 前置条件 | 测试步骤 | 预期结果 |
+|------|---------|--------|---------|---------|---------|
+| TC-T-TOOL-001 | AI工具列表展示（登录态） | P0 | 教师已登录 | 1.点击侧边栏AI工具 2.浏览工具列表 3.验证12个工具是否完整展示 | 展示12个AI工具包括智能图像识别、智能音频识别等；工具可点击进入交互 |
+| TC-T-TOOL-002 | AI工具交互体验 | P1 | 教师已登录 | 1.点击某个AI工具如智能图像识别 2.进行工具交互操作 3.观察模型推理结果返回 | 进入工具详情页可进行交互操作；工具调用模型推理并返回结果 |
+| TC-T-TOOL-003 | AI工具 - 门户页工具菜单 | P2 | 教师已登录 | 1.通过顶部导航工具菜单进入 2.与侧边栏AI工具对比 | 顶部工具菜单与侧边栏AI工具功能一致 |
+| TC-T-TOOL-004 | 语音支持模型 - 多语言覆盖验证 | P0 | 教师或学生已登录，进入语音交互功能 | 1.打开语音输入/语音识别功能 2.依次切换语言并测试语音识别：中文、英语、粤语、阿拉伯语、西班牙语、葡萄牙语、意大利语、法语、俄语 3.每种语言录制一段语音 4.观察识别结果是否正确 | 9种语言均能正确识别和响应；中文（普通话）、英语、粤语、阿拉伯语、西班牙语、葡萄牙语、意大利语、法语、俄语各有对应的语音模型支持；切换语言后语音识别引擎自动切换对应模型 |
+
+### 1.7 实验数据回传（LMS端查看）
+
+| 编号 | 测试场景 | 优先级 | 前置条件 | 测试步骤 | 预期结果 |
+|------|---------|--------|---------|---------|---------|
+| TC-T-DATA-001 | 班课实验完成概览 | P0 | 班级中有学生完成了实验 | 1.在LMS端进入班课>实验>查看成绩 2.观察实验完成概览 | 显示班级内各学生的实验完成情况；显示已提交人数/总人数 |
+| TC-T-DATA-002 | 学生成绩明细查看 | P0 | 学生已完成实验并提交 | 1.在LMS端进入班课>单元>实验>查看成绩 2.查看学生成绩明细 3.点击某个学生查看实验详情 | 显示开课唯一ID+实验ID+学生ID+学生完成节点数+实验总节点数；可查看每个学生的实验详情 |
+| TC-T-DATA-003 | 学习进度计算规则验证 | P1 | 实验包含多种节点结构 | 1.创建实验父节点无子节点+父节点有子节点 2.学生完成部分节点 3.查看进度计算是否正确 | 父节点无子节点算父节点数；父节点有子节点算最小子节点数；所有节点求和为总节点数 |
+| TC-T-DATA-004 | 实验列表页查看成绩入口 | P2 | 班课已关联实验 | 1.LMS端进入班课>实验>实验列表 2.点击查看成绩 | 实验列表中每个实验有查看成绩入口；点击后跳转到成绩明细页面 |
+
+## 学生模块 (22条)
+
+### 2.1 LMS → ULab 实验跳转
+
+| 编号 | 测试场景 | 优先级 | 前置条件 | 测试步骤 | 预期结果 |
+|------|---------|--------|---------|---------|---------|
+| TC-S-JUMP-001 | 从LMS课程进入实验 | P0 | 学生已选课课程包含实验 | 1.登录LMS 2.进入课程>单元>实验 3.找到未完成的实验 4.点击开始实验按钮 | 成功跳转至ULab实验操作页面；跳转携带学生身份+实验ID信息；进入云端实验室可操作模式 |
+| TC-S-JUMP-002 | 从LMS实验列表进入 | P1 | 学生已选课课程包含多个实验 | 1.LMS端进入课程>实验>实验列表 2.找到未完成的实验 3.点击开始实验 | 成功跳转至ULab实验操作页面；与从单元进入的效果一致 |
+| TC-S-JUMP-003 | 跳转失败场景 | P2 | 学生已选课 | 1.网络断开时点击开始实验 2.实验已被教师下架后点击 3.未选课学生尝试直接访问实验URL | 网络异常时有适当提示；已下架实验有相应处理；未授权访问有权限拦截 |
+
+### 2.2 实验操作页面
+
+| 编号 | 测试场景 | 优先级 | 前置条件 | 测试步骤 | 预期结果 |
+|------|---------|--------|---------|---------|---------|
+| TC-S-OP-001 | 实验操作页面 - 进入开始实验模式 | P0 | 学生从LMS跳转进入实验 | 1.观察云端实验室页面布局 2.检查侧边节点目录 3.查看节点完成状态标识 | 侧边目录仅展示到二级节点；已完成节点圆内打勾；未完成节点空心圆；不显示教师指导手册、教学指导和题目答案 |
+| TC-S-OP-002 | 完成交互任务 - 内嵌题目 | P0 | 进入包含内嵌题目的节点 | 1.查看内嵌题目 2.选择/填写答案 3.点击保存小节 4.观察节点完成状态变化 | 题目正常展示和交互；答案保存成功；该节点标记为已完成；下一节按钮变为可点击 |
+| TC-S-OP-003 | 完成编程任务 - 启动notebook | P0 | 进入包含编程任务的节点 | 1.点击启动notebook按钮 2.在新页面中编写/运行代码 3.上传notebook结果 4.返回云端实验室页面 5.点击保存小节 | 新页面加载教师预设的编程镜像项目；notebook环境正常可用；该节点标记为已完成 |
+| TC-S-OP-004 | 保存小节 - 非最后一节 | P0 | 在非最后一个节点操作 | 1.完成当前节点内容 2.观察按钮状态 3.点击保存小节 4.点击下一节 | 显示保存小节和下一节按钮；未保存时下一节置灰不可点击；保存后下一节可点击 |
+| TC-S-OP-005 | 保存小节 - 最后一节 | P0 | 在最后一个节点操作 | 1.完成最后一节内容 2.观察按钮状态 3.点击保存小节 4.点击完成提交 | 显示保存小节和完成提交按钮；未保存时完成提交置灰不可点击；提交后返回相应实验数据 |
+| TC-S-OP-006 | 自动保存机制 | P1 | 正在实验操作中 | 1.在某个节点操作但不手动保存 2.等待2分钟 3.模拟页面崩溃后重新进入 | 每2分钟自动保存一次；崩溃恢复时提示已自动保存的草稿；草稿内容与崩溃前一致 |
+| TC-S-OP-007 | 关闭页面未保存提示 | P1 | 有未保存的修改内容 | 1.修改节点内容但不保存 2.点击关闭浏览器标签页/X掉页面 | 弹出提示你有未保存的内容确认离开吗；提供取消和确认按钮 |
+| TC-S-OP-008 | 容器页面加载 - 正常加载 | P1 | 进入需要容器加载的页面 | 1.进入notebook或交互任务页面 2.观察加载过程 | 加载中显示加载中...；加载完成后正常展示内容 |
+| TC-S-OP-009 | 容器页面加载 - 超时处理 | P1 | 模拟网络慢或服务异常 | 1.进入notebook页面 2.等待30秒 3.刷新后再等待30秒 | 30秒超时后提示加载超时请刷新重试；连续失败2次后提示请向老师反馈问题 |
+| TC-S-OP-010 | 学生不可见内容验证 | P0 | 学生进入实验操作页面 | 1.查看侧边目录是否包含教师指导手册 2.查看节点内容是否包含教师指导 3.查看内嵌题目是否有答案解析 | 学生端不显示教师指导手册节点；学生端不显示教师指导内容；学生端不显示测试题目的答案和解析 |
+| TC-S-OP-011 | 实验操作 - AI工具交互 | P1 | 节点包含AI工具交互任务 | 1.在实验中使用AI交互任务 2.上传音频或输入数据 3.等待模型推理返回结果 4.查看结果展示 | AI工具交互正常；模型推理结果正确返回；结果在页面上正确展示 |
+| TC-S-OP-012 | 实验操作 - 刷新notebook项目 | P2 | notebook页面卡住或加载异常 | 1.在notebook页面点击刷新项目按钮 2.观察页面重新加载 | 页面重新加载notebook环境；之前保存的内容恢复 |
+
+### 2.3 实验查看页面
+
+| 编号 | 测试场景 | 优先级 | 前置条件 | 测试步骤 | 预期结果 |
+|------|---------|--------|---------|---------|---------|
+| TC-S-VIEW-001 | 查看已完成的实验 | P0 | 学生已完成并提交实验 | 1.从LMS进入已完成实验 2.点击查看实验或查看详情 3.浏览实验内容 | 进入查看模式所有内容只读；每个节点显示完成标识打勾；非最后一节显示下一节按钮；最后一节显示已提交置灰 |
+| TC-S-VIEW-002 | 查看实验中不可见内容 | P0 | 学生进入查看模式 | 1.检查是否能看到教师指导手册 2.检查是否能看到教学指导 3.检查是否能看到题目答案 | 教师指导手册不可见；教学指导不可见；题目答案不可见 |
+| TC-S-VIEW-003 | 查看模式 - 编程项目预览 | P2 | 实验包含编程任务且学生已提交 | 1.进入查看模式 2.找到编程任务节点 3.点击启动notebook | 可预览查看notebook空间；显示该学生完成的文件；不可再次编辑提交 |
+
+### 2.4 完成数据回传
+
+| 编号 | 测试场景 | 优先级 | 前置条件 | 测试步骤 | 预期结果 |
+|------|---------|--------|---------|---------|---------|
+| TC-S-DATA-001 | 提交后数据回传 | P0 | 学生完成实验并提交 | 1.点击完成提交 2.检查回传数据内容 3.在LMS端验证数据 | 自动回传数据至LMS；包含开课唯一ID、实验ID、学生ID、学生完成节点数、实验总节点数 |
+| TC-S-DATA-002 | 节点完成数计算规则 | P1 | 实验包含复杂节点结构 | 1.创建实验父节点无子+父节点有3个子 2.学生完成父节点无子+2个子节点 3.验证完成节点数计算 | 父节点无子节点算父节点数；父节点有子节点算子节点数；所有节点求和为总节点数 |
+| TC-S-DATA-003 | LMS端完成情况展示 | P1 | 学生已完成实验 | 1.LMS端查看实验列表 2.查看实验状态和进度 | 未提交实验显示未提交或学习中/未开始操作开始实验；已提交实验显示已提交或已完成操作查看详情/查看实验 |
+| TC-S-DATA-004 | 自动保存数据回传 | P2 | 学生正在实验中自动保存触发 | 1.操作实验触发自动保存 2.检查自动保存是否回传部分数据 | 自动保存的草稿数据正确记录；未提交前LMS显示学习中状态 |
+
+### 2.5 门户与登录
+
+| 编号 | 测试场景 | 优先级 | 前置条件 | 测试步骤 | 预期结果 |
+|------|---------|--------|---------|---------|---------|
+| TC-S-LOGIN-001 | 学生门户页面浏览 | P2 | 未登录状态 | 1.访问ULab门户页面 2.浏览首页、课程、数据集、活动菜单 | 可浏览静态信息；首页展示平台介绍、AI学习方向、分层课程 |
+| TC-S-LOGIN-002 | 学生登录 | P0 | 已有学生账号来源LMS | 1.点击登录 2.输入学生账号和密码 3.点击登录 | 登录成功跳转到学生首页；学生无创建实验、我的实验、标准实验等侧边栏菜单 |
+| TC-S-LOGIN-003 | 学生端无实验管理功能 | P0 | 学生已登录 | 1.检查侧边栏菜单 2.尝试直接访问教师端URL创建实验等 | 学生端无创建实验、我的实验、标准实验菜单；无权限访问教师端管理页面 |
+| TC-S-LOGIN-004 | 门户语言切换 - 学生端全页面验证（简中/繁中/英语） | P0 | 学生从LMS跳转进入ULab，门户支持三种语言切换（切换入口位于门户页面右下角） | 1.在门户页面右下角语言切换入口选择「简体中文」，学生登录后检查实验操作页面、节点目录、任务组件、保存小节/下一节/完成提交按钮 2.切换到「English」，重新检查上述页面 3.切换到「繁体中文」，重新检查上述页面 4.验证做实验过程中切换语言是否影响已填写内容 5.检查保存小节提示、完成提交确认弹窗、超时提示、崩溃恢复提示在三种语言下的展示 6.检查查看已完成实验页面在三种语言下的展示 | 三种语言下实验操作页面所有UI、节点内容、按钮、提示信息正确展示对应语言；做实验过程中切换语言不丢失已填写的内容；简体中文、繁体中文、英语各有正确的用语习惯；特殊场景：未保存离开确认弹窗、自动保存草稿恢复提示、notebook加载超时提示均跟随语言设置 |
+
+## 实验组件模块
+
+### 3.1 课堂小测试
+
+| 编号 | 测试场景 | 优先级 | 前置条件 | 测试步骤 | 预期结果 |
+|------|---------|--------|---------|---------|---------|
+| TC-EC-QUIZ-001 | 课堂小测试-教师添加学习任务完整流程 | P0 | 教师已登录，已创建实验并进入云端实验室编辑页面 | 1.在云端实验室编辑页面点击添加课程节点 2.在右侧学习任务区域点击添加任务 3.弹出插入交互工具窗口 4.鼠标放到课堂小测试上预览预设内容 5.双击课堂小测试进入交互工具窗口 6.查看默认展示的三道题目和0%完成度 7.输入问题答案进行提交答卷 8.点击上一步按钮 9.点击确定插入按钮 | 步骤4鼠标悬停可预览课堂小测试预设内容；步骤5双击后窗口内容切换为课堂小测试实验内容；步骤6默认展示三道题，完成度为0%；步骤7可正常输入答案并提交答卷；步骤8窗口内容回到插入工具列表；步骤9课堂小测试正确插入到学习任务列表中 |
+| TC-EC-QUIZ-002 | 课堂小测试-关闭窗口不插入学习任务 | P1 | 教师已登录，已打开插入交互工具窗口 | 1.在插入交互工具窗口中浏览内容 2.点击右上角关闭按钮 | 窗口关闭，不插入任何学习任务到列表中；学习任务列表保持原有内容不变 |
+| TC-EC-QUIZ-003 | 课堂小测试-编辑配置选择平铺方式展示题目 | P1 | 教师已登录，已插入课堂小测试学习任务 | 1.点击课堂小测试任务的配置按钮 2.选择平铺方式展示题目 3.切换到实验预览查看效果 | 平铺方式下题目以平铺形式展示；第一题标签与其他题目位置一致，间距正常 |
+| TC-EC-QUIZ-004 | 课堂小测试-多个语音输入组件依次使用 | P0 | 教师已创建包含两个语音输入组件的课堂小测试 | 1.进入实验操作页面 2.点击第一个语音输入组件进行语音输入 3.再点击第二个语音输入组件进行语音输入 | 两个语音输入组件独立工作，先后使用不冲突；第二个语音输入可正常使用 |
+| TC-EC-QUIZ-005 | 课堂小测试-配置题目得分与实验得分一致性 | P1 | 教师已配置课堂小测试题目得分 | 1.在编辑实验中配置题目得分 2.切换到实验预览 3.查看题目得分显示 4.提交答卷后查看得分 | 编辑配置中的题目得分与实验中显示的得分一致；提交后得分计算正确 |
+| TC-EC-QUIZ-006 | 课堂小测试-语音输入麦克风状态匹配 | P1 | 学生进入包含语音输入组件的课堂小测试 | 1.查看语音输入组件的麦克风图标状态 2.点击语音输入开始录音 3.观察麦克风状态变化 4.停止录音后观察状态 | 麦克风图标状态与实际录音状态匹配；未录音时显示关闭状态；录音中显示激活状态；停止后恢复关闭状态 |
+
+| TC-EC-QUIZ-007 | 课堂小测试-配置模式默认配置项验证 | P0 | 教师已登录，已插入课堂小测试学习任务，点击配置进入配置模式 | 1.查看答题展示方式默认值 2.查看允许查看答案和解析默认值 3.查看可见时机默认值 4.查看显示题目分支默认值 5.查看显示题号默认值 6.查看显示题型默认值 7.查看提交后自动判题默认值 | 答题展示方式默认为平铺展示；允许查看答案和解析默认为开启；可见时机默认为提交后查看；显示题目分支默认为关闭；显示题号默认为开启；显示题型默认为开启；提交后自动判题默认为关闭 |
+| TC-EC-QUIZ-008 | 课堂小测试-答题展示方式切换（平铺/逐条） | P1 | 教师已登录，进入课堂小测试配置模式 | 1.查看默认展示方式 2.选择逐条展示 3.切换到实验预览查看效果 4.切换回平铺展示 | 默认平铺展示；选择逐条展示后题目以列表形式逐条显示；切换到实验预览效果正确 |
+| TC-EC-QUIZ-009 | 课堂小测试-允许查看答案和解析开关控制 | P1 | 教师已登录，进入课堂小测试配置模式 | 1.查看允许查看答案和解析开关默认状态 2.查看可见时机下拉选项 3.选择可见时机为答题过程中查看 4.关闭允许查看答案和解析开关 5.观察可见时机状态变化 6.切换到实验预览验证 | 开启状态下可见时机可选提交后查看或答题过程中查看；关闭后可见时机变为不可见状态且不可操作；实验预览中答案和解析按配置正确展示或隐藏 |
+| TC-EC-QUIZ-010 | 课堂小测试-显示题目分支/题号/题型开关 | P1 | 教师已登录，进入课堂小测试配置模式 | 1.切换显示题目分支开关为开启 2.切换显示题号开关为关闭 3.切换显示题型开关为关闭 4.切换到实验预览验证 | 题目分支按开关状态显示或隐藏；题号按开关状态显示或隐藏；题型按开关状态显示或隐藏；三个开关独立工作互不影响 |
+| TC-EC-QUIZ-011 | 课堂小测试-提交后自动判题开关 | P1 | 教师已登录，进入课堂小测试配置模式 | 1.开启提交后自动判题 2.切换到实验预览 3.提交答卷 4.观察判题结果 | 开启后提交答卷自动显示判题结果和得分；关闭后提交答卷不自动判题 |
+| TC-EC-QUIZ-012 | 课堂小测试-题目列表标题栏展示与折叠功能 | P1 | 教师已登录，进入课堂小测试配置模式，已添加多道题目 | 1.查看题目列表标题栏左侧文案 2.查看标题栏右侧题目总数 3.查看全部展开和全部折叠选项 4.验证默认全部展开状态 5.点击全部折叠 6.点击全部展开 | 标题栏左侧展示题目列表；右侧展示共几道题；提供全部展开和全部折叠选项；默认全部展开每道题内容可见；点击全部折叠后题目列表折叠仅显示标题；点击全部展开恢复展开状态 |
+
+| TC-EC-QUIZ-013 | 课堂小测试-可见时机切换（提交后查看/答题过程中查看） | P1 | 教师已登录，允许查看答案和解析为开启状态 | 1.可见时机选择提交后查看 2.切换到实验预览，答题过程中查看是否显示答案 3.提交答卷后查看是否显示答案 4.返回配置将可见时机改为答题过程中查看 5.切换到实验预览，答题过程中查看是否显示答案 | 提交后查看模式下答题过程中不显示答案，提交后显示答案和解析；答题过程中查看模式下答题时可实时查看答案和解析 |
+| TC-EC-QUIZ-014 | 课堂小测试-关闭答案和解析后可见时机不可见 | P1 | 教师已登录，允许查看答案和解析为开启状态 | 1.关闭允许查看答案和解析开关 2.观察可见时机下拉状态 3.切换到实验预览验证 | 关闭后可见时机变为不可见状态且不可操作；实验预览中不显示任何答案和解析入口 |
+| TC-EC-QUIZ-015 | 课堂小测试-题目列表单题折叠展开 | P2 | 教师已登录，进入配置模式，题目列表为全部展开 | 1.点击单个题目的折叠按钮 2.观察该题目内容 3.点击展开该题目 | 单题折叠后仅显示标题不显示内容；单题展开后显示完整内容；其他题目不受影响 |
+| TC-EC-QUIZ-016 | 课堂小测试-配置修改后切换实验预览实时生效 | P1 | 教师已登录，进入配置模式 | 1.修改答题展示方式为逐条展示 2.切换显示题号为关闭 3.切换到实验预览 4.返回配置再次修改 5.再次切换到实验预览 | 每次配置修改后切换到实验预览立即生效；配置与预览显示一致 |
+| TC-EC-QUIZ-QT-001 | 课堂小测试-添加问答题 | P0 | 教师已登录，进入课堂小测试配置模式，已添加课堂小测试组件，点击添加题目 | 1.在题目类型下拉中选择问答题 2.在题目内容输入框中输入题目文字（支持富文本编辑，可插入图片、代码块） 3.在参考答案输入框中设置参考答案 4.设置题目分值（整数1-100） 5.点击保存题目 6.在题目列表中查看已添加的问答题 7.切换到实验预览查看学生视角 | 题目类型显示为问答题；题目内容区展示教师输入的文字和图片；实验预览中学生看到一个多行文本输入框，可输入文字作答；分值在题目上方显示 |
+| TC-EC-QUIZ-QT-002 | 课堂小测试-添加填空题 | P0 | 教师已登录，进入课堂小测试配置模式，已添加课堂小测试组件，点击添加题目 | 1.选择题目类型为填空题 2.在题目内容输入框中输入包含填空标记的文本（使用下划线或特殊标记表示填空位置） 3.为每个填空位置设置正确答案 4.设置每空分值或统一分值 5.点击保存题目 6.切换到实验预览查看 | 题目内容中的填空位置以输入框形式展示；每个填空位置独立；学生可在各输入框中填写答案；支持多个填空位置 |
+| TC-EC-QUIZ-QT-003 | 课堂小测试-添加列表填空题 | P0 | 教师已登录，进入课堂小测试配置模式，已添加课堂小测试组件，点击添加题目 | 1.选择题目类型为列表填空题 2.添加列表项，每项包含文本描述和填空位置 3.为每个列表项的填空设置正确答案 4.设置分值 5.可添加/删除列表项 6.点击保存题目 7.切换到实验预览查看 | 列表以序号形式展示；每项包含文本描述和一个填空输入框；学生可在每个列表项的输入框中填写答案；列表项可包含不同数量的填空 |
+| TC-EC-QUIZ-QT-004 | 课堂小测试-添加选择题 | P0 | 教师已登录，进入课堂小测试配置模式，已添加课堂小测试组件，点击添加题目 | 1.选择题目类型为选择题 2.选择题型为单选或多选 3.输入题目内容 4.添加选项（支持添加/删除选项，最少2个选项） 5.标记正确答案（单选标记1个，多选可标记多个） 6.设置分值 7.点击保存题目 8.切换到实验预览查看 | 单选题选项为圆形单选按钮；多选题选项为方形复选框；选项文字清晰展示；正确答案在教师端有标记提示；学生可选择选项提交答案 |
+| TC-EC-QUIZ-QT-005 | 课堂小测试-添加表格填空题 | P0 | 教师已登录，进入课堂小测试配置模式，已添加课堂小测试组件，点击添加题目 | 1.选择题目类型为表格填空题 2.设置表格行数（2-10行）和列数（2-8列） 3.输入表格标题行内容 4.在需要填空的单元格中标记为填空 5.为每个填空单元格设置正确答案 6.设置分值 7.点击保存题目 8.切换到实验预览查看 | 表格以行列网格形式展示；填空单元格显示为输入框；非填空单元格显示为普通文本；学生可在填空单元格中输入答案 |
+| TC-EC-QUIZ-QT-006 | 课堂小测试-添加表格选择题 | P0 | 教师已登录，进入课堂小测试配置模式，已添加课堂小测试组件，点击添加题目 | 1.选择题目类型为表格选择题 2.设置表格行数和列数 3.输入表头内容 4.为每个需要选择的单元格设置选项列表 5.设置每个单元格的正确答案 6.设置分值 7.点击保存题目 8.切换到实验预览查看 | 表格以行列网格形式展示；需要选择的单元格显示为下拉选择框；每个单元格可独立设置选项；学生可在各单元格下拉选择答案 |
+| TC-EC-QUIZ-QT-007 | 课堂小测试-添加排序题 | P0 | 教师已登录，进入课堂小测试配置模式，已添加课堂小测试组件，点击添加题目 | 1.选择题目类型为排序题 2.添加需要排序的项目（至少3项） 3.为每个项目输入文字内容 4.设置正确的排序顺序 5.可拖拽调整项目显示顺序（显示顺序与正确顺序不同） 6.设置分值 7.点击保存题目 8.切换到实验预览查看 | 排序项目以可拖拽列表形式展示；项目显示顺序为乱序；学生可通过拖拽方式调整项目顺序；提交后与正确顺序对比判分 |
+| TC-EC-QUIZ-QT-008 | 课堂小测试-添加选项填空题 | P0 | 教师已登录，进入课堂小测试配置模式，已添加课堂小测试组件，点击添加题目 | 1.选择题目类型为选项填空题 2.输入包含填空标记的题目内容 3.为每个填空位置设置可选选项列表 4.为每个填空设置正确答案 5.设置分值 6.点击保存题目 7.切换到实验预览查看 | 题目内容中的填空位置显示为下拉选择框；每个下拉框包含教师预设的选项；学生可从下拉框中选择答案；不同填空位置可设置不同选项列表 |
+| TC-EC-QUIZ-QT-009 | 课堂小测试-添加连线题 | P0 | 教师已登录，进入课堂小测试配置模式，已添加课堂小测试组件，点击添加题目 | 1.选择题目类型为连线题 2.添加左侧项目列表（至少3项） 3.添加右侧项目列表（至少3项） 4.设置正确的连线配对关系 5.设置分值 6.点击保存题目 7.切换到实验预览查看 | 左侧项目和右侧项目分两列展示；左侧项目顺序固定，右侧项目顺序随机打乱；学生可通过点击左侧项目再点击右侧项目进行连线；已连线显示连线效果；支持取消已连线重新连线 |
+### 3.2 成语接龙
+
+| 编号 | 测试场景 | 优先级 | 前置条件 | 测试步骤 | 预期结果 |
+|------|---------|--------|---------|---------|---------|
+| TC-EC-IDIOM-001 | 成语接龙-教师添加成语并保存 | P0 | 教师已登录，已添加成语接龙学习任务 | 1.在编辑实验中点击成语接龙任务的配置 2.输入正确的成语 3.点击添加 4.点击保存 | 正确成语添加成功并显示在列表中；保存后数据持久化 |
+| TC-EC-IDIOM-002 | 成语接龙-教师添加错别字或不存在成语校验 | P0 | 教师已登录，在成语接龙配置页面 | 1.输入错别字的成语 2.输入不存在的假成语 3.点击添加 | 系统校验成语有效性；错别字或不存在成语给出提示，不允许添加 |
+| TC-EC-IDIOM-003 | 成语接龙-教师全部删除成语后保存 | P1 | 教师已登录，成语列表中已有多个成语 | 1.逐个删除所有成语 2.点击保存 | 保存时提示需要至少保留一个成语，或给出默认成语建议 |
+| TC-EC-IDIOM-004 | 成语接龙-教师编辑时输入框换行显示 | P1 | 教师已登录，在成语接龙配置页面 | 1.在输入框中输入较长内容 2.观察输入框文字显示 | 输入框内容不换行，文字完整可见；超长内容有适当截断或滚动 |
+| TC-EC-IDIOM-005 | 成语接龙-教师评价标准删除按钮 | P1 | 教师已登录，成语接龙配置页面有多个评价标准 | 1.点击第一个评价标准的删除按钮 2.观察删除结果 | 删除按钮正常响应；对应评价标准被删除 |
+| TC-EC-IDIOM-006 | 成语接龙-学生开始游戏输入成语 | P0 | 学生已登录，进入成语接龙实验 | 1.点击开始游戏 2.输入符合接龙规则的成语 3.点击提交 | 正确成语提交成功；游戏继续进行；成语结果正常显示 |
+| TC-EC-IDIOM-007 | 成语接龙-学生无法提交成语结果 | P0 | 学生已登录，正在进行成语接龙游戏 | 1.完成成语输入 2.点击提交结果 3.观察提交状态 | 提交成功，游戏进度更新；不出现提交失败或阻塞情况 |
+| TC-EC-IDIOM-008 | 成语接龙-语音输入成语功能 | P1 | 学生已登录，进入成语接龙实验，点击语音输入 | 1.点击语音输入按钮 2.说出正确的成语 3.观察识别结果 4.多次尝试不同成语 | 语音识别准确率可接受；识别结果正确填入输入框；不出现语音不识别的情况 |
+| TC-EC-IDIOM-009 | 成语接龙-非中文语言环境下展示策略 | P1 | 语言切换为English | 1.切换到英文环境 2.进入成语接龙实验 3.查看界面展示 | 成语接龙在非中文环境下有合理的展示策略（保留中文或给出提示） |
+
+
+
+| 编号 | 测试场景 | 优先级 | 前置条件 | 测试步骤 | 预期结果 |
+|------|---------|--------|---------|---------|---------|
+
+| TC-EC-QUIZ-QT-010 | 课堂小测试-添加问答题（含参考答案） | P0 | 教师已登录，进入课堂小测试配置模式，点击添加题目，选择问答题类型 | 1.题目被添加到课堂小测试内容列表中 2.查看题目展示：题目类型标签显示为问答题 3.查看默认分值显示 4.在题目内容输入框中输入题目文字 5.在参考答案输入框中输入参考答案内容 6.设置知识点标签 7.输入题目解析 8.点击保存 9.切换到实验预览查看 | 题目列表中新增一条问答题；题目类型标签显示问答题；分值默认为10分；题目内容为必填项显示必填标识；参考答案为可选填项；知识点标签正确保存；题目解析正确保存；实验预览中展示题目内容和作答区域，提交后可查看参考答案和解析 |
+| TC-EC-QUIZ-QT-011 | 课堂小测试-添加问答题（不含参考答案） | P0 | 教师已登录，进入课堂小测试配置模式，点击添加题目，选择问答题类型 | 1.在题目内容输入框中输入题目文字（必填） 2.参考答案留空不填 3.设置分值 4.点击保存 5.切换到实验预览查看 | 题目保存成功；实验预览中展示题目内容，学生可作答；提交后不显示参考答案区域；教师端参考答案为空 |
+| TC-EC-QUIZ-QT-012 | 课堂小测试-问答题参考答案字数限制 | P1 | 教师已登录，进入课堂小测试配置模式，已添加问答题 | 1.在参考答案输入框中查看字数上限提示 2.输入0验证无限制 3.输入2000个字符验证上限 4.尝试输入超过2000个字符 5.查看字数统计展示 | 字数上限默认为0表示无限制；设置为0时输入不限制字数；设置上限为2000时超过2000个字符无法输入或给出提示；输入框旁显示当前字数/上限字数统计 |
+| TC-EC-QUIZ-QT-013 | 课堂小测试-问答题设置知识点 | P2 | 教师已登录，进入课堂小测试配置模式，已添加问答题 | 1.在知识点输入框中输入单个知识点标签 2.按回车确认添加 3.继续添加多个知识点 4.点击知识点标签的删除按钮移除 5.保存题目 6.重新编辑查看知识点 | 知识点支持添加多个标签；回车确认添加；每个标签可单独删除；保存后知识点正确回显 |
+| TC-EC-QUIZ-QT-014 | 课堂小测试-问答题设置题目解析 | P1 | 教师已登录，进入课堂小测试配置模式，已添加问答题 | 1.在题目解析输入框中输入解析内容 2.点击保存 3.切换到实验预览 4.提交答卷后查看解析展示 | 题目解析正确保存；实验预览中提交答卷后可查看题目解析；解析内容在提交后展示给学生 |
+
+| TC-EC-QUIZ-QT-015 | 课堂小测试-添加选择题（单选+纵向排列） | P0 | 教师已登录，进入课堂小测试配置模式，点击添加题目，选择选择题类型 | 1.题目被添加到课堂小测试内容列表 2.查看题型默认为单选 3.查看选项布局默认为纵向排列 4.查看默认选项数量为4个 5.查看分值默认为10分 6.在题目内容中输入题目文字 7.为每个选项输入文字内容 8.标记正确答案（单选标记1个） 9.设置知识点和题目解析 10.保存题目 11.切换到实验预览查看 | 题型默认选中单选；选项布局默认选中纵向排列；默认展示4个选项输入框；选项以纵向列表形式排列展示；正确答案标记为单选按钮样式；实验预览中学生看到圆形单选按钮，选一个提交 |
+| TC-EC-QUIZ-QT-016 | 课堂小测试-添加选择题（多选+横向排列） | P0 | 教师已登录，进入课堂小测试配置模式，点击添加题目，选择选择题类型 | 1.选择题型为多选 2.选择选项布局为横向排列 3.输入题目内容和选项文字 4.标记多个正确答案 5.保存题目 6.切换到实验预览查看 | 题型切换为多选后正确答案可标记多个；选项布局切换为横向排列后选项横向展示；实验预览中学生看到方形复选框，可勾选多个答案提交 |
+| TC-EC-QUIZ-QT-017 | 课堂小测试-选择题选项数量增减 | P1 | 教师已登录，进入课堂小测试配置模式，已添加选择题 | 1.查看默认4个选项 2.点击添加选项增加第5个选项 3.点击删除按钮删除一个选项（保留最少2个） 4.尝试删除到只剩1个选项 5.保存题目 | 默认4个选项；添加选项后选项列表增加一项；删除选项后选项列表减少一项；最少保留2个选项，只剩2个时删除按钮置灰或隐藏；选项顺序可调整 |
+| TC-EC-QUIZ-QT-018 | 课堂小测试-选择题正确答案标记验证 | P1 | 教师已登录，进入课堂小测试配置模式，已添加选择题 | 1.在单选模式下尝试标记多个正确答案 2.在多选模式下标记多个正确答案 3.不标记任何正确答案直接保存 4.保存后切换到实验预览提交答案验证判题 | 单选模式只能标记一个正确答案，点击另一个自动取消前一个；多选模式可标记多个正确答案；不标记正确答案时保存给出提示；判题按标记的正确答案进行 |
+
+| TC-EC-QUIZ-QT-019 | 课堂小测试-选择题编辑已有选项内容 | P1 | 教师已登录，已保存一道选择题，重新进入编辑 | 1.点击选择题的编辑按钮 2.修改题目内容文字 3.修改某个选项的文字内容 4.切换正确答案标记 5.修改分值 6.保存题目 7.切换到实验预览验证 | 修改后题目内容正确更新；选项文字正确更新；正确答案标记更新后判题规则同步变化；分值更新后显示新分值 |
+| TC-EC-QUIZ-QT-020 | 课堂小测试-选择题最少2个选项边界验证 | P2 | 教师已登录，已添加一道有4个选项的选择题 | 1.删除选项至只剩2个 2.观察删除按钮状态 3.保存题目 4.切换到实验预览查看 | 只剩2个选项时删除按钮不可用；2个选项的选择题可正常保存；实验预览中正确展示2个选项 |
+| TC-EC-QUIZ-QT-021 | 课堂小测试-选择题选项文字超长展示 | P2 | 教师已登录，已添加一道选择题 | 1.在某个选项中输入超长文字（超过100字） 2.保存题目 3.切换到实验预览查看选项展示效果 | 超长选项文字在编辑模式中可完整查看；实验预览中选项文字不超出容器或适当截断；不影响选项的点击区域 |
+| TC-EC-QUIZ-QT-022 | 课堂小测试-选择题题型切换（单选→多选→单选） | P1 | 教师已登录，已添加一道单选题并标记了1个正确答案 | 1.将题型从单选切换为多选 2.再标记一个正确答案 3.保存题目 4.将题型从多选切换回单选 5.观察正确答案标记状态 6.保存题目 | 单选切多选后已标记的正确答案保留；多选切回单选时若标记了多个正确答案则提示只能保留一个；切换后正确答案标记正确更新 |
+
+| TC-EC-QUIZ-QT-023 | 课堂小测试-填空题设置填空位置与答案 | P0 | 教师已登录，进入课堂小测试配置模式，点击添加题目，选择填空题类型 | 1.题目类型标签显示为填空题 2.分值默认为10分 3.在题目内容中输入包含填空标记的文本 4.系统自动识别填空位置 5.为每个填空位置设置正确答案 6.设置知识点和题目解析 7.保存题目 8.切换到实验预览查看 | 填空位置在编辑模式中以特殊标记显示；每个填空位置对应一个答案输入框；实验预览中填空位置显示为输入框供学生填写；多个填空位置按顺序排列 |
+| TC-EC-QUIZ-QT-024 | 课堂小测试-填空题多个填空位置 | P1 | 教师已登录，已添加一道填空题 | 1.在题目内容中设置3个填空位置 2.为每个填空设置不同的正确答案 3.设置每空分值或统一分值 4.保存题目 5.切换到实验预览 6.填写部分答案提交 7.查看判题结果 | 每个填空位置独立展示输入框；每空可设置不同分值或统一分值；提交后按每空分别判题；部分正确时给出部分得分 |
+| TC-EC-QUIZ-QT-025 | 课堂小测试-列表填空题列表项管理 | P0 | 教师已登录，进入课堂小测试配置模式，点击添加题目，选择列表填空题类型 | 1.题目类型标签显示为列表填空题 2.分值默认为10分 3.查看默认列表项数量 4.添加新的列表项 5.为每个列表项的填空设置答案 6.删除某个列表项 7.保存题目 8.切换到实验预览查看 | 列表填空题正确添加到题目列表中；默认包含初始列表项；可添加/删除列表项；每个列表项包含文本描述和一个填空输入框；实验预览中列表项以序号排列展示 |
+| TC-EC-QUIZ-QT-026 | 课堂小测试-表格填空题行列配置 | P0 | 教师已登录，进入课堂小测试配置模式，点击添加题目，选择表格填空题类型 | 1.题目类型标签显示为表格填空题 2.设置表格行数（如4行）和列数（如3列） 3.输入表头标题 4.在指定单元格标记为填空 5.为每个填空单元格设置正确答案 6.保存题目 7.切换到实验预览查看 | 表格以设置的行列数正确展示；填空单元格显示为输入框；非填空单元格显示为普通文本；实验预览中表格展示清晰，学生可在填空单元格中输入答案 |
+| TC-EC-QUIZ-QT-027 | 课堂小测试-表格选择题单元格选项配置 | P0 | 教师已登录，进入课堂小测试配置模式，点击添加题目，选择表格选择题类型 | 1.题目类型标签显示为表格选择题 2.设置表格行列数 3.输入表头内容 4.为指定单元格添加选项列表 5.设置每个单元格的正确答案 6.保存题目 7.切换到实验预览查看 | 表格正确展示行列结构；需要选择的单元格显示为下拉选择框；每个单元格可独立设置不同选项；实验预览中学生可在各单元格下拉选择答案 |
+| TC-EC-QUIZ-QT-028 | 课堂小测试-排序题项目增删与排序 | P0 | 教师已登录，进入课堂小测试配置模式，点击添加题目，选择排序题类型 | 1.题目类型标签显示为排序题 2.分值默认为10分 3.添加排序项目（默认3项） 4.设置正确排序顺序 5.增加排序项目 6.删除某个排序项目 7.保存题目 8.切换到实验预览查看 | 排序项目可添加/删除最少3项；正确顺序在教师端标记；实验预览中项目以乱序展示；学生可通过拖拽调整项目顺序；提交后按正确顺序判题 |
+| TC-EC-QUIZ-QT-029 | 课堂小测试-选项填空题选项列表配置 | P0 | 教师已登录，进入课堂小测试配置模式，点击添加题目，选择选项填空题类型 | 1.题目类型标签显示为选项填空题 2.分值默认为10分 3.在题目内容中标记填空位置 4.为每个填空设置可选选项列表 5.为每个填空设置正确答案 6.保存题目 7.切换到实验预览查看 | 填空位置显示为下拉选择框；每个下拉框包含教师预设的选项；不同填空位置可设置不同选项列表；学生从下拉框中选择答案 |
+| TC-EC-QUIZ-QT-030 | 课堂小测试-连线题配对关系配置 | P0 | 教师已登录，进入课堂小测试配置模式，点击添加题目，选择连线题类型 | 1.题目类型标签显示为连线题 2.分值默认为10分 3.添加左侧项目（至少3项） 4.添加右侧项目（至少3项） 5.设置正确的连线配对关系 6.增加/删除项目 7.保存题目 8.切换到实验预览查看 | 左右两侧项目分列展示；左侧顺序固定右侧随机打乱；学生点击左侧再点击右侧完成连线；已连线显示连线效果；支持取消已连线重新匹配 |
+
+| TC-EC-QUIZ-QT-031 | 课堂小测试-填空题答案格式校验 | P1 | 教师已登录，已添加一道填空题 | 1.在填空答案中设置数值型答案 2.设置答案匹配规则（精确匹配/模糊匹配） 3.输入特殊字符作为答案 4.保存题目 5.切换到实验预览测试不同答案的判题 | 支持精确匹配和模糊匹配两种模式；精确匹配模式下答案完全一致才得分；模糊匹配模式下大小写、空格差异可忽略；特殊字符答案正确保存和匹配 |
+| TC-EC-QUIZ-QT-032 | 课堂小测试-排序题拖拽交互验证 | P1 | 学生已登录，进入包含排序题的实验 | 1.查看排序项目默认展示顺序 2.拖拽某个项目到新位置 3.观察拖拽过程中的视觉反馈 4.释放项目确认位置 5.继续调整其他项目 6.提交排序结果 | 拖拽时有视觉反馈（项目高亮或阴影）；释放后项目在新位置稳定显示；其他项目自动调整位置；支持多次拖拽调整；提交后按最终顺序判题 |
+| TC-EC-QUIZ-QT-033 | 课堂小测试-连线题视觉反馈与取消重连 | P1 | 学生已登录，进入包含连线题的实验 | 1.点击左侧一个项目观察选中状态 2.点击右侧一个项目完成连线 3.观察连线视觉效果 4.点击已连线的左侧项目 5.重新选择右侧项目完成重连 6.所有项目连线完成后提交 | 左侧项目被选中时有高亮选中状态；连线显示为连接线或配对标记；点击已连线项目可取消连线重新匹配；连线视觉效果清晰区分已连和未连；提交后按配对关系判题 |
+| TC-EC-QUIZ-QT-034 | 课堂小测试-表格填空题行列动态编辑 | P2 | 教师已登录，已添加一道表格填空题 | 1.修改表格行数从4行改为6行 2.修改表格列数从3列改为4列 3.观察已有填空单元格的保留情况 4.新增的单元格中标记填空 5.保存题目 6.切换到实验预览验证 | 增加行列后已有填空单元格保留；减少行列时若删除的单元格包含填空则给出提示；新增单元格可正常标记填空；实验预览中表格行列正确展示 |
+| TC-EC-QUIZ-QT-035 | 课堂小测试-表格选择题批量设置选项 | P2 | 教师已登录，已添加一道表格选择题（4行3列） | 1.为某一列所有单元格批量设置相同选项 2.为某个单元格单独设置不同选项 3.检查批量设置后独立设置是否被覆盖 4.保存题目 5.切换到实验预览验证 | 支持批量设置整列选项；批量设置不影响已独立设置的单元格；批量设置和独立设置可共存；实验预览中各单元格选项正确展示 |
+
+| TC-EC-QUIZ-QT-036 | 课堂小测试-题目删除功能 | P1 | 教师已登录，已添加多道题目到课堂小测试 | 1.在题目列表中找到某道题目 2.点击该题目的删除按钮 3.确认删除 4.观察题目列表变化 5.取消删除操作 6.切换到实验预览验证 | 点击删除弹出确认提示；确认后题目从列表中移除；取消后题目保留；删除后实验预览中不展示该题目；题目序号自动重新排列 |
+| TC-EC-QUIZ-QT-037 | 课堂小测试-题目顺序拖拽调整 | P1 | 教师已登录，已添加多道题目到课堂小测试 | 1.在题目列表中拖拽某道题目到新位置 2.观察拖拽过程中其他题目的位置变化 3.释放确认新位置 4.保存后刷新页面 5.切换到实验预览验证顺序 | 题目可拖拽调整顺序；拖拽过程中有占位符指示目标位置；释放后题目在新位置展示；保存后顺序持久化；实验预览中题目按新顺序展示 |
+| TC-EC-QUIZ-QT-038 | 课堂小测试-学生逐题作答流程 | P0 | 学生已登录，进入包含课堂小测试的实验 | 1.查看第一道题目 2.输入答案 3.点击下一题 4.继续作答 5.查看题目完成进度 6.返回修改前面题目的答案 7.完成所有题目 | 逐题展示模式下每次展示一道题；点击下一题切换到下一道；进度指示显示当前题号/总题数；可返回修改已答题目的答案；所有题目完成后显示提交按钮 |
+| TC-EC-QUIZ-QT-039 | 课堂小测试-学生提交答卷与查看结果 | P0 | 学生已登录，已完成所有题目作答 | 1.点击提交答卷按钮 2.确认提交 3.查看提交状态 4.查看得分和判题结果 5.查看答案和解析（如教师开启） | 提交前弹出确认提示；提交后显示提交成功状态；得分按每题分值汇总计算；教师开启答案解析时提交后展示答案和解析；未开启时仅展示得分 |
+| TC-EC-QUIZ-QT-040 | 课堂小测试-学生未作答题目提交限制 | P1 | 学生已登录，部分题目未作答 | 1.完成部分题目作答 2.跳过某些题目不填 3.点击提交答卷 4.观察提交行为 | 未作答题目在提交时给出提示；可选择继续提交或返回作答；继续提交则未答题计0分；提交后未答题目标记为未作答状态 |
+| TC-EC-QUIZ-QT-041 | 课堂小测试-题目分值汇总验证 | P1 | 教师已配置多道题目，每题不同分值 | 1.配置题目1分值为5分 2.题目2分值为10分 3.题目3分值为15分 4.切换到实验预览 5.查看每题分值显示 6.学生提交后查看总分计算 | 每题分值在实验预览中正确显示；总分=各题得分之和；答对得分答错0分；部分答对按规则给分；总分计算无误差 |
+
+| TC-EC-QUIZ-QT-042 | 课堂小测试-学生答案必填校验 | P1 | 学生已登录，进入课堂小测试，题目内容为必填 | 1.不填写任何答案 2.直接点击下一题 3.不填写任何答案点击提交 4.观察提示信息 | 必填题目未作答时给出提示；允许跳过但提交时汇总显示未答题数量；未答题目在题目列表中标记为未完成状态 |
+| TC-EC-QUIZ-QT-043 | 课堂小测试-学生答题进度保存与恢复 | P1 | 学生已登录，已作答部分题目但未提交 | 1.完成前3道题目作答 2.关闭实验页面 3.重新进入实验 4.查看之前作答的内容 5.继续完成剩余题目 | 已作答内容自动保存；重新进入后恢复之前的答案；未作答题目保持空白状态；进度指示恢复为上次离开时的状态 |
+| TC-EC-QUIZ-QT-044 | 课堂小测试-教师复制题目 | P1 | 教师已登录，已添加一道选择题 | 1.点击题目的复制按钮 2.查看复制出的新题目 3.修改复制题目的内容和答案 4.验证原题目未被修改 5.保存题目 | 复制后生成一道相同类型和内容的新题目；复制题目在原题目下方展示；修改复制题目不影响原题目；复制题目的分值、选项、答案与原题目一致 |
+| TC-EC-QUIZ-QT-045 | 课堂小测试-教师以学生视角预览 | P1 | 教师已登录，已配置多道题目 | 1.在配置模式中点击学生视角预览 2.查看题目展示效果 3.尝试作答 4.提交答卷查看判题 5.返回编辑模式 | 学生视角预览展示学生实际看到的界面；教师可模拟学生作答；提交后展示判题结果但不保存成绩；预览中不展示答案和解析（除非配置开启）；可随时返回编辑模式 |
+| TC-EC-QUIZ-QT-046 | 课堂小测试-批量操作题目删除 | P2 | 教师已登录，已添加多道题目 | 1.勾选多道题目的复选框 2.点击批量删除按钮 3.确认删除 4.观察题目列表变化 | 支持多选题目进行批量操作；批量删除前弹出确认提示显示删除数量；确认后所有选中题目被删除；未选中的题目保持不变 |
+
+| TC-EC-QUIZ-QT-047 | 课堂小测试-学生答题过程中网络中断恢复 | P1 | 学生已登录，正在课堂小测试中作答 | 1.作答前3道题目 2.断开网络连接 3.继续作答第4道题目 4.点击下一题或保存 5.恢复网络连接 6.重新提交答卷 | 网络中断时自动保存已作答内容到本地；断网时提示网络异常但允许继续作答；恢复网络后自动同步本地保存的答案；不丢失已作答的数据 |
+| TC-EC-QUIZ-QT-048 | 课堂小测试-教师搜索与筛选题目 | P2 | 教师已登录，已添加大量题目（20道以上） | 1.在题目搜索框中输入关键词 2.观察题目列表筛选结果 3.按题目类型筛选 4.清空搜索条件 5.按分值范围筛选 | 搜索关键词模糊匹配题目内容；按题目类型筛选正确；清空搜索恢复全部题目展示；筛选结果实时更新；无匹配结果时展示空状态提示 |
+| TC-EC-QUIZ-QT-049 | 课堂小测试-移动端/平板题目展示适配 | P2 | 学生使用平板或手机进入课堂小测试 | 1.在iPad上打开实验 2.查看题目展示效果 3.在手机上打开实验 4.操作选择题和填空题 5.拖拽排序题操作 6.表格题横向滚动 | 移动端题目内容自适应屏幕宽度；选项按钮大小适合手指点击；表格题在窄屏可横向滚动；排序题拖拽支持触摸手势；连线题在移动端可用点击替代拖拽 |
+| TC-EC-QUIZ-QT-050 | 课堂小测试-键盘快捷操作 | P2 | 教师已登录，正在编辑课堂小测试 | 1.使用Tab键切换输入框 2.使用Enter键确认添加选项 3.使用Ctrl+S保存题目 4.使用Delete键删除选中题目 5.使用Ctrl+C/V复制粘贴题目内容 | Tab键按顺序切换输入焦点；Enter键在选项输入框中添加新选项；Ctrl+S触发保存操作；Delete键删除选中的题目或选项；Ctrl+C/V正常复制粘贴文字内容 |
+| TC-EC-QUIZ-QT-051 | 课堂小测试-已提交答卷不可修改 | P1 | 学生已登录，已完成并提交课堂小测试答卷 | 1.提交答卷后返回实验 2.尝试修改之前的答案 3.尝试重新提交 4.查看答卷状态 | 提交后答卷进入只读状态不可修改；题目显示已提交的答案内容；提交按钮变为已提交不可点击状态；如教师配置允许查看答案则展示答案和解析 |
+`;
+var EMBED_BUGS = ``;
+// Auto-detect server: use same origin as page, fallback to localhost
+var SERVER = (function(){
+  if(window.location.port==='8765') return window.location.origin;
+  return 'http://localhost:8765';
+})();
+var API = SERVER + '/api';
+var GITHUB_ISSUES_API = 'https://api.github.com/repos/sun403806957/sunsun/issues?state=all&per_page=100';
+var testCases=[],execData={},rounds=1,execMode=false;
+var serverOn=false;
+
+function $(id){return document.getElementById(id)}
+
+async function init(){
+  try{var s=JSON.parse(localStorage.getItem('ulab-exec')||'{}');execData=s.results||{};rounds=s.rounds||1;execMode=localStorage.getItem('ulab-mode')==='exec'}catch(e){}
+  parseTC(EMBED_TC);$('sv').textContent='📁 离线';
+  // Try fetching fresh test cases from server
+  var c=new AbortController(),t=setTimeout(function(){c.abort()},2000);
+  try{var r=await fetch(API+'/test-cases',{signal:c.signal});clearTimeout(t);
+    if(r.ok){serverOn=true;var j=await r.json();parseTC(j.content||'');$('sv').textContent='🟢 在线'}}catch(e){clearTimeout(t)}
+  // Fetch bugs from GitHub Issues API (public repo, no auth needed)
+  try{var br=await fetch(GITHUB_ISSUES_API);if(br.ok){var bj=await br.json();parseGHIssues(bj||[]);$('sv').textContent='🟢 在线'}}catch(e){}
+  renderAll();
+  if(execMode){document.body.classList.add('em');$('rs').value=rounds;$('mt').children[0].classList.remove('ac');$('mt').children[1].classList.add('ac');buildExec();updateProgress()}
+}
+
+function parseTC(md){
+  testCases=[];
+  var cm='',cs='';
+  var lines=md.split('\n');
+  for(var i=0;i<lines.length;i++){
+    var l=lines[i].trim();
+    if(l.startsWith('## ')&&l.indexOf('### ')!==0){cm=l.replace('## ','').replace(/\(.*?\)/,'').trim()}
+    else if(l.startsWith('### ')){cs=l.replace('### ','').trim()}
+    else if(l.startsWith('| TC-')){
+      var cols=l.split('|').map(function(x){return x.trim()}).filter(function(x){return x});
+      if(cols.length>=6&&cols[0]!=='编号')testCases.push({id:cols[0],scenario:cols[1],priority:cols[2],precond:cols[3],steps:cols[4],expected:cols[5],module:cm,section:cs})
+    }
+  }
+}
+function parseBugs(md){
+  // Legacy - bugs now come from GitHub Issues API
+}
+function parseGHIssues(issues){
+  issues.forEach(function(iss){
+    var cat = (iss.labels||[])[0]||'';
+    var id = 'BUG-' + iss.number;
+    var bg = {
+      id: id,
+      title: iss.title,
+      desc: (iss.body||'').split('\n')[0].substring(0,200),
+      severity: 'major',
+      status: iss.state,
+      createdAt: iss.created_at,
+      html_url: iss.html_url,
+      category: cat,
+      number: iss.number
+    };
+    execData[id] = {bug: bg, result: 'fail'};
+  });
+}
+
+function renderAll(){
+  // Sidebar
+  var mods={};
+  testCases.forEach(function(tc){
+    if(!mods[tc.module])mods[tc.module]=[];
+    if(!mods[tc.module].some(function(s){return s.name===tc.section}))mods[tc.module].push({name:tc.section,id:'s-'+tc.section.replace(/[^a-zA-Z0-9\u4e00-\u9fff]/g,'-')})
+  });
+  var nh='';
+  for(var m in mods){
+    var isT=m.indexOf('教师')>=0;
+    nh+='<div class="ng">'+m+'</div>';
+    mods[m].forEach(function(s){nh+='<a href="#'+s.id+'"><span class="dt '+(isT?'t':'s')+'"></span>'+s.name+'</a>'})
+  }
+  $('nav').innerHTML=nh;
+
+  // Content
+  var gs={};
+  testCases.forEach(function(tc){var k=tc.module+'|||'+tc.section;if(!gs[k])gs[k]={module:tc.module,section:tc.section,cases:[]};gs[k].cases.push(tc)});
+  var h='',lm='';
+  for(var k in gs){
+    var g=gs[k];
+    if(g.module!==lm){if(lm)h+='</div>';var isT=g.module.indexOf('教师')>=0;h+='<div class="sc"><h2>'+g.module+' <span class="badge '+(isT?'t':'s')+'">'+(isT?'Teacher':'Student')+'</span></h2><div class="desc">'+(isT?'教师负责创建和管理教学实验、克隆实验、编排云端实验室内容。':'学生通过LMS进入实验进行操作，完成交互任务、编程项目等。')+'</div>';lm=g.module}
+    var sid='s-'+g.section.replace(/[^a-zA-Z0-9\u4e00-\u9fff]/g,'-');
+    h+='<div class="fg" id="'+sid+'"><h3>'+g.section+' ('+g.cases.length+'条)</h3><div class="tw"><table><thead><tr><th style="width:90px">编号</th><th>测试场景</th><th style="width:60px">优先级</th><th>前置条件</th><th>测试步骤</th><th>预期结果</th></tr></thead><tbody>';
+    g.cases.forEach(function(tc){h+='<tr data-tc="'+tc.id+'"><td class="id">'+tc.id+'</td><td class="sc-t">'+tc.scenario+'</td><td><span class="pri '+tc.priority.toLowerCase()+'">'+tc.priority+'</span></td><td>'+tc.precond+'</td><td>'+tc.steps+'</td><td>'+tc.expected+'</td></tr>'});
+    h+='</tbody></table></div></div>'
+  }
+  h+='</div>';
+  $('content').innerHTML=h;
+
+  // Stats
+  var tc=testCases.filter(function(x){return x.module.indexOf('教师')>=0}).length;
+  var sc=testCases.filter(function(x){return x.module.indexOf('学生')>=0}).length;
+  $('stats').innerHTML='<div class="n">'+testCases.length+'</div><div class="l">用例总数</div><div style="display:flex;justify-content:space-around;margin-top:4px"><div><span class="n" style="color:var(--t);font-size:18px">'+tc+'</span><span class="l">教师</span></div><div><span class="n" style="color:var(--s);font-size:18px">'+sc+'</span><span class="l">学生</span></div></div>';
+
+  renderBugList();
+  renderRps();
+}
+
+// ---- EXECUTION MODE ----
+window.toggleMode=function(){
+  execMode=!execMode;
+  if(execMode){
+    document.body.classList.add('em');
+    $('rs').value=rounds;
+    $('mt').children[0].classList.remove('ac');
+    $('mt').children[1].classList.add('ac');
+    buildExec();updateProgress();
+  }else{
+    document.body.classList.remove('em');
+    $('mt').children[0].classList.add('ac');
+    $('mt').children[1].classList.remove('ac');
+    removeExec();
+  }
+  saveExec();
+}
+
+function buildExec(){
+  if(!execMode)return;
+  // Add header columns
+  var theads=document.querySelectorAll('thead tr');
+  for(var i=0;i<theads.length;i++){
+    var tr=theads[i];
+    var ecs=tr.querySelectorAll('th.ec,th.rc');
+    for(var j=0;j<ecs.length;j++)ecs[j].remove();
+    for(var r=1;r<=rounds;r++){var th=document.createElement('th');th.className='ec';th.textContent='R'+r;tr.appendChild(th)}
+    var th=document.createElement('th');th.className='rc';th.textContent='结果';tr.appendChild(th)
+  }
+  // Add body columns
+  var rows=document.querySelectorAll('tbody tr[data-tc]');
+  for(var i=0;i<rows.length;i++){
+    (function(row){
+      var tcId=row.dataset.tc;
+      var ecs=row.querySelectorAll('td.ec,td.rc');
+      for(var j=0;j<ecs.length;j++)ecs[j].remove();
+      var d=execData[tcId]||{};
+      for(var r=1;r<=rounds;r++){
+        var td=document.createElement('td');td.className='ec';
+        td.innerHTML='<input type="checkbox" data-tc="'+tcId+'" data-r="'+r+'"'+(d['r'+r]?' checked':'')+' onchange="onCheck(this)">';
+        row.appendChild(td)
+      }
+      var td=document.createElement('td');td.className='rc';
+      var cr=d.result||'';
+      var ops=[['','未标记'],['pass','✅通过'],['fail','❌失败'],['blocked','⊘阻塞'],['skip','→跳过']];
+      var s='<select data-tc="'+tcId+'" onchange="onResult(this)">';
+      ops.forEach(function(o){s+='<option value="'+o[0]+'"'+(cr===o[0]?' selected':'')+'>'+o[1]+'</option>'});
+      s+='</select>';
+      var hb=d.bug&&d.bug.title;
+      s+='<button class="bbtn'+(hb?' hb':'')+'" style="display:'+(cr==='fail'?'':'none')+'" onclick="event.stopPropagation();openBug(\''+tcId+'\')">🐛</button>';
+      if(hb){var st=d.bug.status||'open',lb={open:'打开',fixing:'修复中',fixed:'已修复',verified:'已验证',closed:'已关闭'};s+='<span class="bb '+st+'">'+(lb[st]||'')+'</span>'}
+      td.innerHTML=s;row.appendChild(td);
+      setRowClass(row,cr)
+    })(rows[i])
+  }
+}
+
+function removeExec(){
+  var ecs=document.querySelectorAll('th.ec,th.rc,td.ec,td.rc');
+  for(var i=0;i<ecs.length;i++)ecs[i].remove();
+  var rows=document.querySelectorAll('tr[data-tc]');
+  for(var i=0;i<rows.length;i++)rows[i].className=''
+}
+
+function setRowClass(row,r){
+  row.classList.remove('rp','rf','rb','rs');
+  if(r==='pass')row.classList.add('rp');
+  else if(r==='fail')row.classList.add('rf');
+  else if(r==='blocked')row.classList.add('rb');
+  else if(r==='skip')row.classList.add('rs')
+}
+
+window.onCheck=function(cb){if(!execData[cb.dataset.tc])execData[cb.dataset.tc]={};execData[cb.dataset.tc]['r'+cb.dataset.r]=cb.checked;saveExec();updateProgress()}
+window.onResult=function(sel){
+  if(!execData[sel.dataset.tc])execData[sel.dataset.tc]={};
+  execData[sel.dataset.tc].result=sel.value;
+  var row=document.querySelector('tr[data-tc="'+sel.dataset.tc+'"]');
+  if(row){setRowClass(row,sel.value);var bb=row.querySelector('.bbtn');if(bb)bb.style.display=sel.value==='fail'?'':'none'}
+  if(sel.value!=='fail'&&execData[sel.dataset.tc].bug){delete execData[sel.dataset.tc].bug;removeExec();buildExec()}
+  saveExec();updateProgress()
+}
+window.onRoundsChange=function(){rounds=parseInt($('rs').value);removeExec();buildExec();saveExec();updateProgress()}
+
+function updateProgress(){
+  var rows=document.querySelectorAll('tr[data-tc]');
+  var t=rows.length*rounds,c=0,p=0,f=0,bg=0;
+  for(var i=0;i<rows.length;i++){
+    var d=execData[rows[i].dataset.tc]||{};
+    for(var r=1;r<=rounds;r++)if(d['r'+r])c++;
+    if(d.result==='pass')p++;else if(d.result==='fail')f++;
+    if(d.bug&&d.bug.title)bg++
+  }
+  var pct=t>0?Math.round(c/t*100):0;
+  $('pf').style.width=pct+'%';$('pt').textContent=c+'/'+t;
+  $('xp').textContent=c+'/'+t;$('xpa').textContent=p;$('xfa').textContent=f;$('xbg').textContent=bg
+}
+
+function saveExec(){localStorage.setItem('ulab-exec',JSON.stringify({rounds:rounds,results:execData}));localStorage.setItem('ulab-mode',execMode?'exec':'view')}
+window.clearExec=function(){if(!confirm('确定清除所有执行记录？'))return;execData={};localStorage.removeItem('ulab-exec');removeExec();buildExec();saveExec();updateProgress()}
+
+// ---- BUG MANAGEMENT (read-only from GitHub Issues) ----
+window.openBug=function(tcId){
+  var bg=(execData[tcId]||{}).bug;
+  if(bg&&bg.html_url) window.open(bg.html_url, '_blank');
+}
+
+function allBugs(){
+  var a=[];
+  for(var id in execData){var d=execData[id];if(d.bug&&d.bug.title)a.push({tcId:id,title:d.bug.title,desc:d.bug.desc,severity:d.bug.severity,status:d.bug.status,createdAt:d.bug.createdAt,attachments:d.bug.attachments})}
+  return a
+}
+
+window.renderBugList=function(){
+  var all=allBugs();
+  var sf=$('bfs').value,stf=$('bfst').value;
+  if(sf!=='all')all=all.filter(function(b){return b.category===sf});
+  if(stf!=='all')all=all.filter(function(b){return b.status===stf});
+  var total=allBugs().length;
+  $('bmc').textContent=total>0?'（'+total+'个）':'';
+  var tb=$('blb');
+  if(!all.length){tb.innerHTML='<tr class="em"><td colspan="5">'+(total>0?'没有匹配的Bug':'加载中...')+'</td></tr>';return}
+  all.sort(function(a,b){return (b.number||0)-(a.number||0)});
+  tb.innerHTML=all.map(function(b){
+    var t=b.createdAt?new Date(b.createdAt).toLocaleString('zh-CN',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}):'-';
+    var catLabel = b.category||'';
+    var statusLabel = b.status==='open'?'打开':'已关闭';
+    var statusClass = b.status==='open'?'op':'cl';
+    return'<tr><td style="font-family:monospace;font-size:11px;color:var(--p)">#'+b.number+'</td><td><a href="'+b.html_url+'" target="_blank" style="color:var(--p);text-decoration:none">'+b.title+'</a></td><td><span class="sb-b '+(b.severity||'mn')+'">'+catLabel+'</span></td><td><span class="bb '+statusClass+'">'+statusLabel+'</span></td><td style="font-size:11px;color:var(--mu)">'+t+'</td></tr>'
+  }).join('')
+}
+
+// ---- PREVIEW ----
+window.closePv=function(){$('po').classList.remove('sh')}
+
+// ---- SYNC ----
+window.handleMDDrop=function(e){
+  e.preventDefault();
+  var files=e.dataTransfer.files;
+  for(var i=0;i<files.length;i++){
+    var f=files[i];
+    if(!f.name.endsWith('.md'))continue;
+    var reader=new FileReader();
+    reader.onload=function(ev){
+      if(f.name.includes('test-cases')||f.name.includes('用例')){
+        parseTC(ev.target.result);renderAll();
+        showToast('✅ 已加载 test-cases.md ('+testCases.length+'条)')
+      }else if(f.name.includes('bug')||f.name.includes('Bug')){
+        parseBugs(ev.target.result);renderBugList();
+        showToast('✅ 已加载 bugs.md ('+allBugs().length+'个Bug)')
+      }
+    };
+    reader.readAsText(f)
+  }
+};
+
+// ---- REPORT ----
+window.genReport=function(){
+  var allBgs=allBugs(),rows=document.querySelectorAll('tr[data-tc]');
+  var st={total:rows.length,pass:0,fail:0,blocked:0,skip:0,unmarked:0};
+  var det=[];
+  for(var i=0;i<rows.length;i++){var d=execData[rows[i].dataset.tc]||{},r=d.result||'';st[r||'unmarked']++;det.push({id:rows[i].dataset.tc,scenario:(rows[i].querySelector('.sc-t')||{}).textContent||'',priority:(rows[i].querySelector('.pri')||{}).textContent||'-',result:r})}
+  var pr=st.total>0?Math.round((st.pass+st.skip)/st.total*100):0,now=new Date().toLocaleString('zh-CN');
+  var h='<div class="rsm">';
+  h+='<div class="rc-card"><div class="cn" style="color:var(--p)">'+st.total+'</div><div class="cl">总数</div></div>';
+  h+='<div class="rc-card"><div class="cn" style="color:#198754">'+st.pass+'</div><div class="cl">✅通过</div></div>';
+  h+='<div class="rc-card"><div class="cn" style="color:var(--hi)">'+st.fail+'</div><div class="cl">❌失败</div></div>';
+  h+='<div class="rc-card"><div class="cn" style="color:var(--md)">'+st.blocked+'</div><div class="cl">⊘阻塞</div></div>';
+  h+='<div class="rc-card"><div class="cn" style="color:var(--lo)">'+st.skip+'</div><div class="cl">→跳过</div></div>';
+  h+='<div class="rc-card"><div class="cn" style="color:var(--p);font-size:24px">'+pr+'%</div><div class="cl">通过率</div></div>';
+  h+='<div class="rc-card"><div class="cn" style="color:var(--hi)">'+allBgs.length+'</div><div class="cl">🐛Bug</div></div>';
+  h+='</div><p style="font-size:12px;color:var(--mu)">轮次:第'+rounds+'轮 | 时间:'+now+'</p>';
+  var rl={pass:'✅通过',fail:'❌失败',blocked:'⊘阻塞',skip:'→跳过','':'未标记'};
+  ['教师模块','学生模块'].forEach(function(mod){
+    var md=det.filter(function(d){return testCases.some(function(tc){return tc.id===d.id&&tc.module.indexOf(mod)>=0})});
+    if(!md.length)return;
+    h+='<div class="rst">'+mod+'</div><table class="rtb"><thead><tr><th>编号</th><th>场景</th><th>优先级</th><th>结果</th></tr></thead><tbody>';
+    md.forEach(function(d){var bgc=d.result||'skip',bg=(execData[d.id]||{}).bug;h+='<tr><td style="font-family:monospace;font-size:11px;color:var(--p)">'+d.id+'</td><td>'+d.scenario+'</td><td>'+d.priority+'</td><td><span class="rbd '+bgc+'">'+(rl[d.result]||'未标记')+'</span>';if(bg&&bg.title)h+='<div class="bi">🐛'+bg.title+'</div>';h+='</td></tr>'});
+    h+='</tbody></table>'
+  });
+  $('rb').innerHTML=h;$('ro').classList.add('sh')
+}
+window.closeRp=function(){$('ro').classList.remove('sh')}
+window.saveRp=function(){
+  var rc=$('rb').innerHTML,ds=new Date().toISOString().slice(0,10);
+  var h='<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><title>ULab-I期测试报告</title><style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;color:#333;max-width:960px;margin:0 auto;padding:24px}h1{font-size:24px;border-bottom:2px solid #1a73e8;padding-bottom:8px}.rsm{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:10px;margin:16px 0 24px}.rc-card{text-align:center;padding:14px;border-radius:10px;background:#f8f9fa}.rc-card .cn{font-size:28px;font-weight:700}.rc-card .cl{font-size:11px;color:#666}.rtb{width:100%;border-collapse:collapse;font-size:12px;margin:8px 0 16px}.rtb th{background:#f1f3f4;padding:8px 10px;text-align:left;font-weight:600;font-size:11px;color:#5f6368;border-bottom:2px solid #dadce0}.rtb td{padding:7px 10px;border-bottom:1px solid #f0f0f0}.rbd{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600}.rbd.pa{background:#e6f4ea;color:#198754}.rbd.fa{background:#fce8e6;color:#dc3545}.rbd.bl{background:#fef7e0;color:#fd7e14}.rbd.sk{background:#e8eaed;color:#6c757d}.bi{font-size:11px;padding:4px 8px;margin-top:4px;background:#fef7e0;border-radius:4px;border-left:3px solid #fd7e14}.rst{font-size:15px;font-weight:700;margin:20px 0 8px;padding-bottom:6px;border-bottom:1px solid #e0e0e0}</style></head><body><h1>📊ULab-I期测试执行报告</h1><p style="font-size:12px;color:#666">'+ds+' | 第'+rounds+'轮</p>'+rc+'</body></html>';
+  var b=new Blob([h],{type:'text/html;charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='ULab-测试报告_'+ds+'.html';a.click();
+  var reps=JSON.parse(localStorage.getItem('ulab-reports')||'[]');reps.unshift({name:'ULab-测试报告_'+ds+'.html',date:ds,html:h,rounds:rounds});if(reps.length>10)reps.length=10;localStorage.setItem('ulab-reports',JSON.stringify(reps));renderRps()
+}
+
+// ---- REPORTS ----
+function renderRps(){var reps=JSON.parse(localStorage.getItem('ulab-reports')||'[]'),c=$('rpl'),n=$('rpst').querySelector('.nr');if(!reps.length){n.style.display='block';c.innerHTML='';return}n.style.display='none';c.innerHTML=reps.map(function(r,i){return'<div class="rl"><span onclick="openRp('+i+')">📄'+r.name.replace('.html','')+'</span><span style="color:var(--hi);cursor:pointer;font-size:14px;opacity:.5" onclick="event.stopPropagation();delRp('+i+')">×</span></div>'}).join('')}
+window.openRp=function(i){var reps=JSON.parse(localStorage.getItem('ulab-reports')||'[]');if(!reps[i])return;var u=URL.createObjectURL(new Blob([reps[i].html],{type:'text/html'}));window.open(u,'_blank')}
+window.delRp=function(i){var reps=JSON.parse(localStorage.getItem('ulab-reports')||'[]');reps.splice(i,1);localStorage.setItem('ulab-reports',JSON.stringify(reps));renderRps()}
+
+// ---- UTILS ----
+function showToast(m){var t=document.createElement('div');t.className='toast';t.textContent=m;document.body.appendChild(t);setTimeout(function(){t.remove()},2500)}
+document.addEventListener('keydown',function(e){if(e.key!=='Escape')return;if($('ro').classList.contains('sh'))closeRp()})
+$('nav').addEventListener('click',function(e){var a=e.target.closest('a');if(!a)return;e.preventDefault();var t=document.querySelector(a.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth'})})
+
+renderRps();
+init().catch(function(e){
+  document.body.innerHTML='<div style="padding:40px;color:#dc3545"><h2>❌ 错误</h2><p>'+e.message+'</p><pre style="background:#fce8e6;padding:12px;font-size:11px;overflow:auto;max-height:300px">'+e.stack+'</pre></div>'
+});
+</script>
+</body>
+</html>
