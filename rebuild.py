@@ -13,14 +13,22 @@ def escape_tl(s):
 with open(os.path.join(DATA_DIR, 'test-cases.md'), 'r', encoding='utf-8') as f:
     tc_md = f.read()
 
+# Read bugs data file
+bugs_path = os.path.join(DATA_DIR, 'bugs.md')
+bugs_md = ''
+if os.path.exists(bugs_path):
+    with open(bugs_path, 'r', encoding='utf-8') as f:
+        bugs_md = f.read()
+
 # Read HTML
 with open(HTML_PATH, 'r', encoding='utf-8') as f:
     html = f.read()
 
-# Replace embedded test cases data
+# Replace embedded test cases data and bugs data
 tc_marker = 'var EMBED_TC = `'
+bugs_marker = 'var EMBED_BUGS = `'
 
-for marker, data in [(tc_marker, tc_md)]:
+for marker, data in [(tc_marker, tc_md), (bugs_marker, bugs_md)]:
     start = html.find(marker)
     if start >= 0:
         start += len(marker)
@@ -32,10 +40,11 @@ with open(HTML_PATH, 'w', encoding='utf-8') as f:
     f.write(html)
 
 tc_count = sum(1 for l in tc_md.split('\n') if l.strip().startswith('| TC-'))
+bug_count = bugs_md.count('## BUG-') if bugs_md else 0
 
 print(f'✅ HTML 已重建')
 print(f'   测试用例: {tc_count} 条')
-print(f'   Bug记录:  从 GitHub Issues 实时获取')
+print(f'   Bug记录:  {bug_count} 个')
 print(f'   文件:     {HTML_PATH}')
 print(f'')
 print(f'现在可以部署到服务器或上传到钉钉')

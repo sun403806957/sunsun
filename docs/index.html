@@ -747,7 +747,30 @@ var EMBED_TC = `# ULab-I期 测试用例
 | TC-ERR-004 | 异常-服务器返回500错误时的前端处理 | P2 | 服务器端出现异常 | 1.模拟服务器返回500错误 2.学生尝试提交答卷 3.教师尝试保存配置 | 500错误展示友好的错误提示页面或toast；提示用户稍后重试；不展示原始错误堆栈信息 |
 | TC-ERR-005 | 异常-文件上传过程中网络中断 | P2 | 教师正在上传教学资源文件 | 1.开始上传大文件 2.中途断开网络 3.观察上传状态 4.恢复网络后重新上传 | 上传中断给出失败提示；已上传部分不保留；恢复网络后可重新上传；支持断点续传或重新上传 |
 `;
-var EMBED_BUGS = ``;
+var EMBED_BUGS = `# ULab-I期 Bug 记录
+
+> 最后更新：2026-07-11
+
+---
+
+## BUG-MRGI934L
+
+- **标题**: test1
+- **严重程度**: 🟠严重
+- **状态**: 打开
+- **提出时间**: 2026/7/11 23:14:16
+- **描述**: test1
+
+## BUG-MRGESGKG
+
+- **标题**: 测试bug1
+- **严重程度**: 🟠严重
+- **状态**: 打开
+- **提出时间**: 2026/7/11 21:37:29
+- **描述**: 测试bug
+- **附件**: WechatIMG146.jpg
+
+`;
 // Auto-detect server: use same origin as page, fallback to localhost
 var SERVER = (function(){
   if(window.location.port==='8765') return window.location.origin;
