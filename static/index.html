@@ -814,19 +814,20 @@ function $(id){return document.getElementById(id)}
 
 async function init(){
   try{var s=JSON.parse(localStorage.getItem('ulab-exec')||'{}');execData=s.results||{};rounds=s.rounds||1;execMode=localStorage.getItem('ulab-mode')==='exec'}catch(e){}
-  // Always parse embedded data first for instant display
+  // Always render from embedded data FIRST
   parseTC(EMBED_TC);parseBugs(EMBED_BUGS);
-  $('sv').textContent='📁 就绪';
-  // Try server fetch in background (non-blocking)
-  try{
-    var c=new AbortController(),t=setTimeout(function(){c.abort()},2000);
-    var r=await fetch(API+'/test-cases',{signal:c.signal});clearTimeout(t);
-    if(r.ok){serverOn=true;var j=await r.json();parseTC(j.content||'');$('sv').textContent='🟢 在线'}
-  }catch(e){}
-  // Try GitHub Issues in background
-  try{var br=await fetch(GITHUB_ISSUES_API);if(br.ok){var bj=await br.json();parseGHIssues(bj||[]);$('sv').textContent='🟢 在线'}}catch(e){}
   renderAll();
   if(execMode){document.body.classList.add('em');$('rs').value=rounds;$('mt').children[0].classList.remove('ac');$('mt').children[1].classList.add('ac');buildExec();updateProgress()}
+  $('sv').textContent='📁 就绪';
+  // Try server in background (non-blocking, with timeout)
+  if(window.location.hostname==='localhost'||window.location.hostname==='127.0.0.1'){
+    try{
+      var c=new AbortController(),t=setTimeout(function(){c.abort()},3000);
+      var r=await fetch(API+'/test-cases',{signal:c.signal});clearTimeout(t);
+      if(r.ok){serverOn=true;var j=await r.json();parseTC(j.content||'');renderAll();$('sv').textContent='🟢 在线'}
+    }catch(e){}
+    try{var br=await fetch(GITHUB_ISSUES_API);if(br.ok){var bj=await br.json();parseGHIssues(bj||[]);renderBugList();$('sv').textContent='🟢 在线'}}catch(e){}
+  }
 }
 
 function parseTC(md){
