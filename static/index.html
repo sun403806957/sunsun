@@ -727,7 +727,7 @@ var EMBED_TC = `# ULab-I期 测试用例
 |------|---------|--------|---------|---------|---------|
 | TC-SEC-001 | 安全-学生无法访问教师编辑页面 | P0 | 学生已登录 | 1.尝试直接访问教师编辑实验URL 2.尝试直接访问创建实验URL 3.尝试访问教师配置API | 所有教师端URL返回权限不足或跳转到学生首页；API请求返回401未授权 |
 | TC-SEC-002 | 安全-未登录用户无法访问实验内容 | P0 | 未登录状态 | 1.尝试直接访问实验操作URL 2.尝试访问实验配置URL 3.尝试访问API接口 | 未登录访问重定向到登录页面；API返回401未授权 |
-| TC-SEC-003 | 安全-XSS跨站脚本防护 | P1 | 教师已登录，进入创建实验页面 | 1.在标题输入框中输入<script>alert('xss')</script> 2.在内容输入框中输入JavaScript代码 3.保存后查看页面 4.学生实验查看 | 输入的特殊字符被转义或过滤；页面不执行注入的脚本；XSS攻击无效 |
+| TC-SEC-003 | 安全-XSS跨站脚本防护 | P1 | 教师已登录，进入创建实验页面 | 1.在标题输入框中输入<script>alert('xss')<\/script> 2.在内容输入框中输入JavaScript代码 3.保存后查看页面 4.学生实验查看 | 输入的特殊字符被转义或过滤；页面不执行注入的脚本；XSS攻击无效 |
 | TC-SEC-004 | 安全-文件上传类型白名单校验 | P1 | 教师已登录，进入教学资源上传 | 1.尝试上传可执行文件(.exe) 2.尝试上传脚本文件(.sh) 3.尝试上传HTML文件 4.观察上传结果 | 非白名单文件类型上传被拒绝；给出不支持文件类型提示；仅允许白名单内格式上传 |
 | TC-SEC-005 | 安全-SQL注入防护 | P1 | 使用API测试工具 | 1.在搜索框中输入SQL注入语句 2.在登录表单中输入注入语句 3.观察系统响应 | SQL注入语句被过滤或无效；不返回数据库错误信息；系统正常运行 |
 
@@ -855,8 +855,9 @@ function $(id){return document.getElementById(id)}
 async function init(){
   try{var s=JSON.parse(localStorage.getItem('ulab-exec')||'{}');execData=s.results||{};rounds=s.rounds||1;execMode=localStorage.getItem('ulab-mode')==='exec'}catch(e){}
   // Always render from embedded data FIRST
-  parseTC(EMBED_TC);parseBugs(EMBED_BUGS);
-  renderAll();
+  try{parseTC(EMBED_TC);}catch(e){$('sv').textContent='❌ parseTC: '+e.message;return;}
+  try{parseBugs(EMBED_BUGS);}catch(e){$('sv').textContent='❌ parseBugs: '+e.message;return;}
+  try{renderAll();}catch(e){$('sv').textContent='❌ renderAll: '+e.message;return;}
   if(execMode){document.body.classList.add('em');$('rs').value=rounds;$('mt').children[0].classList.remove('ac');$('mt').children[1].classList.add('ac');buildExec();updateProgress()}
   $('sv').textContent='📁 就绪';
   // Try server in background (non-blocking, with timeout)
@@ -907,6 +908,7 @@ function parseGHIssues(issues){
 }
 
 function renderAll(){
+  try{
   // Sidebar
   var mods={};
   testCases.forEach(function(tc){
@@ -943,6 +945,7 @@ function renderAll(){
 
   renderBugList();
   renderRps();
+  }catch(e){console.error('renderAll error:',e);throw e;}
 }
 
 // ---- EXECUTION MODE ----
@@ -1148,6 +1151,6 @@ renderRps();
 init().catch(function(e){
   document.body.innerHTML='<div style="padding:40px;color:#dc3545"><h2>❌ 错误</h2><p>'+e.message+'</p><pre style="background:#fce8e6;padding:12px;font-size:11px;overflow:auto;max-height:300px">'+e.stack+'</pre></div>'
 });
-</script>
+<\/script>
 </body>
 </html>

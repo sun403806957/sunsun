@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""重建 static/index.html，嵌入最新的 data/test-cases.md"""
+"""重建 static/index.html，嵌入最新的 data/test-cases.md 和 data/bugs.md"""
 import os
 
 DIR = os.path.dirname(os.path.abspath(__file__))
@@ -7,7 +7,13 @@ DATA_DIR = os.path.join(DIR, 'data')
 HTML_PATH = os.path.join(DIR, 'static', 'index.html')
 
 def escape_tl(s):
-    return s.replace('\\', '\\\\').replace('`', '\\`').replace('${', '\\${')
+    s = s.replace('\\', '\\\\')
+    s = s.replace('`', '\\`')
+    s = s.replace('$', '\\$')
+    s = s.replace('</script>', '<\\/script>')
+    s = s.replace('</Script>', '<\\/Script>')
+    s = s.replace('</SCRIPT>', '<\\/SCRIPT>')
+    return s
 
 # Read test cases data file
 with open(os.path.join(DATA_DIR, 'test-cases.md'), 'r', encoding='utf-8') as f:
@@ -24,7 +30,7 @@ if os.path.exists(bugs_path):
 with open(HTML_PATH, 'r', encoding='utf-8') as f:
     html = f.read()
 
-# Replace embedded test cases data and bugs data
+# Replace embedded data
 tc_marker = 'var EMBED_TC = `'
 bugs_marker = 'var EMBED_BUGS = `'
 
