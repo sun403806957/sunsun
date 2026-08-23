@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ULab 测试报告 - 2026年7月-8月</title>
+<style>
+  :root {
+    --bg: #fff;
+    --text: #1a1a2e;
+    --mu: #6b7280;
+    --b: #e5e7eb;
+    --p: #4f46e5;
+    --hi: #dc2626;
+    --gr: #16a34a;
+    --am: #f59e0b;
+    --bg2: #f9fafb;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif; color: var(--text); line-height: 1.6; background: var(--bg2); padding: 24px; }
+  .container { max-width: 1100px; margin: 0 auto; }
+  h1 { font-size: 28px; margin-bottom: 4px; }
+  .sub { color: var(--mu); font-size: 14px; margin-bottom: 24px; }
+  .card { background: var(--bg); border: 1px solid var(--b); border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+  .card h2 { font-size: 18px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+  .stat { background: var(--bg); border: 1px solid var(--b); border-radius: 10px; padding: 16px; text-align: center; }
+  .stat .num { font-size: 32px; font-weight: 700; }
+  .stat .label { font-size: 13px; color: var(--mu); margin-top: 4px; }
+  .stat.open .num { color: var(--hi); }
+  .stat.closed .num { color: var(--gr); }
+  .stat.total .num { color: var(--p); }
+  .stat.dup .num { color: var(--am); }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { text-align: left; padding: 8px 10px; background: var(--bg2); border-bottom: 2px solid var(--b); font-weight: 600; color: var(--mu); white-space: nowrap; }
+  td { padding: 8px 10px; border-bottom: 1px solid var(--b); vertical-align: top; }
+  tr:hover td { background: #f8f7ff; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+  .badge-open { background: #fef2f2; color: var(--hi); }
+  .badge-closed { background: #f0fdf4; color: var(--gr); }
+  .badge-dup { background: #fffbeb; color: var(--am); }
+  .category { font-weight: 600; }
+  .note { background: #fefce8; border-left: 3px solid var(--am); padding: 12px 16px; border-radius: 0 8px 8px 0; font-size: 13px; margin-top: 16px; }
+  a { color: var(--p); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .tag { display: inline-block; padding: 1px 6px; border-radius: 4px; font-size: 11px; background: #ede9fe; color: #6d28d9; margin: 1px 2px; }
+  .tag-pad { background: #dbeafe; color: #1d4ed8; }
+  .tag-safari { background: #fce7f3; color: #be185d; }
+  .tag-i18n { background: #d1fae5; color: #065f46; }
+  .tag-config { background: #fef3c7; color: #92400e; }
+  .tag-ui { background: #e0e7ff; color: #3730a3; }
+  .tag-lms { background: #fce7f3; color: #9d174d; }
+  @media (max-width: 768px) {
+    .summary { grid-template-columns: repeat(2, 1fr); }
+    table { font-size: 12px; }
+    th, td { padding: 6px 8px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>ULab 实验平台测试报告</h1>
+<p class="sub">测试周期：2026年7月16日 – 8月22日 | 测试环境：iPad Safari / Mac Safari / Chrome / 小米Pad | 测试范围：全平台功能、Pad兼容性、多语言、实验组件、UI/UX、LMS联调</p>
+
+<div class="summary">
+  <div class="stat total">
+    <div class="num">335</div>
+    <div class="label">总计 Issue (ulab)</div>
+  </div>
+  <div class="stat open">
+    <div class="num">11</div>
+    <div class="label">未关闭</div>
+  </div>
+  <div class="stat closed">
+    <div class="num">324</div>
+    <div class="label">已关闭</div>
+  </div>
+  <div class="stat dup">
+    <div class="num">96.7%</div>
+    <div class="label">修复率</div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>📋 一、测试用例覆盖情况</h2>
+  <table>
+    <tr><th>项目</th><th>数值</th></tr>
+    <tr><td>测试用例总数</td><td><strong>2,202 条</strong></td></tr>
+    <tr><td>模块数</td><td>11 个（教师模块 / 学生模块 / 机器学习基础与数据工程 / AI交互工具 / 非功能测试）</td></tr>
+    <tr><td>教师模块</td><td>51 条，覆盖门户登录、创建实验、我的实验、标准实验、实验编辑、AI工具、实验数据回传等 7 个子模块</td></tr>
+    <tr><td>学生模块</td><td>26 条，覆盖 LMS 跳转、实验操作、实验查看、完成数据回传、门户登录等 5 个子模块</td></tr>
+    <tr><td>机器学习基础与数据工程</td><td>27 条，覆盖强化学习手动控制与自动控制</td></tr>
+    <tr><td>AI交互工具模块</td><td>2,067 条，覆盖 6 大类：实用工具(263)、智能语音(241)、计算机视觉(404)、机器学习通用工具(339)、CNN特征(197)、自然语言处理(623)</td></tr>
+    <tr><td>非功能测试</td><td>79 条，覆盖跨浏览器兼容、移动端适配、性能压力、安全、跨组件交互、多语言国际化、异常恢复</td></tr>
+    <tr><td>P0 用例</td><td>约 800 条</td></tr>
+    <tr><td>P1 用例</td><td>约 900 条</td></tr>
+    <tr><td>P2 用例</td><td>约 500 条</td></tr>
+  </table>
+  <br>
+  <h3>AI交互工具模块测试用例分布</h3>
+  <table>
+    <tr><th>子模块</th><th>测试用例数</th><th>说明</th></tr>
+    <tr><td>自然语言处理 (NLP)</td><td><strong>623</strong></td><td>Tokenization演示、语料可视化、情感分析器、分词引擎、马尔可夫演练、文本风格转换、One-Hot编码等</td></tr>
+    <tr><td>计算机视觉 (CV)</td><td><strong>404</strong></td><td>图片放大镜、人脸检测引擎、AI面具、图像识别引擎、AI视觉侦查、人脸特征比对等</td></tr>
+    <tr><td>机器学习通用工具 (ML)</td><td><strong>339</strong></td><td>SQL分类预测器、训练数据浏览器、二值化向量、数据类型判断、文本上传等</td></tr>
+    <tr><td>实用工具 (UT)</td><td><strong>263</strong></td><td>课堂小测试、流程图绘制器、富文本展板、网页嵌入、Notebook启动器、Scratch启动器等</td></tr>
+    <tr><td>智能语音 (VOICE)</td><td><strong>241</strong></td><td>语音合成工作台、语音乐高工厂、智能灯光、语音拼接等</td></tr>
+    <tr><td>CNN 特征 (CNN)</td><td><strong>197</strong></td><td>CNN可视化、卷积试验台等</td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <h2>🔴 二、未关闭 Issue（11个）</h2>
+  <table>
+    <tr><th>#</th><th>日期</th><th>类别</th><th>标题</th><th>标签</th></tr>
+    <tr>
+      <td><a href="https://github.com/hjj-forge/ulab/issues/87">#87</a></td><td>7/18</td><td>功能</td>
+      <td>学生完成小结的提交后实验仍可继续操作 - 提交与交卷逻辑矛盾</td>
+      <td><span class="badge badge-open">OPEN</span></td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/hjj-forge/ulab/issues/264">#264</a></td><td>8/1</td><td>i18n</td>
+      <td>英语状态UI和多语言适配问题汇总</td>
+      <td><span class="badge badge-open">OPEN</span> <span class="tag tag-i18n">i18n</span></td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/hjj-forge/ulab/issues/300">#300</a></td><td>8/5</td><td>实验组件</td>
+      <td>Scratch 启动器选择从零创建模版，编辑且添加声音后保存后再次打开提示错误，刷新后编辑内容丢失</td>
+      <td><span class="badge badge-open">OPEN</span></td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/hjj-forge/ulab/issues/312">#312</a></td><td>8/8</td><td>i18n</td>
+      <td>英语和中文状态下共用图片资源，切换英文后图片中文字仍显示为中文</td>
+      <td><span class="badge badge-open">OPEN</span> <span class="tag tag-i18n">i18n</span></td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/hjj-forge/ulab/issues/344">#344</a></td><td>8/10</td><td>LMS</td>
+      <td>iPad端点击课程后退出登录，退出页面空白且屏幕持续闪动</td>
+      <td><span class="badge badge-open">OPEN</span> <span class="tag tag-pad">Pad</span> <span class="tag tag-lms">LMS</span></td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/hjj-forge/ulab/issues/352">#352</a></td><td>8/11</td><td>实验组件</td>
+      <td>One-Hot编码交互转换工具：英语模式下默认输入为大写，缺少大小写敏感提示</td>
+      <td><span class="badge badge-open">OPEN</span> <span class="tag tag-i18n">i18n</span></td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/hjj-forge/ulab/issues/353">#353</a></td><td>8/11</td><td>实验组件</td>
+      <td>One-Hot编码交互转换工具：语音输入无法控制大小写，与大小写敏感匹配存在冲突</td>
+      <td><span class="badge badge-open">OPEN</span></td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/hjj-forge/ulab/issues/364">#364</a></td><td>8/12</td><td>实验组件</td>
+      <td>语料可视化交互工具：英语模式下对输入内容进行大小写强校验，但缺少说明提示</td>
+      <td><span class="badge badge-open">OPEN</span> <span class="tag tag-i18n">i18n</span></td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/hjj-forge/ulab/issues/394">#394</a></td><td>8/15</td><td>实验组件</td>
+      <td>卷积试验台：学生端切换节点后返回，已生成的实验结果丢失（实验1218）</td>
+      <td><span class="badge badge-open">OPEN</span></td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/hjj-forge/ulab/issues/407">#407</a></td><td>8/15</td><td>白屏</td>
+      <td>Safari白屏：情感分析器实验组件前两次打开出现白屏（实验1213）</td>
+      <td><span class="badge badge-open">OPEN</span> <span class="tag tag-safari">Safari</span></td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/hjj-forge/ulab/issues/455">#455</a></td><td>8/18</td><td>LMS</td>
+      <td>老师查看学生的实验进度展示未更新</td>
+      <td><span class="badge badge-open">OPEN</span> <span class="tag tag-lms">LMS</span></td>
+    </tr>
+  </table>
+  <br>
+  <p style="font-size:13px;color:var(--mu)">未关闭 Issue 共 11 个，主要集中在：实验组件(5个)、多语言/i18n(4个)、LMS(2个)、功能逻辑(1个)、Safari白屏(1个)。其中 #264 为多语言适配汇总类 Issue，覆盖范围较广。</p>
+</div>
+
+<div class="card">
+  <h2>🟢 三、近期已关闭 Issue（30个，8月16日-22日）</h2>
+  <table>
+    <tr><th>#</th><th>日期</th><th>标题</th><th>状态</th></tr>
+    <tr><td><a href="https://github.com/hjj-forge/ulab/issues/484">#484</a></td><td>8/22</td><td>登录清空 lms_org_id，老师端标准实验授权过滤失效</td><td><span class="badge badge-closed">COMPLETED</span></td></tr>
+    <tr><td><a href="https://github.com/hjj-forge/ulab/issues/481">#481</a></td><td>8/22</td><td>标准实验：「全部」筛选结果少于「未上架」，数量语义错误</td><td><span class="badge badge-closed">COMPLETED</span></td></tr>
+    <tr><td><a href="https://github.com/hjj-forge/ulab/issues/476">#476</a></td><td>8/21</td><td>克隆实验共享 OBS 附件，删除源实验后副本文件丢失、预览失败</td><td><span class="badge badge-closed">COMPLETED</span></td></tr>
+    <tr><td><a href="https://github.com/hjj-forge/ulab/issues/464">#464</a></td><td>8/18</td><td>CNN可视化：内容处理-视频教程区域部分蓝色可点击文字点击无效果</td><td><span class="badge badge-closed">COMPLETED</span></td></tr>
+    <tr><td><a href="https://github.com/hjj-forge/ulab/issues/463">#463</a></td><td>8/18</td><td>Pad兼容：CNN可视化弹窗上点击 i 图标屏幕闪烁明显</td><td><span class="badge badge-closed">COMPLETED</span></td></tr>
+    <tr><td><a href="https://github.com/hjj-forge/ulab/issues/462">#462</a></td><td>8/18</td><td>CNN可视化：添加图片显示文案异常，未做英语国际化适配</td><td><span class="badge badge-closed">COMPLETED</span></td></tr>
+    <tr><td><a href="https://github.com/hjj-forge/ulab/issues/461">#461</a></td><td>8/18</td><td>CNN可视化：弹窗背后页面内容跟随滚动</td><td><span class="badge badge-closed">COMPLETED</span></td></tr>
+    <tr><td><a href="https://github.com/hjj-forge/ulab/issues/460">#460</a></td><td>8/18</td><td>小米Pad浏览器：图像识别引擎模型加载缓慢，等待十分钟以上</td><td><span class="badge badge-closed">COMPLETED</span></td></tr>
+    <tr><td><a href="https://github.com/hjj-forge/ulab/issues/458">#458</a></td><td>8/18</td><td>小米Pad浏览器：图像识别引擎第二次打开相机后页面崩溃闪退</td><td><span class="badge badge-closed">COMPLETED</span></td></tr>
+    <tr><td><a href="https://github.com/hjj-forge/ulab/issues/457">#457</a></td><td>8/18</td><td>图像识别引擎：教师上传示例图片后识别报错 CORS error</td><td><span class="badge badge-closed">COMPLETED</span></td></tr>
+    <tr><td><a href="https://github.com/hjj-forge/ulab/issues/456">#456</a></td><td>8/18</td><td>数据类型判断交互工具：拖动成功四个卡片时提示三连成功</td><td><span class="badge badge-closed">COMPLETED</span></td></tr>
+    <tr><td><a href="https://github.com/hjj-forge/ulab/issues/454">#454</a></td><td>8/17</td><td>AI面具实验组件：学生端使用教师上传的脸谱模板无覆盖效果</td><td><span class="badge badge-closed">COMPLETED</span></td></tr>
+    <tr><td><a href="https://github.com/hjj-forge/ulab/issues/453">#453</a></td><td>8/17</td><td>AI面具实验组件：学生端脸谱未跟随脸部位置，仍定位在边缘</td><td><span class="badge badge-closed">COMPLETED</span></td></tr>
+    <tr><td><a href="https://github.com/hjj-forge/ulab/issues/447">#447</a></td><td>8/16</td><td>图像识别引擎：教师端切换配置页面返回后预览区域变黑</td><td><span class="badge badge-closed">COMPLETED</span></td></tr>
+    <tr><td><a href="https://github.com/hjj-forge/ulab/issues/446">#446</a></td><td>8/16</td><td>AI视觉侦探：学生端点击保存截图后摄像头卡顿不动</td><td><span class="badge badge-closed">COMPLETED</span></td></tr>
+    <tr><td><a href="https://github.com/hjj-forge/ulab/issues/445">#445</a></td><td>8/16</td><td>人脸特征比对：学生端点击教师上传示例图片提示提取特征失败</td><td><span class="badge badge-closed">COMPLETED</span></td></tr>
+    <tr><td><a href="https://github.com/hjj-forge/ulab/issues/444">#444</a></td><td>8/16</td><td>人脸检测引擎：学生端手动上传脸谱覆盖/双屏模式无效果</td><td><span class="badge badge-closed">COMPLETED</span></td></tr>
+    <tr><td><a href="https://github.com/hjj-forge/ulab/issues/441">#441</a></td><td>8/16</td><td>人脸检测引擎：学生端竖屏模式无法滑动和点击</td><td><span class="badge badge-closed">COMPLETED</span></td></tr>
+    <tr><td><a href="https://github.com/hjj-forge/ulab/issues/438">#438</a></td><td>8/16</td><td>语音合成工作台：切换声音后播放声音与显示声音不一致</td><td><span class="badge badge-closed">COMPLETED</span></td></tr>
+    <tr><td><a href="https://github.com/hjj-forge/ulab/issues/437">#437</a></td><td>8/16</td><td>语音合成实验平台：TTS详细流程部分语句第4/5/6步无结果</td><td><span class="badge badge-closed">COMPLETED</span></td></tr>
+    <tr><td><a href="https://github.com/hjj-forge/ulab/issues/436">#436</a></td><td>8/16</td><td>语音合成工作台：合成语音播放后小问号按钮点击无反应</td><td><span class="badge badge-closed">COMPLETED</span></td></tr>
+    <tr><td><a href="https://github.com/hjj-forge/ulab/issues/435">#435</a></td><td>8/16</td><td>Pad兼容：iPad Safari 麦克风权限已允许，语音输入仍提示启动失败</td><td><span class="badge badge-closed">COMPLETED</span></td></tr>
+    <tr><td><a href="https://github.com/hjj-forge/ulab/issues/434">#434</a></td><td>8/16</td><td>人脸检测引擎：学生端京剧脸谱覆盖模式未生效，双屏模式分屏黑屏</td><td><span class="badge badge-closed">COMPLETED</span></td></tr>
+    <tr><td><a href="https://github.com/hjj-forge/ulab/issues/433">#433</a></td><td>8/16</td><td>人脸检测引擎：学生端人脸进入摄像头未触发检测</td><td><span class="badge badge-closed">COMPLETED</span></td></tr>
+    <tr><td><a href="https://github.com/hjj-forge/ulab/issues/432">#432</a></td><td>8/16</td><td>智能灯光：切换灯具后重新开启闪烁，新选和原选灯具同时闪烁</td><td><span class="badge badge-closed">COMPLETED</span></td></tr>
+    <tr><td><a href="https://github.com/hjj-forge/ulab/issues/430">#430</a></td><td>8/16</td><td>智能灯光：闪烁控制文案与实际效果不一致，切换灯具后闪烁状态未重置</td><td><span class="badge badge-closed">COMPLETED</span></td></tr>
+    <tr><td><a href="https://github.com/hjj-forge/ulab/issues/428">#428</a></td><td>8/16</td><td>未上架实验：实验列表不展示克隆按钮，但新建实验克隆时可选择</td><td><span class="badge badge-closed">COMPLETED</span></td></tr>
+    <tr><td><a href="https://github.com/hjj-forge/ulab/issues/427">#427</a></td><td>8/16</td><td>Pad兼容UI：分词与词云图 iPad 端分词结果标题自动换行</td><td><span class="badge badge-closed">COMPLETED</span></td></tr>
+    <tr><td><a href="https://github.com/hjj-forge/ulab/issues/425">#425</a></td><td>8/16</td><td>机器学习通用工具-SQL：分类预测器执行时 iPad Safari 崩溃/白屏</td><td><span class="badge badge-closed">COMPLETED</span></td></tr>
+    <tr><td><a href="https://github.com/hjj-forge/ulab/issues/424">#424</a></td><td>8/16</td><td>电脑Safari白屏：实验1215分词统计截图时白屏，URL请求一直loading</td><td><span class="badge badge-closed">COMPLETED</span></td></tr>
+  </table>
+  <br>
+  <p style="font-size:13px;color:var(--mu)">以上为 8月16日-22日期间关闭的 30 个 Issue。全部 324 个已关闭 Issue 中，修复率 96.7%。</p>
+</div>
+
+<div class="card">
+  <h2>🔍 四、涉及实验组件汇总</h2>
+  <table>
+    <tr><th>实验组件</th><th>Issue 数量</th><th>未关闭</th><th>主要问题类型</th></tr>
+    <tr><td>成语接龙</td><td>15</td><td>0</td><td>成绩查看缺失、生命数显示错误、计时提示异常、iPad兼容</td></tr>
+    <tr><td>课堂小测试</td><td>15</td><td>0</td><td>语音输入失败、iPad权限、题目显示、答案校验</td></tr>
+    <tr><td>人脸检测引擎/AI面具</td><td>13</td><td>0</td><td>竖屏无法操作、脸谱覆盖未生效、人脸检测未触发、双屏黑屏</td></tr>
+    <tr><td>图片放大器</td><td>13</td><td>0</td><td>上传失败、iPad预览问题、Original错误提示</td></tr>
+    <tr><td>语音合成工作台</td><td>8</td><td>0</td><td>播放声音与显示不一致、TTS流程缺失、小问号按钮无效</td></tr>
+    <tr><td>卷积试验台</td><td>7</td><td><strong>1</strong></td><td>切换节点结果丢失(#394)、白屏、Canvas空指针</td></tr>
+    <tr><td>CNN可视化</td><td>6</td><td>0</td><td>视频教程点击无效、弹窗闪烁、文案异常、国际化缺失</td></tr>
+    <tr><td>图像识别引擎</td><td>6</td><td>0</td><td>小米Pad模型加载慢、相机崩溃、CORS错误、预览区域变黑</td></tr>
+    <tr><td>二值化向量展开工作台</td><td>6</td><td>0</td><td>拾色器结果异常、上传图片失败、手动上传报错</td></tr>
+    <tr><td>强化学习</td><td>6</td><td>0</td><td>手动/自动控制逻辑、状态同步、配置生效</td></tr>
+    <tr><td>AI视觉侦查</td><td>5</td><td>0</td><td>图片预览位置问题、摄像头卡顿、截图保存</td></tr>
+    <tr><td>情感分析器</td><td>4</td><td><strong>1</strong></td><td>Safari白屏(#407)、iPad横屏显示不全</td></tr>
+    <tr><td>One-Hot编码</td><td>4</td><td><strong>2</strong></td><td>大小写敏感提示(#352)、语音输入大小写冲突(#353)</td></tr>
+    <tr><td>Scratch启动器</td><td>4</td><td><strong>1</strong></td><td>编辑保存后内容丢失(#300)、创建模版问题</td></tr>
+    <tr><td>数据类型判断</td><td>4</td><td>0</td><td>拖动计数错误提示</td></tr>
+    <tr><td>富文本展板</td><td>4</td><td>0</td><td>内容编辑、样式渲染</td></tr>
+    <tr><td>文本分词器/词云图</td><td>3</td><td>0</td><td>词云图重叠、预制词频不显示文本、Pad标题换行</td></tr>
+    <tr><td>连一连</td><td>3</td><td>0</td><td>iPad连线困难、截图失败</td></tr>
+    <tr><td>马尔可夫演练</td><td>3</td><td>0</td><td>配置不生效、n元语法缺少中文翻译</td></tr>
+    <tr><td>语料可视化</td><td>3</td><td><strong>1</strong></td><td>大小写校验缺少说明(#364)</td></tr>
+    <tr><td>机器学习工具-SQL</td><td>2</td><td>0</td><td>iPad崩溃、英语下中文显示</td></tr>
+    <tr><td>智能灯光</td><td>2</td><td>0</td><td>闪烁控制逻辑不一致、状态未重置</td></tr>
+    <tr><td>文本分字/词/句工作台</td><td>2</td><td>0</td><td>样式混淆、错别字</td></tr>
+    <tr><td>训练数据浏览器</td><td>2</td><td>0</td><td>配置修改不生效</td></tr>
+    <tr><td>分词引擎结果对比</td><td>2</td><td>0</td><td>添加用例按钮无反应</td></tr>
+    <tr><td>通用（跨组件）</td><td>15+</td><td><strong>2</strong></td><td>多语言适配(#264, #312)、iPad截图、横屏溢出、麦克风权限、登录</td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <h2>📊 五、共性问题分析</h2>
+  <table>
+    <tr><th>问题类型</th><th>影响范围</th><th>严重程度</th><th>建议</th></tr>
+    <tr>
+      <td><strong>多语言(i18n)适配不完整</strong></td>
+      <td>6+个组件（CNN可视化、马尔可夫、One-Hot编码、语料可视化、样本采样器、图片资源）</td>
+      <td><span class="badge badge-open">高</span></td>
+      <td>建立专业术语中英文翻译表；统一处理图片资源多语言版本；对大小写敏感场景增加语言切换提示</td>
+    </tr>
+    <tr>
+      <td><strong>Safari 白屏/崩溃</strong></td>
+      <td>3个组件（情感分析器、SQL分类预测器、分词统计截图）</td>
+      <td><span class="badge badge-open">高</span></td>
+      <td>检查 WASM 内存限制、React Router 路由配置、大计算任务分片；建议增加 Safari 专项回归测试</td>
+    </tr>
+    <tr>
+      <td><strong>小米Pad浏览器兼容</strong></td>
+      <td>2个组件（图像识别引擎：模型加载慢、相机崩溃）</td>
+      <td><span class="badge badge-closed">高</span></td>
+      <td>已修复。建议扩展测试设备覆盖范围，增加小米、华为等国产平板</td>
+    </tr>
+    <tr>
+      <td><strong>人脸检测/AI面具系列问题</strong></td>
+      <td>人脸检测引擎、AI面具、人脸特征比对（13个Issue）</td>
+      <td><span class="badge badge-closed">高</span></td>
+      <td>已全部修复。涉及竖屏滑动、脸谱覆盖、双屏模式、特征提取等，建议回归验证</td>
+    </tr>
+    <tr>
+      <td><strong>配置修改不生效</strong></td>
+      <td>3个组件（马尔可夫、训练数据浏览器、文本风格转换）</td>
+      <td><span class="badge badge-closed">中</span></td>
+      <td>已修复，建议统一配置保存/读取逻辑，增加配置变更的自动化校验</td>
+    </tr>
+    <tr>
+      <td><strong>iPad 截图失败</strong></td>
+      <td>4个组件（分词演示器、AI提取器、连一连、文本工作台）</td>
+      <td><span class="badge badge-closed">中</span></td>
+      <td>已修复。统一排查 iPad Safari 的 Canvas/screenshot API 兼容性，iOS Safari 对 Canvas 内存限制更严格</td>
+    </tr>
+    <tr>
+      <td><strong>iPad 横屏兼容</strong></td>
+      <td>3个组件（通用横屏溢出、情感分析器、分词与词云图）</td>
+      <td><span class="badge badge-closed">中</span></td>
+      <td>已修复。统一响应式布局测试，特别是 iPad 横屏断点</td>
+    </tr>
+    <tr>
+      <td><strong>语音功能异常</strong></td>
+      <td>4个组件（合成播放不一致、TTS流程缺失、小问号无效、Pad语音输入失败）</td>
+      <td><span class="badge badge-closed">中</span></td>
+      <td>已修复。检查华为TTS服务集成、iPad Safari SpeechRecognition API 兼容性</td>
+    </tr>
+    <tr>
+      <td><strong>OBS 附件共享问题</strong></td>
+      <td>克隆实验（#476）</td>
+      <td><span class="badge badge-closed">高</span></td>
+      <td>已修复。克隆实验时应复制而非共享 OBS 附件，避免源文件删除后副本失效</td>
+    </tr>
+  </table>
+</div>
+
+<div class="card">
+  <h2>🛠 六、测试环境</h2>
+  <table>
+    <tr><th>项目</th><th>详情</th></tr>
+    <tr><td>测试平台</td><td>ULab 实验平台（ulabdev.tongshike.cn）</td></tr>
+    <tr><td>测试设备</td><td>iPad（Safari）、Mac（Safari、Chrome）、小米Pad（自带浏览器）</td></tr>
+    <tr><td>测试实验课程</td><td>1210（机器学习SQL）、1213（自然语言处理-cn）、1215（分词与词云图）、1217（文本分词器）、1218（卷积试验台）</td></tr>
+    <tr><td>测试周期</td><td>2026年7月16日 – 8月22日</td></tr>
+    <tr><td>Issue 仓库</td><td><a href="https://github.com/hjj-forge/ulab/issues">hjj-forge/ulab</a></td></tr>
+    <tr><td>测试用例管理</td><td><a href="https://sun403806957.github.io/sunsun/">ULab 测试用例管理面板</a>（2,202条用例，实时更新）</td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <h2>📈 七、全量 Issue 分析</h2>
+  <table>
+    <tr><th>仓库</th><th>总计</th><th>OPEN</th><th>CLOSED</th><th>修复率</th><th>时间范围</th></tr>
+    <tr>
+      <td><a href="https://github.com/hjj-forge/ulab">hjj-forge/ulab</a></td>
+      <td><strong>335</strong></td>
+      <td>11</td>
+      <td>324</td>
+      <td><strong>96.7%</strong></td>
+      <td>2026-07-16 ~ 2026-08-22</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/sun403806957/sunsun">sun403806957/sunsun</a></td>
+      <td><strong>51</strong></td>
+      <td>0</td>
+      <td>51</td>
+      <td><strong>100%</strong></td>
+      <td>2026-07-13 ~ 2026-08-15</td>
+    </tr>
+  </table>
+  <p style="font-size:13px;color:var(--mu);margin-top:8px">关闭原因：COMPLETED 319 | NOT_PLANNED 3 | DUPLICATE 2</p>
+
+  <br>
+  <h3>月度趋势</h3>
+  <table>
+    <tr><th>月份</th><th>提交数</th><th>已修复</th><th>未关闭</th><th>修复率</th></tr>
+    <tr><td>2026年7月</td><td>165</td><td>164</td><td>1</td><td>99.4%</td></tr>
+    <tr><td>2026年8月</td><td>170</td><td>160</td><td>10</td><td>94.1%</td></tr>
+  </table>
+
+  <br>
+  <h3>Issue 标签分布</h3>
+  <table>
+    <tr><th>标签</th><th>数量</th><th>说明</th></tr>
+    <tr><td>bug</td><td>298</td><td>Bug 类 Issue 占绝大多数</td></tr>
+    <tr><td>实验组件</td><td>185</td><td>实验组件相关 Issue</td></tr>
+    <tr><td>一般</td><td>152</td><td>一般严重程度</td></tr>
+    <tr><td>UI</td><td>63</td><td>界面/样式问题</td></tr>
+    <tr><td>学生</td><td>56</td><td>学生端问题</td></tr>
+    <tr><td>严重</td><td>40</td><td>高严重程度</td></tr>
+    <tr><td>多语言</td><td>33</td><td>国际化/i18n 问题</td></tr>
+    <tr><td>教师/老师</td><td>39</td><td>教师端问题</td></tr>
+    <tr><td>enhancement</td><td>14</td><td>功能增强建议</td></tr>
+    <tr><td>LMS的bug / LMS联调</td><td>9</td><td>LMS 平台相关问题</td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <h2>🏫 八、LMS 联调问题（9个）</h2>
+  <table>
+    <tr><th>#</th><th>日期</th><th>标签</th><th>标题</th><th>状态</th></tr>
+    <tr>
+      <td><a href="https://github.com/hjj-forge/ulab/issues/14">#14</a></td><td>7/16</td><td>LMS联调</td>
+      <td>学生登录优学院和ulab实验状态不一致</td>
+      <td><span class="badge badge-closed">CLOSED</span></td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/hjj-forge/ulab/issues/27">#27</a></td><td>7/16</td><td>LMS的bug</td>
+      <td>课程评分标准不明确 - 只有完成没有评分</td>
+      <td><span class="badge badge-closed">CLOSED</span></td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/hjj-forge/ulab/issues/58">#58</a></td><td>7/16</td><td>LMS联调</td>
+      <td>学生进入LMS实验一直是未开始状态</td>
+      <td><span class="badge badge-closed">CLOSED</span></td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/hjj-forge/ulab/issues/276">#276</a></td><td>8/2</td><td>LMS的bug</td>
+      <td>创建课程和编辑课程时封面默认尺寸不一致</td>
+      <td><span class="badge badge-closed">CLOSED</span></td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/hjj-forge/ulab/issues/308">#308</a></td><td>8/7</td><td>LMS的bug</td>
+      <td>LMS导入实验时一级节点名称过长导致500错误</td>
+      <td><span class="badge badge-closed">CLOSED</span></td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/hjj-forge/ulab/issues/309">#309</a></td><td>8/8</td><td>LMS的bug</td>
+      <td>iPad端左侧边栏过大导致课程列表展示不全</td>
+      <td><span class="badge badge-closed">CLOSED</span></td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/hjj-forge/ulab/issues/344">#344</a></td><td>8/10</td><td>LMS的bug</td>
+      <td>iPad端退出登录后页面空白且屏幕闪动</td>
+      <td><span class="badge badge-open">OPEN</span></td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/hjj-forge/ulab/issues/455">#455</a></td><td>8/18</td><td>LMS的bug</td>
+      <td>老师查看学生的实验进度展示未更新</td>
+      <td><span class="badge badge-open">OPEN</span></td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/hjj-forge/ulab/issues/484">#484</a></td><td>8/22</td><td>LMS联调</td>
+      <td>登录清空 lms_org_id，老师端标准实验授权过滤失效</td>
+      <td><span class="badge badge-closed">CLOSED</span></td>
+    </tr>
+  </table>
+  <br>
+  <p style="font-size:13px;color:var(--mu)">LMS 联调问题共 9 个，其中 7 个已关闭，2 个未关闭（#344 iPad 退出登录闪动、#455 学生实验进度未更新）。主要涉及实验状态同步、课程封面、导入兼容性、平板适配、登录授权等。相比上期报告新增 #455（进度展示）和 #484（org授权过滤），#484 已修复。</p>
+</div>
+
+<div class="card">
+  <h2>📋 九、LMS 模块测试用例覆盖</h2>
+  <table>
+    <tr><th>测试模块</th><th>用例数</th><th>覆盖内容</th></tr>
+    <tr><td>教师模块 - 实验数据回传（LMS端查看）</td><td>4</td><td>班课实验完成概览、学生成绩明细查看、学习进度计算规则、实验列表查看成绩入口</td></tr>
+    <tr><td>学生模块 - LMS → ULab 实验跳转</td><td>3</td><td>从LMS课程进入实验、从LMS实验列表进入、跳转携带身份信息</td></tr>
+    <tr><td>学生模块 - 实验操作页面</td><td>12</td><td>云端实验室节点导航、内容查看、学习任务交互、提交小结、实验完成数据回传</td></tr>
+    <tr><td>学生模块 - 完成数据回传</td><td>4</td><td>实验完成后数据回传LMS、成绩同步、状态更新</td></tr>
+    <tr><td>学生模块 - 门户与登录</td><td>4</td><td>学生登录验证、LMS跳转登录态保持</td></tr>
+    <tr><td colspan="3" style="color:var(--mu);padding-top:8px"><strong>LMS 相关测试用例合计：27 条</strong>，覆盖教师端数据查看(4条)、学生端LMS跳转与实验操作(19条)、登录态(4条)。这些用例验证了 LMS ↔ ULab 的完整数据链路：教师创建实验 → 发布到LMS班课 → 学生从LMS进入实验 → 完成实验 → 数据回传LMS → 教师查看成绩。</td></tr>
+  </table>
+</div>
+
+<div class="note">
+  <strong>📌 总结：</strong>hjj-forge/ulab 共提交了 <strong>335 个 Issue</strong>，其中 <strong>324 个已关闭</strong>（COMPLETED 319、NOT_PLANNED 3、DUPLICATE 2），修复率 <strong>96.7%</strong>。sunsun 仓库 51 个早期 Issue 已全部关闭。剩余 <strong>11 个 OPEN Issue</strong> 主要集中在：多语言/i18n（4个）、实验组件（5个：Scratch启动器、One-Hot编码×2、语料可视化、卷积试验台）、LMS（2个：退出闪动、进度展示）、功能逻辑（1个）。测试用例覆盖达 <strong>2,202 条</strong>，涵盖 11 个模块，其中 AI 交互工具模块 2,067 条覆盖 6 大类实验组件。LMS 联调问题 9 个，7 个已修复，2 个待处理。建议后续重点：多语言适配全面排查、Safari 白屏问题回归、LMS 进度同步功能验证。
+</div>
+
+</div>
+</body>
+</html>
