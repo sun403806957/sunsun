@@ -340,10 +340,144 @@
 
 <div class="card">
   <div class="card">
-  <h2><div class="card">
-  <h2>📋 六、完整测试用例详情</h2>
+  <h2>🛠 六、测试环境</h2>
+  <table>
+    <tr><th>项目</th><th>详情</th></tr>
+    <tr><td>测试平台</td><td>ULab 实验平台（ulabdev.tongshike.cn）</td></tr>
+    <tr><td>测试设备</td><td>iPad（Safari）、Mac（Safari、Chrome）、小米Pad（自带浏览器）</td></tr>
+    <tr><td>测试实验课程</td><td>1210（机器学习SQL）、1213（自然语言处理-cn）、1215（分词与词云图）、1217（文本分词器）、1218（卷积试验台）</td></tr>
+    <tr><td>测试周期</td><td>2026年7月16日 – 8月23日</td></tr>
+    <tr><td>Issue 仓库</td><td>hjj-forge/ulab</td></tr>
+    <tr><td>测试用例管理</td><td><a href="https://sun403806957.github.io/sunsun/">ULab 测试用例管理面板</a>（2,202条用例，实时更新）</td>
+    </tr>
+    <tr><td>测试用例文档</td><td><a href="test-cases-full.md">📥 下载完整测试用例（Markdown）</a>（2,202条用例，约1MB）</td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <h2>📈 七、全量 Issue 分析</h2>
+  <table>
+    <tr><th>仓库</th><th>总计</th><th>OPEN</th><th>CLOSED</th><th>修复率</th><th>时间范围</th></tr>
+    <tr>
+      <td>hjj-forge/ulab</td>
+      <td><strong>336</strong></td>
+      <td>12</td>
+      <td>324</td>
+      <td><strong>96.4%</strong></td>
+      <td>2026-07-16 ~ 2026-08-23</td>
+    </tr>
+    <tr>
+      <td>sun403806957/sunsun</td>
+      <td><strong>51</strong></td>
+      <td>0</td>
+      <td>51</td>
+      <td><strong>100%</strong></td>
+      <td>2026-07-13 ~ 2026-08-15</td>
+    </tr>
+  </table>
+  <p style="font-size:13px;color:var(--mu);margin-top:8px">关闭原因：COMPLETED 319 | NOT_PLANNED 3 | DUPLICATE 2</p>
+
+  <br>
+  <h3>月度趋势</h3>
+  <table>
+    <tr><th>月份</th><th>提交数</th><th>已修复</th><th>未关闭</th><th>修复率</th></tr>
+    <tr><td>2026年7月</td><td>165</td><td>164</td><td>1</td><td>99.4%</td></tr>
+    <tr><td>2026年8月</td><td>171</td><td>160</td><td>11</td><td>93.6%</td></tr>
+  </table>
+
+  <br>
+  <h3>Issue 标签分布</h3>
+  <table>
+    <tr><th>标签</th><th>数量</th><th>说明</th></tr>
+    <tr><td>bug</td><td>298</td><td>Bug 类 Issue 占绝大多数</td></tr>
+    <tr><td>实验组件</td><td>185</td><td>实验组件相关 Issue</td></tr>
+    <tr><td>一般</td><td>152</td><td>一般严重程度</td></tr>
+    <tr><td>UI</td><td>63</td><td>界面/样式问题</td></tr>
+    <tr><td>学生</td><td>56</td><td>学生端问题</td></tr>
+    <tr><td>严重</td><td>40</td><td>高严重程度</td></tr>
+    <tr><td>多语言</td><td>33</td><td>国际化/i18n 问题</td></tr>
+    <tr><td>教师/老师</td><td>39</td><td>教师端问题</td></tr>
+    <tr><td>enhancement</td><td>14</td><td>功能增强建议</td></tr>
+    <tr><td>LMS的bug / LMS联调</td><td>9</td><td>LMS 平台相关问题</td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <h2>🏫 八、LMS 联调问题（9个）</h2>
+  <table>
+    <tr><th>#</th><th>日期</th><th>标签</th><th>标题</th><th>状态</th></tr>
+    <tr>
+      <td>#14</td><td>7/16</td><td>LMS联调</td>
+      <td>学生登录优学院和ulab实验状态不一致</td>
+      <td><span class="badge badge-closed">CLOSED</span></td>
+    </tr>
+    <tr>
+      <td>#27</td><td>7/16</td><td>LMS的bug</td>
+      <td>课程评分标准不明确 - 只有完成没有评分</td>
+      <td><span class="badge badge-closed">CLOSED</span></td>
+    </tr>
+    <tr>
+      <td>#58</td><td>7/16</td><td>LMS联调</td>
+      <td>学生进入LMS实验一直是未开始状态</td>
+      <td><span class="badge badge-closed">CLOSED</span></td>
+    </tr>
+    <tr>
+      <td>#276</td><td>8/2</td><td>LMS的bug</td>
+      <td>创建课程和编辑课程时封面默认尺寸不一致</td>
+      <td><span class="badge badge-closed">CLOSED</span></td>
+    </tr>
+    <tr>
+      <td>#308</td><td>8/7</td><td>LMS的bug</td>
+      <td>LMS导入实验时一级节点名称过长导致500错误</td>
+      <td><span class="badge badge-closed">CLOSED</span></td>
+    </tr>
+    <tr>
+      <td>#309</td><td>8/8</td><td>LMS的bug</td>
+      <td>iPad端左侧边栏过大导致课程列表展示不全</td>
+      <td><span class="badge badge-closed">CLOSED</span></td>
+    </tr>
+    <tr>
+      <td>#344</td><td>8/10</td><td>LMS的bug</td>
+      <td>iPad端退出登录后页面空白且屏幕闪动</td>
+      <td><span class="badge badge-open">OPEN</span></td>
+    </tr>
+    <tr>
+      <td>#455</td><td>8/18</td><td>LMS的bug</td>
+      <td>老师查看学生的实验进度展示未更新</td>
+      <td><span class="badge badge-open">OPEN</span></td>
+    </tr>
+    <tr>
+      <td>#484</td><td>8/22</td><td>LMS联调</td>
+      <td>登录清空 lms_org_id，老师端标准实验授权过滤失效</td>
+      <td><span class="badge badge-closed">CLOSED</span></td>
+    </tr>
+  </table>
+  <br>
+  <p style="font-size:13px;color:var(--mu)">LMS 联调问题共 9 个，其中 7 个已关闭，2 个未关闭（#344 iPad 退出登录闪动、#455 学生实验进度未更新）。主要涉及实验状态同步、课程封面、导入兼容性、平板适配、登录授权等。相比上期报告新增 #455（进度展示）和 #484（org授权过滤），#484 已修复。</p>
+</div>
+
+<div class="card">
+  <h2>📋 九、LMS 模块测试用例覆盖</h2>
+  <table>
+    <tr><th>测试模块</th><th>用例数</th><th>覆盖内容</th></tr>
+    <tr><td>教师模块 - 实验数据回传（LMS端查看）</td><td>4</td><td>班课实验完成概览、学生成绩明细查看、学习进度计算规则、实验列表查看成绩入口</td></tr>
+    <tr><td>学生模块 - LMS → ULab 实验跳转</td><td>3</td><td>从LMS课程进入实验、从LMS实验列表进入、跳转携带身份信息</td></tr>
+    <tr><td>学生模块 - 实验操作页面</td><td>12</td><td>云端实验室节点导航、内容查看、学习任务交互、提交小结、实验完成数据回传</td></tr>
+    <tr><td>学生模块 - 完成数据回传</td><td>4</td><td>实验完成后数据回传LMS、成绩同步、状态更新</td></tr>
+    <tr><td>学生模块 - 门户与登录</td><td>4</td><td>学生登录验证、LMS跳转登录态保持</td></tr>
+    <tr><td colspan="3" style="color:var(--mu);padding-top:8px"><strong>LMS 相关测试用例合计：27 条</strong>，覆盖教师端数据查看(4条)、学生端LMS跳转与实验操作(19条)、登录态(4条)。这些用例验证了 LMS ↔ ULab 的完整数据链路：教师创建实验 → 发布到LMS班课 → 学生从LMS进入实验 → 完成实验 → 数据回传LMS → 教师查看成绩。</td></tr>
+  </table>
+</div>
+
+<div class="note">
+  <strong>📌 总结：</strong>hjj-forge/ulab 共提交了 <strong>336 个 Issue</strong>，其中 <strong>324 个已关闭</strong>（COMPLETED 319、NOT_PLANNED 3、DUPLICATE 2），修复率 <strong>96.4%</strong>。sunsun 仓库 51 个早期 Issue 已全部关闭。剩余 <strong>12 个 OPEN Issue</strong> 主要集中在：多语言/i18n（4个）、实验组件（6个：Scratch启动器、One-Hot编码×2、语料可视化、卷积试验台、<strong>语音合成资源包</strong>）、LMS（2个：退出闪动、进度展示）、功能逻辑（1个）。测试用例覆盖达 <strong>2,202 条</strong>，涵盖 11 个模块，其中 AI 交互工具模块 2,067 条覆盖 6 大类实验组件。LMS 联调问题 9 个，7 个已修复，2 个待处理。建议后续重点：多语言适配全面排查、Safari 白屏问题回归、LMS 进度同步功能验证、<strong>语音合成资源包文件修复</strong>。
+</div>
+
+
+<div class="card">
+  <h2>📋 十、完整测试用例详情</h2>
   <p style="font-size:13px;color:var(--mu);margin-bottom:16px">点击模块和子模块展开/收起查看测试用例。共 10 个模块，86 个子模块，2,202 条测试用例。</p>
-  <details class="tc-module"><summary><strong>教师模块 (51条)</strong></summary><div class="tc-module-body">
+<details class="tc-module"><summary><strong>教师模块 (51条)</strong></summary><div class="tc-module-body">
 <details class="tc-section"><summary>1.1 门户与登录 (7条)</summary><table>
 <thead><tr><th>编号</th><th>测试场景</th><th>优先级</th><th>前置条件</th><th>测试步骤</th><th>预期结果</th></tr></thead><tbody>
 <tr><td>TC-T-LOGIN-001</td><td>教师账号密码正常登录</td><td>P0</td><td>已有有效的教师账号和密码</td><td>1.访问ULab门户页面 2.点击登录按钮 3.输入正确的用户名/手机号/邮箱 4.输入正确的密码 5.点击登录按钮</td><td>登录成功跳转至教师首页；顶部显示头像+昵称+下拉菜单；侧边栏显示创建实验、我的实验、标准实验、AI工具</td></tr>
@@ -2826,139 +2960,8 @@
 </div>
 
 <div class="card">
-  <h2>🛠 七、测试环境</h2>
-  <table>
-    <tr><th>项目</th><th>详情</th></tr>
-    <tr><td>测试平台</td><td>ULab 实验平台（ulabdev.tongshike.cn）</td></tr>
-    <tr><td>测试设备</td><td>iPad（Safari）、Mac（Safari、Chrome）、小米Pad（自带浏览器）</td></tr>
-    <tr><td>测试实验课程</td><td>1210（机器学习SQL）、1213（自然语言处理-cn）、1215（分词与词云图）、1217（文本分词器）、1218（卷积试验台）</td></tr>
-    <tr><td>测试周期</td><td>2026年7月16日 – 8月23日</td></tr>
-    <tr><td>Issue 仓库</td><td>hjj-forge/ulab</td></tr>
-    <tr><td>测试用例管理</td><td><a href="https://sun403806957.github.io/sunsun/">ULab 测试用例管理面板</a>（2,202条用例，实时更新）</td>
-    </tr>
-    <tr><td>测试用例文档</td><td><a href="test-cases-full.md">📥 下载完整测试用例（Markdown）</a>（2,202条用例，约1MB）</td></tr>
-  </table>
+  <h2>
 </div>
-
-<div class="card">
-  <h2>📈 八、全量 Issue 分析</h2>
-  <table>
-    <tr><th>仓库</th><th>总计</th><th>OPEN</th><th>CLOSED</th><th>修复率</th><th>时间范围</th></tr>
-    <tr>
-      <td>hjj-forge/ulab</td>
-      <td><strong>336</strong></td>
-      <td>12</td>
-      <td>324</td>
-      <td><strong>96.4%</strong></td>
-      <td>2026-07-16 ~ 2026-08-23</td>
-    </tr>
-    <tr>
-      <td>sun403806957/sunsun</td>
-      <td><strong>51</strong></td>
-      <td>0</td>
-      <td>51</td>
-      <td><strong>100%</strong></td>
-      <td>2026-07-13 ~ 2026-08-15</td>
-    </tr>
-  </table>
-  <p style="font-size:13px;color:var(--mu);margin-top:8px">关闭原因：COMPLETED 319 | NOT_PLANNED 3 | DUPLICATE 2</p>
-
-  <br>
-  <h3>月度趋势</h3>
-  <table>
-    <tr><th>月份</th><th>提交数</th><th>已修复</th><th>未关闭</th><th>修复率</th></tr>
-    <tr><td>2026年7月</td><td>165</td><td>164</td><td>1</td><td>99.4%</td></tr>
-    <tr><td>2026年8月</td><td>171</td><td>160</td><td>11</td><td>93.6%</td></tr>
-  </table>
-
-  <br>
-  <h3>Issue 标签分布</h3>
-  <table>
-    <tr><th>标签</th><th>数量</th><th>说明</th></tr>
-    <tr><td>bug</td><td>298</td><td>Bug 类 Issue 占绝大多数</td></tr>
-    <tr><td>实验组件</td><td>185</td><td>实验组件相关 Issue</td></tr>
-    <tr><td>一般</td><td>152</td><td>一般严重程度</td></tr>
-    <tr><td>UI</td><td>63</td><td>界面/样式问题</td></tr>
-    <tr><td>学生</td><td>56</td><td>学生端问题</td></tr>
-    <tr><td>严重</td><td>40</td><td>高严重程度</td></tr>
-    <tr><td>多语言</td><td>33</td><td>国际化/i18n 问题</td></tr>
-    <tr><td>教师/老师</td><td>39</td><td>教师端问题</td></tr>
-    <tr><td>enhancement</td><td>14</td><td>功能增强建议</td></tr>
-    <tr><td>LMS的bug / LMS联调</td><td>9</td><td>LMS 平台相关问题</td></tr>
-  </table>
-</div>
-
-<div class="card">
-  <h2>🏫 九、LMS 联调问题（9个）</h2>
-  <table>
-    <tr><th>#</th><th>日期</th><th>标签</th><th>标题</th><th>状态</th></tr>
-    <tr>
-      <td>#14</td><td>7/16</td><td>LMS联调</td>
-      <td>学生登录优学院和ulab实验状态不一致</td>
-      <td><span class="badge badge-closed">CLOSED</span></td>
-    </tr>
-    <tr>
-      <td>#27</td><td>7/16</td><td>LMS的bug</td>
-      <td>课程评分标准不明确 - 只有完成没有评分</td>
-      <td><span class="badge badge-closed">CLOSED</span></td>
-    </tr>
-    <tr>
-      <td>#58</td><td>7/16</td><td>LMS联调</td>
-      <td>学生进入LMS实验一直是未开始状态</td>
-      <td><span class="badge badge-closed">CLOSED</span></td>
-    </tr>
-    <tr>
-      <td>#276</td><td>8/2</td><td>LMS的bug</td>
-      <td>创建课程和编辑课程时封面默认尺寸不一致</td>
-      <td><span class="badge badge-closed">CLOSED</span></td>
-    </tr>
-    <tr>
-      <td>#308</td><td>8/7</td><td>LMS的bug</td>
-      <td>LMS导入实验时一级节点名称过长导致500错误</td>
-      <td><span class="badge badge-closed">CLOSED</span></td>
-    </tr>
-    <tr>
-      <td>#309</td><td>8/8</td><td>LMS的bug</td>
-      <td>iPad端左侧边栏过大导致课程列表展示不全</td>
-      <td><span class="badge badge-closed">CLOSED</span></td>
-    </tr>
-    <tr>
-      <td>#344</td><td>8/10</td><td>LMS的bug</td>
-      <td>iPad端退出登录后页面空白且屏幕闪动</td>
-      <td><span class="badge badge-open">OPEN</span></td>
-    </tr>
-    <tr>
-      <td>#455</td><td>8/18</td><td>LMS的bug</td>
-      <td>老师查看学生的实验进度展示未更新</td>
-      <td><span class="badge badge-open">OPEN</span></td>
-    </tr>
-    <tr>
-      <td>#484</td><td>8/22</td><td>LMS联调</td>
-      <td>登录清空 lms_org_id，老师端标准实验授权过滤失效</td>
-      <td><span class="badge badge-closed">CLOSED</span></td>
-    </tr>
-  </table>
-  <br>
-  <p style="font-size:13px;color:var(--mu)">LMS 联调问题共 9 个，其中 7 个已关闭，2 个未关闭（#344 iPad 退出登录闪动、#455 学生实验进度未更新）。主要涉及实验状态同步、课程封面、导入兼容性、平板适配、登录授权等。相比上期报告新增 #455（进度展示）和 #484（org授权过滤），#484 已修复。</p>
-</div>
-
-<div class="card">
-  <h2>📋 十、LMS 模块测试用例覆盖</h2>
-  <table>
-    <tr><th>测试模块</th><th>用例数</th><th>覆盖内容</th></tr>
-    <tr><td>教师模块 - 实验数据回传（LMS端查看）</td><td>4</td><td>班课实验完成概览、学生成绩明细查看、学习进度计算规则、实验列表查看成绩入口</td></tr>
-    <tr><td>学生模块 - LMS → ULab 实验跳转</td><td>3</td><td>从LMS课程进入实验、从LMS实验列表进入、跳转携带身份信息</td></tr>
-    <tr><td>学生模块 - 实验操作页面</td><td>12</td><td>云端实验室节点导航、内容查看、学习任务交互、提交小结、实验完成数据回传</td></tr>
-    <tr><td>学生模块 - 完成数据回传</td><td>4</td><td>实验完成后数据回传LMS、成绩同步、状态更新</td></tr>
-    <tr><td>学生模块 - 门户与登录</td><td>4</td><td>学生登录验证、LMS跳转登录态保持</td></tr>
-    <tr><td colspan="3" style="color:var(--mu);padding-top:8px"><strong>LMS 相关测试用例合计：27 条</strong>，覆盖教师端数据查看(4条)、学生端LMS跳转与实验操作(19条)、登录态(4条)。这些用例验证了 LMS ↔ ULab 的完整数据链路：教师创建实验 → 发布到LMS班课 → 学生从LMS进入实验 → 完成实验 → 数据回传LMS → 教师查看成绩。</td></tr>
-  </table>
-</div>
-
-<div class="note">
-  <strong>📌 总结：</strong>hjj-forge/ulab 共提交了 <strong>336 个 Issue</strong>，其中 <strong>324 个已关闭</strong>（COMPLETED 319、NOT_PLANNED 3、DUPLICATE 2），修复率 <strong>96.4%</strong>。sunsun 仓库 51 个早期 Issue 已全部关闭。剩余 <strong>12 个 OPEN Issue</strong> 主要集中在：多语言/i18n（4个）、实验组件（6个：Scratch启动器、One-Hot编码×2、语料可视化、卷积试验台、<strong>语音合成资源包</strong>）、LMS（2个：退出闪动、进度展示）、功能逻辑（1个）。测试用例覆盖达 <strong>2,202 条</strong>，涵盖 11 个模块，其中 AI 交互工具模块 2,067 条覆盖 6 大类实验组件。LMS 联调问题 9 个，7 个已修复，2 个待处理。建议后续重点：多语言适配全面排查、Safari 白屏问题回归、LMS 进度同步功能验证、<strong>语音合成资源包文件修复</strong>。
-</div>
-
 </div>
 </body>
 </html>
