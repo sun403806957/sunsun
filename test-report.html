@@ -61,15 +61,15 @@
 <div class="container">
 
 <h1>ULab 实验平台测试报告</h1>
-<p class="sub">测试周期：2026年7月16日 – 8月22日 | 测试环境：iPad Safari / Mac Safari / Chrome / 小米Pad | 测试范围：全平台功能、Pad兼容性、多语言、实验组件、UI/UX、LMS联调</p>
+<p class="sub">测试周期：2026年7月16日 – 8月23日 | 测试环境：iPad Safari / Mac Safari / Chrome / 小米Pad | 测试范围：全平台功能、Pad兼容性、多语言、实验组件、UI/UX、LMS联调</p>
 
 <div class="summary">
   <div class="stat total">
-    <div class="num">335</div>
+    <div class="num">336</div>
     <div class="label">总计 Issue (ulab)</div>
   </div>
   <div class="stat open">
-    <div class="num">11</div>
+    <div class="num">12</div>
     <div class="label">未关闭</div>
   </div>
   <div class="stat closed">
@@ -77,7 +77,7 @@
     <div class="label">已关闭</div>
   </div>
   <div class="stat dup">
-    <div class="num">96.7%</div>
+    <div class="num">96.4%</div>
     <div class="label">修复率</div>
   </div>
 </div>
@@ -111,7 +111,7 @@
 </div>
 
 <div class="card">
-  <h2>🔴 二、未关闭 Issue（11个）</h2>
+  <h2>🔴 二、未关闭 Issue（12个）</h2>
   <table>
     <tr><th>#</th><th>日期</th><th>类别</th><th>标题</th><th>标签</th></tr>
     <tr>
@@ -169,9 +169,14 @@
       <td>老师查看学生的实验进度展示未更新</td>
       <td><span class="badge badge-open">OPEN</span> <span class="tag tag-lms">LMS</span></td>
     </tr>
+    <tr>
+      <td><span style="color:var(--mu)">NEW</span></td><td>8/23</td><td>实验组件</td>
+      <td>语音合成基础篇：资源包预览和下载提示文件不存在（实验ID:1025）</td>
+      <td><span class="badge badge-open">OPEN</span> <span class="tag tag-safari">新发现</span></td>
+    </tr>
   </table>
   <br>
-  <p style="font-size:13px;color:var(--mu)">未关闭 Issue 共 11 个，主要集中在：实验组件(5个)、多语言/i18n(4个)、LMS(2个)、功能逻辑(1个)、Safari白屏(1个)。其中 #264 为多语言适配汇总类 Issue，覆盖范围较广。</p>
+  <p style="font-size:13px;color:var(--mu)">未关闭 Issue 共 12 个，主要集中在：实验组件(6个)、多语言/i18n(4个)、LMS(2个)、功能逻辑(1个)、Safari白屏(1个)。其中 #264 为多语言适配汇总类 Issue，覆盖范围较广。8月23日新发现：语音合成基础篇资源包文件不存在（实验1025）。</p>
 </div>
 
 <div class="card">
@@ -221,7 +226,7 @@
     <tr><td>课堂小测试</td><td>15</td><td>0</td><td>语音输入失败、iPad权限、题目显示、答案校验</td></tr>
     <tr><td>人脸检测引擎/AI面具</td><td>13</td><td>0</td><td>竖屏无法操作、脸谱覆盖未生效、人脸检测未触发、双屏黑屏</td></tr>
     <tr><td>图片放大器</td><td>13</td><td>0</td><td>上传失败、iPad预览问题、Original错误提示</td></tr>
-    <tr><td>语音合成工作台</td><td>8</td><td>0</td><td>播放声音与显示不一致、TTS流程缺失、小问号按钮无效</td></tr>
+    <tr><td>语音合成工作台</td><td>9</td><td><strong>1</strong></td><td>播放声音不一致、TTS流程缺失、小问号无效、<strong>资源包文件不存在(#NEW)</strong></td></tr>
     <tr><td>卷积试验台</td><td>7</td><td><strong>1</strong></td><td>切换节点结果丢失(#394)、白屏、Canvas空指针</td></tr>
     <tr><td>CNN可视化</td><td>6</td><td>0</td><td>视频教程点击无效、弹窗闪烁、文案异常、国际化缺失</td></tr>
     <tr><td>图像识别引擎</td><td>6</td><td>0</td><td>小米Pad模型加载慢、相机崩溃、CORS错误、预览区域变黑</td></tr>
@@ -314,7 +319,7 @@
     <tr><td>测试平台</td><td>ULab 实验平台（ulabdev.tongshike.cn）</td></tr>
     <tr><td>测试设备</td><td>iPad（Safari）、Mac（Safari、Chrome）、小米Pad（自带浏览器）</td></tr>
     <tr><td>测试实验课程</td><td>1210（机器学习SQL）、1213（自然语言处理-cn）、1215（分词与词云图）、1217（文本分词器）、1218（卷积试验台）</td></tr>
-    <tr><td>测试周期</td><td>2026年7月16日 – 8月22日</td></tr>
+    <tr><td>测试周期</td><td>2026年7月16日 – 8月23日</td></tr>
     <tr><td>Issue 仓库</td><td><a href="https://github.com/hjj-forge/ulab/issues">hjj-forge/ulab</a></td></tr>
     <tr><td>测试用例管理</td><td><a href="https://sun403806957.github.io/sunsun/">ULab 测试用例管理面板</a>（2,202条用例，实时更新）</td></tr>
   </table>
@@ -326,11 +331,11 @@
     <tr><th>仓库</th><th>总计</th><th>OPEN</th><th>CLOSED</th><th>修复率</th><th>时间范围</th></tr>
     <tr>
       <td><a href="https://github.com/hjj-forge/ulab">hjj-forge/ulab</a></td>
-      <td><strong>335</strong></td>
-      <td>11</td>
+      <td><strong>336</strong></td>
+      <td>12</td>
       <td>324</td>
-      <td><strong>96.7%</strong></td>
-      <td>2026-07-16 ~ 2026-08-22</td>
+      <td><strong>96.4%</strong></td>
+      <td>2026-07-16 ~ 2026-08-23</td>
     </tr>
     <tr>
       <td><a href="https://github.com/sun403806957/sunsun">sun403806957/sunsun</a></td>
@@ -348,7 +353,7 @@
   <table>
     <tr><th>月份</th><th>提交数</th><th>已修复</th><th>未关闭</th><th>修复率</th></tr>
     <tr><td>2026年7月</td><td>165</td><td>164</td><td>1</td><td>99.4%</td></tr>
-    <tr><td>2026年8月</td><td>170</td><td>160</td><td>10</td><td>94.1%</td></tr>
+    <tr><td>2026年8月</td><td>171</td><td>160</td><td>11</td><td>93.6%</td></tr>
   </table>
 
   <br>
@@ -436,7 +441,7 @@
 </div>
 
 <div class="note">
-  <strong>📌 总结：</strong>hjj-forge/ulab 共提交了 <strong>335 个 Issue</strong>，其中 <strong>324 个已关闭</strong>（COMPLETED 319、NOT_PLANNED 3、DUPLICATE 2），修复率 <strong>96.7%</strong>。sunsun 仓库 51 个早期 Issue 已全部关闭。剩余 <strong>11 个 OPEN Issue</strong> 主要集中在：多语言/i18n（4个）、实验组件（5个：Scratch启动器、One-Hot编码×2、语料可视化、卷积试验台）、LMS（2个：退出闪动、进度展示）、功能逻辑（1个）。测试用例覆盖达 <strong>2,202 条</strong>，涵盖 11 个模块，其中 AI 交互工具模块 2,067 条覆盖 6 大类实验组件。LMS 联调问题 9 个，7 个已修复，2 个待处理。建议后续重点：多语言适配全面排查、Safari 白屏问题回归、LMS 进度同步功能验证。
+  <strong>📌 总结：</strong>hjj-forge/ulab 共提交了 <strong>336 个 Issue</strong>，其中 <strong>324 个已关闭</strong>（COMPLETED 319、NOT_PLANNED 3、DUPLICATE 2），修复率 <strong>96.4%</strong>。sunsun 仓库 51 个早期 Issue 已全部关闭。剩余 <strong>12 个 OPEN Issue</strong> 主要集中在：多语言/i18n（4个）、实验组件（6个：Scratch启动器、One-Hot编码×2、语料可视化、卷积试验台、<strong>语音合成资源包</strong>）、LMS（2个：退出闪动、进度展示）、功能逻辑（1个）。测试用例覆盖达 <strong>2,202 条</strong>，涵盖 11 个模块，其中 AI 交互工具模块 2,067 条覆盖 6 大类实验组件。LMS 联调问题 9 个，7 个已修复，2 个待处理。建议后续重点：多语言适配全面排查、Safari 白屏问题回归、LMS 进度同步功能验证、<strong>语音合成资源包文件修复</strong>。
 </div>
 
 </div>
